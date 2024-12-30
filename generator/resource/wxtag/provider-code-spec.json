@@ -1,0 +1,592 @@
+{
+    "provider": {
+        "name": "mistapi"
+    },
+    "resources": [
+        {
+            "name": "org_wxtag",
+            "schema": {
+                "attributes": [
+                    {
+                        "name": "id",
+                        "string": {
+                            "computed_optional_required": "computed",
+                            "description": "Unique ID of the object instance in the Mist Organnization"
+                        }
+                    },
+                    {
+                        "name": "mac",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "if `type`==`client`, Client MAC Address",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"client\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"client\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "match",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "required if `type`==`match`. enum: `ap_id`, `app`, `asset_mac`, `client_mac`, `hostname`, `ip_range_subnet`, `port`, `psk_name`, `psk_role`, `radius_attr`, `radius_class`, `radius_group`, `radius_username`, `sdkclient_uuid`, `wlan_id`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.OneOf( \"ap_id\", \"app\", \"asset_mac\", \"client_mac\", \"hostname\", \"ip_range_subnet\", \"port\", \"psk_name\", \"psk_role\", \"radius_attr\", \"radius_class\", \"radius_group\", \"radius_username\", \"sdkclient_uuid\", \"wlan_id\", ),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"match\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"match\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "string": {
+                            "computed_optional_required": "required",
+                            "description": "The name"
+                        }
+                    },
+                    {
+                        "name": "op",
+                        "string": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": "in"
+                            },
+                            "description": "required if `type`==`match`, type of tag (inclusive/exclusive). enum: `in`, `not_in`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.OneOf( \"in\", \"not_in\", ),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"match\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"match\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "org_id",
+                        "string": {
+                            "computed_optional_required": "required"
+                        }
+                    },
+                    {
+                        "name": "specs",
+                        "list_nested": {
+                            "computed_optional_required": "optional",
+                            "nested_object": {
+                                "attributes": [
+                                    {
+                                        "name": "port_range",
+                                        "string": {
+                                            "computed_optional_required": "computed_optional",
+                                            "default": {
+                                                "static": "0"
+                                            },
+                                            "description": "matched destination port, \"0\" means any",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535, true),\n)"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "protocol",
+                                        "string": {
+                                            "computed_optional_required": "computed_optional",
+                                            "default": {
+                                                "static": "any"
+                                            },
+                                            "description": "tcp / udp / icmp / gre / any / \":protocol_number\", `protocol_number` is between 1-254",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.Any(stringvalidator.OneOf(\"tcp\", \"udp\", \"icmp\", \"gre\", \"any\"), mistvalidator.ParseInt(1, 254))"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "subnets",
+                                        "list": {
+                                            "computed_optional_required": "required",
+                                            "element_type": {
+                                                "string": {}
+                                            },
+                                            "description": "matched destination subnets and/or IP Addresses",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "listvalidator.SizeAtLeast(1),\nlistvalidator.ValueStringsAre(\nstringvalidator.Any(\nmistvalidator.ParseCidr(false, false),\nmistvalidator.ParseIp(false, false),\nmistvalidator.ParseVar(),\n),\n)"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "validators": [
+                                    {
+                                        "custom": {
+                                            "imports": [
+                                                {
+                                                    "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                },
+                                                {
+                                                    "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                }
+                                            ],
+                                            "schema_definition": "mistvalidator.AtLeastNOf(\n1,\npath.MatchRelative().AtName(\"port_range\"),\npath.MatchRelative().AtName(\"protocol\"),\npath.MatchRelative().AtName(\"subnets\"),\n)"
+                                        }
+                                    }
+                                ]
+                            },
+                            "description": "if `type`==`spec`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"spec\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"spec\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "string": {
+                            "computed_optional_required": "required",
+                            "description": "enum: `client`, `match`, `resource`, `spec`, `subnet`, `vlan`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"client\",\n\"match\",\n\"resource\",\n\"spec\",\n\"subnet\",\n\"vlan\",\n)"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "values",
+                        "list": {
+                            "computed_optional_required": "optional",
+                            "element_type": {
+                                "string": {}
+                            },
+                            "description": "required if `type`==`match` and\n  * `match`==`ap_id`: list of AP IDs\n  * `match`==`app`: list of Application Names\n  * `match`==`asset_mac`: list of Asset MAC Addresses\n  * `match`==`client_mac`: list of Client MAC Addresses\n  * `match`==`hostname`: list of Resources Hostnames\n  * `match`==`ip_range_subnet`: list of IP Addresses and/or CIDRs\n  * `match`==`psk_name`: list of PSK Names\n  * `match`==`psk_role`: list of PSK Roles\n  * `match`==`port`: list of Ports or Port Ranges\n  * `match`==`radius_attr`: list of RADIUS Attributes. The values are [ \u201c6=1\u201d, \u201c26=10.2.3.4\u201d ], this support other RADIUS attributes where we know the type\n  * `match`==`radius_class`: list of RADIUS Classes. This matches the ATTR-Class(25)\n  * `match`==`radius_group`: list of RADIUS Groups. This is a smart tag that matches RADIUS-Filter-ID, Airespace-ACL-Name (VendorID=14179, VendorType=6) / Aruba-User-Role (VendorID=14823, VendorType=1)\n  * `match`==`radius_username`: list of RADIUS Usernames. This matches the ATTR-User-Name(1)\n  * `match`==`sdkclient_uuid`: list of SDK UUIDs\n  * `match`==`wlan_id`: list of WLAN IDs\n\n**Notes**:\nVariables are not allowed",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "listvalidator.SizeAtLeast(1),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"ap_id\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"app\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"asset_mac\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"client_mac\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"hostname\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"ip_range_subnet\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"psk_name\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"psk_role\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"port\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"radius_attr\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"radius_class\")),\n\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"radius_group\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"radius_username\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"sdkclient_uuid\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"wlan_id\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "vlan_id",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "site_wxtag",
+            "schema": {
+                "attributes": [
+                    {
+                        "name": "id",
+                        "string": {
+                            "computed_optional_required": "computed",
+                            "description": "Unique ID of the object instance in the Mist Organnization"
+                        }
+                    },
+                    {
+                        "name": "mac",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "if `type`==`client`, Client MAC Address",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"client\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"client\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "match",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "required if `type`==`match`. enum: `ap_id`, `app`, `asset_mac`, `client_mac`, `hostname`, `ip_range_subnet`, `port`, `psk_name`, `psk_role`, `radius_attr`, `radius_class`, `radius_group`, `radius_username`, `sdkclient_uuid`, `wlan_id`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.OneOf( \"ap_id\", \"app\", \"asset_mac\", \"client_mac\", \"hostname\", \"ip_range_subnet\", \"port\", \"psk_name\", \"psk_role\", \"radius_attr\", \"radius_class\", \"radius_group\", \"radius_username\", \"sdkclient_uuid\", \"wlan_id\", ),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"match\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"match\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "string": {
+                            "computed_optional_required": "required",
+                            "description": "The name"
+                        }
+                    },
+                    {
+                        "name": "op",
+                        "string": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": "in"
+                            },
+                            "description": "required if `type`==`match`, type of tag (inclusive/exclusive). enum: `in`, `not_in`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.OneOf( \"in\", \"not_in\", ),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"match\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"match\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "site_id",
+                        "string": {
+                            "computed_optional_required": "required"
+                        }
+                    },
+                    {
+                        "name": "specs",
+                        "list_nested": {
+                            "computed_optional_required": "optional",
+                            "nested_object": {
+                                "attributes": [
+                                    {
+                                        "name": "port_range",
+                                        "string": {
+                                            "computed_optional_required": "computed_optional",
+                                            "default": {
+                                                "static": "0"
+                                            },
+                                            "description": "matched destination port, \"0\" means any",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseRangeOfInt(0, 65535, true),\n)"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "protocol",
+                                        "string": {
+                                            "computed_optional_required": "computed_optional",
+                                            "default": {
+                                                "static": "any"
+                                            },
+                                            "description": "tcp / udp / icmp / gre / any / \":protocol_number\", `protocol_number` is between 1-254",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.Any(stringvalidator.OneOf(\"tcp\", \"udp\", \"icmp\", \"gre\", \"any\"), mistvalidator.ParseInt(1, 254))"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "subnets",
+                                        "list": {
+                                            "computed_optional_required": "required",
+                                            "element_type": {
+                                                "string": {}
+                                            },
+                                            "description": "matched destination subnets and/or IP Addresses",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "listvalidator.SizeAtLeast(1),\nlistvalidator.ValueStringsAre(\nstringvalidator.Any(\nmistvalidator.ParseCidr(false, false),\nmistvalidator.ParseIp(false, false),\nmistvalidator.ParseVar(),\n),\n)"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "validators": [
+                                    {
+                                        "custom": {
+                                            "imports": [
+                                                {
+                                                    "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                },
+                                                {
+                                                    "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                }
+                                            ],
+                                            "schema_definition": "mistvalidator.AtLeastNOf(\n  1,\n  path.MatchRelative().AtName(\"port_range\"),\n  path.MatchRelative().AtName(\"protocol\"),\n  path.MatchRelative().AtName(\"subnets\"),\n)"
+                                        }
+                                    }
+                                ]
+                            },
+                            "description": "if `type`==`spec`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"spec\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"spec\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "string": {
+                            "computed_optional_required": "required",
+                            "description": "enum: `client`, `match`, `resource`, `spec`, `subnet`, `vlan`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"client\",\n\"match\",\n\"resource\",\n\"spec\",\n\"subnet\",\n\"vlan\",\n)"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "values",
+                        "list": {
+                            "computed_optional_required": "optional",
+                            "element_type": {
+                                "string": {}
+                            },
+                            "description": "required if `type`==`match` and\n  * `match`==`ap_id`: list of AP IDs\n  * `match`==`app`: list of Application Names\n  * `match`==`asset_mac`: list of Asset MAC Addresses\n  * `match`==`client_mac`: list of Client MAC Addresses\n  * `match`==`hostname`: list of Resources Hostnames\n  * `match`==`ip_range_subnet`: list of IP Addresses and/or CIDRs\n  * `match`==`psk_name`: list of PSK Names\n  * `match`==`psk_role`: list of PSK Roles\n  * `match`==`port`: list of Ports or Port Ranges\n  * `match`==`radius_attr`: list of RADIUS Attributes. The values are [ \u201c6=1\u201d, \u201c26=10.2.3.4\u201d ], this support other RADIUS attributes where we know the type\n  * `match`==`radius_class`: list of RADIUS Classes. This matches the ATTR-Class(25)\n  * `match`==`radius_group`: list of RADIUS Groups. This is a smart tag that matches RADIUS-Filter-ID, Airespace-ACL-Name (VendorID=14179, VendorType=6) / Aruba-User-Role (VendorID=14823, VendorType=1)\n  * `match`==`radius_username`: list of RADIUS Usernames. This matches the ATTR-User-Name(1)\n  * `match`==`sdkclient_uuid`: list of SDK UUIDs\n  * `match`==`wlan_id`: list of WLAN IDs\n\n**Notes**:\nVariables are not allowed",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "listvalidator.SizeAtLeast(1),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"ap_id\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"app\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"asset_mac\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"client_mac\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"hostname\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"ip_range_subnet\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"psk_name\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"psk_role\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"port\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"radius_attr\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"radius_class\")),\n\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"radius_group\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"radius_username\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"sdkclient_uuid\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"match\"), types.StringValue(\"wlan_id\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "vlan_id",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094),mistvalidator.ParseVar(),)"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "version": "0.1"
+}

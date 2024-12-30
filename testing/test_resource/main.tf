@@ -8,7 +8,7 @@ terraform {
 
 provider "mist" {
   host = local.envs["HOST"]
-  api_debug = false
+  api_debug = true
   //apitoken = local.envs["APITOKEN"]
   //proxy = "test_proxy:Jun1per!Mist@10.3.18.11:3128"
   username = local.envs["USERNAME"]
@@ -674,7 +674,7 @@ resource "mist_site_wlan" "wlan_four" {
     enabled = true
   }
   vlan_enabled = true
-  vlan_id      = 494
+  vlan_id      = "494"
 }
 
 
@@ -1507,6 +1507,12 @@ resource "mist_device_gateway" "cluster_one" {
           ]
         }
       }
+    }
+  }
+  tunnel_provider_options = {
+    jse = {
+      num_users = 10
+      org_name = "test"
     }
   }
 }
@@ -3658,7 +3664,21 @@ resource "mist_org_deviceprofile_gateway" "hub_one" {
 }
 
 
-
+resource "mist_org_network" "test_one" {
+  org_id    = mist_org.terraform_test.id
+  name= "test_one"
+  subnet = "12.12.12.0/24"
+  internet_access = {
+    destination_nat = {
+      ":22" ={
+        name = "one"
+        internal_ip = "12.12.12.12"
+        port = "2222"
+        wan_name = "wan0"
+      }
+    }
+  }
+}
 resource "mist_org_network" "CORE_VLAN410" {
   org_id    = mist_org.terraform_test.id
   isolation = true

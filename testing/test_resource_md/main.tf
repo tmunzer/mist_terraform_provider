@@ -94,7 +94,6 @@ resource "mist_site_setting" "terraform_site" {
           hostnames = [
             "https://vhqmcd.verifone.com"
           ],
-          key      = "https://vhqmcd.verifone.com",
           name     = "Verifone",
           protocol = "http"
         }
@@ -1220,7 +1219,7 @@ resource "mist_site_wxrule" "wxrule_wxrule_0" {
   order   = 1
 }
 ############# WXTAGS
-resource "mist_site_wxtags" "wxtag_0" {
+resource "mist_site_wxtag" "wxtag_0" {
   op = "in"
   values = [
     "8.8.8.8/32"
@@ -1229,10 +1228,9 @@ resource "mist_site_wxtags" "wxtag_0" {
   site_id      = mist_site.terraform_site.id
   type         = "match"
   match        = "ip_range_subnet"
-  resource_mac = null
   mac          = null
 }
-resource "mist_site_wxtags" "wxtag_1" {
+resource "mist_site_wxtag" "wxtag_1" {
   op = "in"
   values = [
     mist_site_wlan.wlan_0.id
@@ -1241,10 +1239,9 @@ resource "mist_site_wxtags" "wxtag_1" {
   site_id      = mist_site.terraform_site.id
   type         = "match"
   match        = "wlan_id"
-  resource_mac = null
   mac          = null
 }
-resource "mist_site_wxtags" "wxtag_2" {
+resource "mist_site_wxtag" "wxtag_2" {
   op = "in"
   values = [
     "IoT"
@@ -1253,10 +1250,9 @@ resource "mist_site_wxtags" "wxtag_2" {
   site_id      = mist_site.terraform_site.id
   type         = "match"
   match        = "radius_group"
-  resource_mac = null
   mac          = null
 }
-resource "mist_site_wxtags" "wxtag_3" {
+resource "mist_site_wxtag" "wxtag_3" {
   op = "in"
   values = [
     "Employee"
@@ -1265,10 +1261,9 @@ resource "mist_site_wxtags" "wxtag_3" {
   site_id      = mist_site.terraform_site.id
   type         = "match"
   match        = "radius_group"
-  resource_mac = null
   mac          = null
 }
-resource "mist_site_wxtags" "wxtag_4" {
+resource "mist_site_wxtag" "wxtag_4" {
   op = "in"
   values = [
     "10.0.0.0/8",
@@ -1279,7 +1274,6 @@ resource "mist_site_wxtags" "wxtag_4" {
   site_id      = mist_site.terraform_site.id
   type         = "match"
   match        = "ip_range_subnet"
-  resource_mac = null
   mac          = null
 }
 
@@ -1549,9 +1543,9 @@ resource "mist_site_wlan" "wlan_1" {
   vlan_enabled            = true
   vlan_id                 = "451"
   vlan_pooling            = false
-  wlan_limit_down         = 0
+  wlan_limit_down         = 20000
   wlan_limit_down_enabled = false
-  wlan_limit_up           = 0
+  wlan_limit_up         = 10000
   wlan_limit_up_enabled   = false
   wxtunnel_remote_id      = ""
   site_id                 = mist_site.terraform_site.id
@@ -1684,9 +1678,9 @@ resource "mist_site_wlan" "wlan_2" {
   vlan_enabled            = true
   vlan_id                 = "420"
   vlan_pooling            = false
-  wlan_limit_down         = 0
+  wlan_limit_down         = 20000
   wlan_limit_down_enabled = false
-  wlan_limit_up           = 0
+  wlan_limit_up         = 10000
   wlan_limit_up_enabled   = false
   wxtunnel_remote_id      = ""
   site_id                 = mist_site.terraform_site.id
@@ -1822,9 +1816,9 @@ resource "mist_site_wlan" "wlan_3" {
   vlan_enabled            = true
   vlan_id                 = "494"
   vlan_pooling            = false
-  wlan_limit_down         = 0
+  wlan_limit_down         = 20000
   wlan_limit_down_enabled = false
-  wlan_limit_up           = 0
+  wlan_limit_up         = 10000
   wlan_limit_up_enabled   = false
   wxtunnel_remote_id      = ""
   site_id                 = mist_site.terraform_site.id
@@ -8160,2040 +8154,2040 @@ resource "mist_org_servicepolicy" "servicepolicy_207" {
 
 
 ############# GW
-resource "mist_device_gateway" "gateway_1" {
-  device_id = ""
-  site_id   = mist_site.terraform_site.id
-  name      = ""
-  additional_config_cmds = [
-    "# US_Prod_04270 - CLI Commands - 11/21/2024",
-    "# 4 Tunnels, 4 LAN Links, Re-IP LAN Networks, Quarantine",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Increase the number of rollback configs, configure tcp-mss and avoid rtlog-conn-err (CPU)",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set system max-configuration-rollbacks 48",
-    "set security flow tcp-mss all-tcp mss 1350",
-    "set security flow tcp-mss ipsec-vpn mss 1200",
-    "",
-    "#deactivate groups mist-script event-options policy rtlog-conn-err",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Configure security policy logging",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set groups top security policies from-zone <*> to-zone <*> policy <*> then log session-init",
-    "#set security log mode stream-event",
-    "#set groups top system syslog file traffic-log any any",
-    "#set groups top system syslog file traffic-log archive size 10m",
-    "#set groups top system syslog file traffic-log archive files 10",
-    "#set groups top system syslog file traffic-log match \"RT_FLOW:|RT_UTM\"",
-    "",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Configure security policy logging",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "delete security log mode stream-event",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# BGP to Prisma-Tunnel",
-    "# Configure BGP inside IPSec to Prisma-Tunnel",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set interfaces st0 unit 1000 family inet address 7.4.0.112/31",
-    "set groups top routing-instances tun_Prisma-Tunnel protocols bgp group SSE1 type external",
-    "set groups top routing-instances tun_Prisma-Tunnel protocols bgp group SSE1 multihop",
-    "set groups top routing-instances tun_Prisma-Tunnel protocols bgp group SSE1 export EXP-TO-PRISMA-PRIMARY",
-    "set groups top routing-instances tun_Prisma-Tunnel protocols bgp group SSE1 peer-as 64781",
-    "set groups top routing-instances tun_Prisma-Tunnel protocols bgp group SSE1 local-as 64777",
-    "set groups top routing-instances tun_Prisma-Tunnel protocols bgp group SSE1 neighbor 7.4.0.113 import IMPORT-FROM-PRISMA-PRIMARY",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# BGP to Prisma-Tunnel-II",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set interfaces st0 unit 1001 family inet address 7.4.0.118/31",
-    "set groups top routing-instances tun_Prisma-Tunnel-II protocols bgp group SSE2 type external",
-    "set groups top routing-instances tun_Prisma-Tunnel-II protocols bgp group SSE2 multihop",
-    "set groups top routing-instances tun_Prisma-Tunnel-II protocols bgp group SSE2 export EXP-TO-PRISMA-SECONDARY",
-    "set groups top routing-instances tun_Prisma-Tunnel-II protocols bgp group SSE2 peer-as 64781",
-    "set groups top routing-instances tun_Prisma-Tunnel-II protocols bgp group SSE2 local-as 64777",
-    "set groups top routing-instances tun_Prisma-Tunnel-II protocols bgp group SSE2 neighbor 7.4.0.119 import IMPORT-FROM-PRISMA-SECONDARY",
-    "",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# BGP to Prisma-Tunnel-III",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "set interfaces st0 unit 1002 family inet address 7.4.0.116/31",
-    "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 type external",
-    "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 multihop",
-    "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 log-updown",
-    "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 export EXP-TO-PRISMA-III",
-    "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 peer-as 64781",
-    "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 local-as 64777",
-    "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 neighbor 7.4.0.117 import IMPORT-FROM-PRISMA-III",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# BGP to Prisma-Tunnel-IV",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set interfaces st0 unit 1003 family inet address 7.4.0.114/31",
-    "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 type external",
-    "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 multihop",
-    "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 log-updown",
-    "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 export EXP-TO-PRISMA-IV",
-    "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 peer-as 64781",
-    "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 local-as 64777",
-    "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 neighbor 7.4.0.115 import IMPORT-FROM-PRISMA-IV",
-    "",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# BGP EXPORT/IMPORT Policy to PRISMA-PRIMARY",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from instance LAN",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from protocol direct",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from protocol aggregate",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from route-filter 10.220.93.0/24 exact",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from route-filter 172.24.151.64/26 exact",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from route-filter 192.168.0.0/16 orlonger",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from route-filter 29.220.93.0/24 orlonger",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from route-filter 30.220.93.0/24 orlonger",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan then accept",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-local from protocol static",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-local then accept",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term reject then reject",
-    "",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-PRIMARY term from-bgp from protocol bgp",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-PRIMARY term from-bgp then accept",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-PRIMARY term from-bgp then local-preference 330",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-PRIMARY term reject then reject",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# BGP EXPORT/IMPORT Policy to PRISMA-SECONDARY",
-    "#                                               BGP path prepend to prefer primary path",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from instance LAN",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from protocol direct",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from protocol aggregate",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from route-filter 10.220.93.0/24 exact",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from route-filter 172.24.151.64/26 exact",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from route-filter 192.168.0.0/16 orlonger",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from route-filter 29.220.93.0/24 orlonger",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from route-filter 30.220.93.0/24 orlonger",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan then accept",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan then as-path-prepend \"64777 64777 64777\"",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-local from protocol static",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-local then accept",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-local then as-path-prepend \"64777 64777 64777\"",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term reject then reject",
-    "",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-SECONDARY term from-bgp from protocol bgp",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-SECONDARY term from-bgp then accept",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-SECONDARY term from-bgp then local-preference 320",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-SECONDARY term reject then reject",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# BGP EXPORT/IMPORT Policy to PRISMA-III",
-    "#                                               BGP path prepend to prefer primary path",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from instance LAN",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from protocol direct",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from protocol aggregate",
-    "",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from route-filter 10.220.93.0/24 exact",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from route-filter 172.24.151.64/26 exact",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from route-filter 192.168.0.0/16 orlonger",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from route-filter 29.220.93.0/24 orlonger",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from route-filter 30.220.93.0/24 orlonger",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan then accept",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan then as-path-prepend \"64777 64777 64777 64777 64777 64777\"",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-local from protocol static",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-local then accept",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-local then as-path-prepend \"64777 64777 64777 64777 64777 64777\"",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-III term reject then reject",
-    "",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-III term from-bgp from protocol bgp",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-III term from-bgp then accept",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-III term from-bgp then local-preference 310",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-III term reject then reject",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# BGP EXPORT/IMPORT Policy to PRISMA-IV",
-    "#                                               BGP path prepend to prefer primary path",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from instance LAN",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from protocol direct",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from protocol aggregate",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from route-filter 10.220.93.0/24 exact",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from route-filter 172.24.151.64/26 exact",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from route-filter 192.168.0.0/16 orlonger",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from route-filter 29.220.93.0/24 orlonger",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from route-filter 30.220.93.0/24 orlonger",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan then accept",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan then as-path-prepend \"64777 64777 64777 64777 64777 64777 64777 64777 64777\"",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-local from protocol static",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-local then accept",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-local then as-path-prepend \"64777 64777 64777 64777 64777 64777 64777 64777 64777\"",
-    "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term reject then reject",
-    "",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-IV term from-bgp from protocol bgp",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-IV term from-bgp then accept",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-IV term from-bgp then local-preference 300",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-IV term reject then reject",
-    "",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Export policy that advertise only summary route to tun_Prisma-Tunnel side - REQUIRED",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set groups top routing-instances LAN routing-options aggregate route 10.220.93.0/24",
-    "set groups top routing-instances LAN routing-options aggregate route 29.220.93.0/24",
-    "set groups top routing-instances LAN routing-options aggregate route 30.220.93.0/24",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Leaking LAN Prefixes to the PRISMA's Routing Instance so they can be advertised to PRISMA",
-    "# Also need to have the LAN Prefixes in the PRISMA's RI's for Incoming Traffic from tun_Prisma-Tunnel",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set groups top policy-options policy-statement LAN-RTs term from-lan from instance LAN",
-    "set groups top policy-options policy-statement LAN-RTs term from-lan from protocol direct",
-    "set groups top policy-options policy-statement LAN-RTs term from-lan from protocol aggregate",
-    "set groups top policy-options policy-statement LAN-RTs term from-lan then accept",
-    "set groups top policy-options policy-statement LAN-RTs term reject then reject",
-    "",
-    "set groups top routing-instances tun_Prisma-Tunnel routing-options instance-import LAN-RTs",
-    "set groups top routing-instances tun_Prisma-Tunnel-II routing-options instance-import LAN-RTs",
-    "set groups top routing-instances tun_Prisma-Tunnel-III routing-options instance-import LAN-RTs",
-    "set groups top routing-instances tun_Prisma-Tunnel-IV routing-options instance-import LAN-RTs",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# IMPORT-FROM-PRISMA - Policy to leak routes advertised from PRISMA to the LAN Routing Instance",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 01 from instance tun_Prisma-Tunnel",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 01 from protocol bgp",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 01 then accept",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 02 from instance tun_Prisma-Tunnel-II",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 02 from protocol bgp",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 02 then accept",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 03 from instance tun_Prisma-Tunnel-III",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 03 from protocol bgp",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 03 then accept",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 04 from instance tun_Prisma-Tunnel-IV",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 04 from protocol bgp",
-    "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 04 then accept",
-    "#set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 05 then reject",
-    "",
-    "#set groups top routing-instances LAN routing-options instance-import IMPORT-FROM-PRISMA",
-    "set groups top routing-instances apbr_TO-PRISMA-SSE routing-options instance-import IMPORT-FROM-PRISMA",
-    "#insert groups top routing-instances apbr_TO-PRISMA-SSE routing-options instance-import IMPORT-FROM-PRISMA before tun_Prisma-Tunnel-IV_direct",
-    "insert groups top routing-instances apbr_TO-PRISMA-SSE routing-options instance-import IMPORT-FROM-PRISMA after apbr_TO-PRISMA-SSE_wan",
-    "",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Prevent chassis alarm due to dedicated management Ethernet interface being down (we're not using it)",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set chassis alarm management-ethernet link-down ignore",
-    "",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Allow ping and traceroute on CORE",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set groups top security zones security-zone <*_*> host-inbound-traffic system-services ping",
-    "set groups top security zones security-zone <*_*> host-inbound-traffic system-services traceroute",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Traffic from Prisma",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set security policies global policy from_prisma match source-address any",
-    "set security policies global policy from_prisma match destination-address any",
-    "set security policies global policy from_prisma match application any",
-    "set security policies global policy from_prisma match dynamic-application any",
-    "set security policies global policy from_prisma match from-zone tun_Prisma-Tunnel",
-    "set security policies global policy from_prisma match from-zone tun_Prisma-Tunnel-II",
-    "set security policies global policy from_prisma match from-zone tun_Prisma-Tunnel-III",
-    "set security policies global policy from_prisma match from-zone tun_Prisma-Tunnel-IV",
-    "set security policies global policy from_prisma match to-zone CORE_VLAN410",
-    "set security policies global policy from_prisma match to-zone RESTRICTED_VLAN420",
-    "set security policies global policy from_prisma match to-zone MANAGEMENT_VLAN430",
-    "set security policies global policy from_prisma match to-zone PCI_VLAN440",
-    "set security policies global policy from_prisma match to-zone AUTOMATION_VLAN460",
-    "",
-    "set security policies global policy from_prisma match to-zone UNTRUSTED_VLAN490",
-    "set security policies global policy from_prisma match to-zone CREW_VLAN451",
-    "set security policies global policy from_prisma match to-zone PRIVATE_VLAN491",
-    "set security policies global policy from_prisma match to-zone IOT_WIRED_VLAN492",
-    "set security policies global policy from_prisma match to-zone IOT_WIRELESS_VLAN494",
-    "set security policies global policy from_prisma then permit",
-    "set security policies global policy from_prisma then log session-init",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# reject prisma in WAN",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set groups top policy-options policy-statement apbr_TO-INTERNET_wan term everything-else then reject",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Reth Interfaces and RG's - Separate RG for WAN_0, WAN_1 and LAN",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "delete chassis cluster redundancy-group 1",
-    "delete chassis cluster redundancy-group 2",
-    "delete chassis cluster redundancy-group 3",
-    "set chassis cluster redundancy-group 0 node 0 priority 100",
-    "set chassis cluster redundancy-group 0 node 1 priority 1",
-    "set chassis cluster redundancy-group 1 node 0 priority 100",
-    "set chassis cluster redundancy-group 1 node 1 priority 1",
-    "set chassis cluster redundancy-group 2 node 0 priority 100",
-    "set chassis cluster redundancy-group 2 node 1 priority 1",
-    "set chassis cluster redundancy-group 3 node 0 priority 100",
-    "set chassis cluster redundancy-group 3 node 1 priority 1",
-    "set chassis cluster redundancy-group 1 preempt",
-    "set chassis cluster redundancy-group 1 hold-down-interval 10",
-    "set chassis cluster redundancy-group 1 interface-monitor ge-0/0/0 weight 255",
-    "set chassis cluster redundancy-group 1 interface-monitor ge-5/0/0 weight 255",
-    "set chassis cluster redundancy-group 2 preempt",
-    "set chassis cluster redundancy-group 2 hold-down-interval 10",
-    "set chassis cluster redundancy-group 2 interface-monitor ge-0/0/3 weight 255",
-    "set chassis cluster redundancy-group 2 interface-monitor ge-5/0/3 weight 255",
-    "set chassis cluster redundancy-group 3 preempt",
-    "set chassis cluster redundancy-group 3 hold-down-interval 10",
-    "set chassis cluster redundancy-group 3 interface-monitor ge-0/0/6 weight 128",
-    "set chassis cluster redundancy-group 3 interface-monitor ge-0/0/7 weight 128",
-    "set chassis cluster redundancy-group 3 interface-monitor ge-5/0/6 weight 128",
-    "set chassis cluster redundancy-group 3 interface-monitor ge-5/0/7 weight 128",
-    "set interfaces reth1 redundant-ether-options redundancy-group 1",
-    "set interfaces reth2 redundant-ether-options redundancy-group 2",
-    "set interfaces reth3 redundant-ether-options redundancy-group 3",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# MGMT - Permit SSH access from the EX switches for when connectivity to Mist is lost",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set security zones security-zone MGMT host-inbound-traffic system-services ssh",
-    "set security zones security-zone MGMT host-inbound-traffic system-services ping",
-    "set system services ssh root-login allow",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# WAN_0 Better Preference - Default route in inet.0 to use Broadband rather than CradlePoint",
-    "# e.g. SRX outbound-ssh, DNS, etc - And place traffic in control queue rather than default",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set groups top policy-options policy-statement wan_default term 02_WAN_0_default then preference 11",
-    "set class-of-service host-outbound-traffic forwarding-class network-control",
-    "set class-of-service host-outbound-traffic dscp-code-point cs6",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Security Log stream - McD custom-syslog",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "set groups top services ssl initiation profile custom-tls protocol-version all",
-    "set groups top services ssl initiation profile custom-tls trusted-ca all",
-    "set groups top services ssl initiation profile custom-tls client-certificate mist-device-cert",
-    "set groups top services ssl initiation profile custom-tls actions ignore-server-auth-failure",
-    "set groups top services ssl initiation profile custom-tls actions crl disable",
-    "set groups top security log stream custom-syslog category all",
-    "set groups top security log stream custom-syslog host default.usrestaurants.friendly-goldwasser-jhy7mtd.cribl.cloud",
-    "set groups top security log stream custom-syslog host port 6514",
-    "set groups top security log stream custom-syslog transport tcp-connections 1",
-    "set groups top security log stream custom-syslog transport protocol tls",
-    "set groups top security log stream custom-syslog transport tls-profile custom-tls",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# DHCP exclude range",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "set groups top routing-instances LAN access address-assignment pool CORE_VLAN410 family inet excluded-range exclude1 low 10.220.93.24",
-    "set groups top routing-instances LAN access address-assignment pool CORE_VLAN410 family inet excluded-range exclude1 high 10.220.93.24",
-    "",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# DNS Proxy with second loopback IP",
-    "# DNS Proxy enabled in lo0 and using DNAT towards lo0. DNS Requested sent over Prisma Tunnels to OpenDNS 208.67.222.222",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "set groups DNS_PROXY system services dns dns-proxy interface lo0.0",
-    "set groups DNS_PROXY system services dns forwarders 208.67.222.222",
-    "set groups DNS_PROXY system services dns forwarders 208.67.220.220",
-    "set groups DNS_PROXY routing-options static route 10.220.93.0/25 next-table LAN.inet.0",
-    "set groups DNS_PROXY routing-options static route 208.67.222.222/32 next-table apbr_TO-PRISMA-SSE.inet.0",
-    "set groups DNS_PROXY routing-options static route 208.67.220.220/32 next-table apbr_TO-PRISMA-SSE.inet.0",
-    "set apply-groups DNS_PROXY",
-    "set security nat destination pool pool1 address 100.10.0.1/32",
-    "set security nat destination rule-set qsrsoft from zone CORE_VLAN410",
-    "set security nat destination rule-set qsrsoft rule r1 match source-address 10.220.93.23/32",
-    "set security nat destination rule-set qsrsoft rule r1 match source-address 10.220.93.24/32",
-    "set security nat destination rule-set qsrsoft rule r1 match destination-address 10.220.93.62/32",
-    "set security nat destination rule-set qsrsoft rule r1 match destination-port 53",
-    "set security nat destination rule-set qsrsoft rule r1 then destination-nat pool pool1",
-    "set groups top routing-instances LAN routing-options instance-import lo0_to_LAN",
-    "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term lo0 from instance master",
-    "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term lo0 from interface lo0.0",
-    "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term lo0 then accept",
-    "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term 2 then reject",
-    "set security nat source rule-set host_to_Prisma from zone junos-host",
-    "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel",
-    "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel-II",
-    "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel-III",
-    "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel-IV",
-    "set security nat source rule-set host_to_Prisma rule rule1 match source-address 100.10.0.1/32",
-    "set security nat source rule-set host_to_Prisma rule rule1 match destination-address 208.67.222.222/32",
-    "set security nat source rule-set host_to_Prisma rule rule1 then source-nat interface",
-    "set security nat source rule-set host_to_Prisma rule rule2 match source-address 100.10.0.1/32",
-    "set security nat source rule-set host_to_Prisma rule rule2 match destination-address 208.67.220.220/32",
-    "set security nat source rule-set host_to_Prisma rule rule2 then source-nat interface",
-    "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel   routing-options static route 100.10.0.1/32 next-table inet.0",
-    "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel-II  routing-options static route 100.10.0.1/32 next-table inet.0",
-    "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel-III routing-options static route 100.10.0.1/32 next-table inet.0",
-    "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel-IV  routing-options static route 100.10.0.1/32 next-table inet.0",
-    "set security zones security-zone CORE_VLAN410 host-inbound-traffic system-services dns",
-    "set groups top firewall family inet filter protect_re term dns_proxy from protocol udp",
-    "set groups top firewall family inet filter protect_re term dns_proxy from port 53",
-    "set groups top firewall family inet filter protect_re term dns_proxy then accept",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Additional Loopback address 100.10.0.1 - lower than 100.100.0.X",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "set groups top interfaces lo0 unit 0 family inet address 100.10.0.1/32",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Modify Protect_RE filter to permit DNS:",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "set groups top firewall family inet filter protect_re term dns_proxy from protocol udp",
-    "set groups top firewall family inet filter protect_re term dns_proxy from port 53",
-    "set groups top firewall family inet filter protect_re term dns_proxy then accept",
-    "insert groups top firewall family inet filter protect_re term dns_proxy before term otherwise",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# DNS Proxy with second loopback IP",
-    "# DNS Proxy enabled in lo0 and using DNAT towards lo0. DNS Requested sent over Prisma Tunnels to OpenDNS 208.67.222.222",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "set groups DNS_PROXY system services dns dns-proxy interface lo0.0",
-    "set groups DNS_PROXY system services dns forwarders 208.67.222.222",
-    "set groups DNS_PROXY system services dns forwarders 208.67.220.220",
-    "set groups DNS_PROXY routing-options static route 10.220.93.0/25 next-table LAN.inet.0",
-    "set groups DNS_PROXY routing-options static route 208.67.222.222/32 next-table apbr_TO-PRISMA-SSE.inet.0",
-    "set groups DNS_PROXY routing-options static route 208.67.220.220/32 next-table apbr_TO-PRISMA-SSE.inet.0",
-    "set apply-groups DNS_PROXY",
-    "set security nat destination pool pool1 address 100.10.0.1/32",
-    "set security nat destination rule-set qsrsoft from zone CORE_VLAN410",
-    "set security nat destination rule-set qsrsoft rule r1 match source-address 10.220.93.23/32",
-    "set security nat destination rule-set qsrsoft rule r1 match source-address 10.220.93.24/32",
-    "set security nat destination rule-set qsrsoft rule r1 match destination-address 10.220.93.62/32",
-    "set security nat destination rule-set qsrsoft rule r1 match destination-port 53",
-    "set security nat destination rule-set qsrsoft rule r1 then destination-nat pool pool1",
-    "set groups top routing-instances LAN routing-options instance-import lo0_to_LAN",
-    "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term lo0 from instance master",
-    "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term lo0 from interface lo0.0",
-    "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term lo0 then accept",
-    "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term 2 then reject",
-    "set security nat source rule-set host_to_Prisma from zone junos-host",
-    "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel",
-    "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel-II",
-    "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel-III",
-    "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel-IV",
-    "set security nat source rule-set host_to_Prisma rule rule1 match source-address 100.10.0.1/32",
-    "set security nat source rule-set host_to_Prisma rule rule1 match destination-address 208.67.222.222/32",
-    "set security nat source rule-set host_to_Prisma rule rule1 then source-nat interface",
-    "set security nat source rule-set host_to_Prisma rule rule2 match source-address 100.10.0.1/32",
-    "set security nat source rule-set host_to_Prisma rule rule2 match destination-address 208.67.220.220/32",
-    "set security nat source rule-set host_to_Prisma rule rule2 then source-nat interface",
-    "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel   routing-options static route 100.10.0.1/32 next-table inet.0",
-    "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel-II  routing-options static route 100.10.0.1/32 next-table inet.0",
-    "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel-III routing-options static route 100.10.0.1/32 next-table inet.0",
-    "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel-IV  routing-options static route 100.10.0.1/32 next-table inet.0",
-    "set security zones security-zone CORE_VLAN410 host-inbound-traffic system-services dns",
-    "set groups top firewall family inet filter protect_re term dns_proxy from protocol udp",
-    "set groups top firewall family inet filter protect_re term dns_proxy from port 53",
-    "set groups top firewall family inet filter protect_re term dns_proxy then accept",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Additional Loopback address 100.10.0.1 - lower than 100.100.0.X",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "set groups top interfaces lo0 unit 0 family inet address 100.10.0.1/32",
-    "",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "# Modify Protect_RE filter to permit DNS:",
-    "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
-    "",
-    "set groups top firewall family inet filter protect_re term dns_proxy from protocol udp",
-    "set groups top firewall family inet filter protect_re term dns_proxy from port 53",
-    "set groups top firewall family inet filter protect_re term dns_proxy then accept",
-    "insert groups top firewall family inet filter protect_re term dns_proxy before term otherwise",
-    ""
-  ]
-  dhcpd_config = {
-    AUTOMATION_VLAN460 = {
-      dns_servers = [
-        "{{public_dns3}}",
-        "{{public_dns4}}"
-      ],
-      gateway            = "{{branch_ip}}.254"
-      ip_end             = "{{branch_ip}}.241"
-      ip_start           = "{{branch_ip}}.225"
-      lease_time         = 86400
-      server_id_override = false
-      type               = "local"
-      type6              = "none"
-    },
-    CORE_VLAN410 = {
-      dns_servers = [
-        "{{public_dns3}}",
-        "{{public_dns4}}"
-      ],
-      fixed_bindings = {
-        "0007328b5e13" = {
-          ip   = "10.220.93.89"
-          name = "MAC-1"
-        },
-        "00155d3ac800" = {
-          ip   = "10.220.93.25"
-          name = "MAC-2"
-        },
-        "00155d719800" = {
-          ip   = "10.220.93.23"
-          name = "MAC-3"
-        },
-        "002324d0f216" = {
-          ip   = "10.220.93.81"
-          name = "MAC-4"
-        },
-        "047bcb07abdd" = {
-          ip   = "10.220.93.2"
-          name = "MAC-5"
-        },
-        "047bcb0832a8" = {
-          ip   = "10.220.93.1"
-          name = "MAC-6"
-        },
-        "088fc3a3583e" = {
-          ip   = "10.220.93.85"
-          name = "MAC-7"
-        },
-        "088fc3a4c940" = {
-          ip   = "10.220.93.51"
-          name = "MAC-8"
-        },
-        "282986883174" = {
-          ip   = "10.220.93.56"
-          name = "MAC-9"
-        },
-        "300ed53e5d80" = {
-          ip   = "10.220.93.15"
-          name = "MAC-10"
-        },
-        "300ed53e5f33" = {
-          ip   = "10.220.93.14"
-          name = "MAC-11"
-        },
-        "300ed53e6016" = {
-          ip   = "10.220.93.13"
-          name = "MAC-12"
-        },
-        "300ed53e6218" = {
-          ip   = "10.220.93.12"
-          name = "MAC-13"
-        },
-        "843a5b1756c9" = {
-          ip   = "10.220.93.7"
-          name = "MAC-14"
-        },
-        "843a5b17ab18" = {
-          ip   = "10.220.93.6"
-          name = "MAC-15"
-        },
-        "843a5b1dcdf3" = {
-          ip   = "10.220.93.9"
-          name = "MAC-16"
-        },
-        "847bebd29657" = {
-          ip   = "10.220.93.10"
-          name = "MAC-17"
-        },
-        "847bebd29708" = {
-          ip   = "10.220.93.8"
-          name = "MAC-18"
-        },
-        "a4601193bea0" = {
-          ip   = "10.220.93.103"
-          name = "MAC-19"
-        },
-        "e04f4399641d" = {
-          ip   = "10.220.93.36"
-          name = "MAC-20"
-        },
-        "e0be03434ba0" = {
-          ip   = "10.220.93.34"
-          name = "MAC-21"
-        },
-        "e0be03434c0b" = {
-          ip   = "10.220.93.32"
-          name = "MAC-22"
-        },
-        "e0be03434c70" = {
-          ip   = "10.220.93.33"
-          name = "MAC-23"
-        },
-        "e0be0347f6c4" = {
-          ip   = "10.220.93.31"
-          name = "MAC-24"
-        },
-        "e0be03692b3b" = {
-          ip   = "10.220.93.69"
-          name = "MAC-25"
-        },
-        "e0be03692dfe" = {
-          ip   = "10.220.93.67"
-          name = "MAC-26"
-        },
-        "e0be0369ff5f" = {
-          ip   = "10.220.93.35"
-          name = "MAC-27"
-        },
-        "e0be0369ffde" = {
-          ip   = "10.220.93.68"
-          name = "MAC-28"
-        },
-        "e0be036a114b" = {
-          ip   = "10.220.93.41"
-          name = "MAC-29"
-        },
-        "e0be036a1158" = {
-          ip   = "10.220.93.40"
-          name = "MAC-30"
-        },
-        "e805dc6e94f6" = {
-          ip   = "10.220.93.105"
-          name = "MAC-31"
-        },
-        "e805dc8c9110" = {
-          ip   = "10.220.93.100"
-          name = "MAC-32"
-        },
-        "e805dc8cec4f" = {
-          ip   = "10.220.93.97"
-          name = "MAC-33"
-        },
-        "e805dc8cec59" = {
-          ip   = "10.220.93.96"
-          name = "MAC-34"
-        },
-        "e805dc8cecf8" = {
-          ip   = "10.220.93.98"
-          name = "MAC-35"
-        },
-        "e805dc8ced99" = {
-          ip   = "10.220.93.92"
-          name = "MAC-36"
-        },
-        "e805dc8cedab" = {
-          ip   = "10.220.93.101"
-          name = "MAC-37"
-        },
-        "e805dc8cedce" = {
-          ip   = "10.220.93.99"
-          name = "MAC-38"
-        }
-      },
-      gateway            = "{{branch_ip}}.62"
-      ip_end             = "{{branch_ip}}.126"
-      ip_start           = "{{branch_ip}}.1"
-      lease_time         = 86400
-      server_id_override = false
-      type               = "local"
-      type6              = "none"
-    },
-    CREW_VLAN451 = {
-      dns_servers = [
-        "{{public_dns1}}",
-        "{{public_dns2}}"
-      ],
-      gateway            = "{{crew_network}}.222"
-      ip_end             = "{{crew_network}}.221"
-      ip_start           = "{{crew_network}}.194"
-      lease_time         = 86400
-      server_id_override = false
-      type               = "local"
-      type6              = "none"
-    },
-    IOT_WIRED_VLAN492 = {
-      dns_servers = [
-        "{{public_dns3}}",
-        "{{public_dns4}}"
-      ],
-      gateway            = "{{iot_net_wired}}.126"
-      ip_end             = "{{iot_net_wired}}.125"
-      ip_start           = "{{iot_net_wired}}.2"
-      lease_time         = 86400
-      server_id_override = false
-      type               = "local"
-      type6              = "none"
-    },
-    IOT_WIRELESS_VLAN494 = {
-      dns_servers = [
-        "{{public_dns3}}",
-        "{{public_dns4}}"
-      ],
-      gateway            = "{{iot_net_wireless}}.254"
-      ip_end             = "{{iot_net_wireless}}.253"
-      ip_start           = "{{iot_net_wireless}}.130"
-      lease_time         = 86400
-      server_id_override = false
-      type               = "local"
-      type6              = "none"
-    },
-    MANAGEMENT_VLAN430 = {
-      dns_servers = [
-        "{{public_dns3}}",
-        "{{public_dns4}}"
-      ],
-      fixed_bindings = {
-        "00012e832b1b" = {
-          ip   = "10.220.93.167"
-          name = "MAC-1"
-        },
-        "00012e832b6a" = {
-          ip   = "10.220.93.169"
-          name = "MAC-2"
-        },
-        "00012e832c42" = {
-          ip   = "10.220.93.171"
-          name = "MAC-3"
-        },
-        "00012e832c76" = {
-          ip   = "10.220.93.168"
-          name = "MAC-4"
-        },
-        "00012e832c80" = {
-          ip   = "10.220.93.172"
-          name = "MAC-5"
-        },
-        "00012e833286" = {
-          ip   = "10.220.93.170"
-          name = "MAC-6"
-        },
-        "00012ea04369" = {
-          ip   = "10.220.93.163"
-          name = "MAC-7"
-        },
-        "00012ea386cf" = {
-          ip   = "10.220.93.162"
-          name = "MAC-8"
-        }
-      },
-      gateway            = "{{branch_ip}}.161"
-      ip_end             = "{{branch_ip}}.190"
-      ip_start           = "{{branch_ip}}.162"
-      lease_time         = 86400
-      server_id_override = false
-      type               = "local"
-      type6              = "none"
-    },
-    MGMT = {
-      dns_servers = [
-        "{{public_dns1}}",
-        "{{public_dns2}}"
-      ],
-      gateway            = "192.168.2.1"
-      ip_end             = "192.168.2.100"
-      ip_start           = "192.168.2.2"
-      lease_time         = 86400
-      server_id_override = false
-      type               = "local"
-      type6              = "none"
-    },
-    PRIVATE_VLAN491 = {
-      dns_servers = [
-        "{{public_dns3}}",
-        "{{public_dns4}}"
-      ],
-      gateway            = "{{private_net}}.190"
-      ip_end             = "{{private_net}}.189"
-      ip_start           = "{{private_net}}.130"
-      lease_time         = 86400
-      server_id_override = false
-      type               = "local"
-      type6              = "none"
-    },
-    PUBLIC_VLAN450 = {
-      dns_servers = [
-        "{{public_dns1}}",
-        "{{public_dns2}}"
-      ],
-      gateway            = "{{public_net}}.1"
-      ip_end             = "{{public_net_upper}}.254"
-      ip_start           = "{{public_net}}.2"
-      lease_time         = 86400
-      server_id_override = false
-      type               = "local"
-      type6              = "none"
-    },
-    QUARANTINE_VLAN495 = {
-      gateway            = "{{quarantine_net}}.254"
-      ip_end             = "{{quarantine_net}}.253"
-      ip_start           = "{{quarantine_net}}.226"
-      lease_time         = 86400
-      server_id_override = false
-      type               = "local"
-      type6              = "none"
-    },
-    RESTRICTED_VLAN420 = {
-      dns_servers = [
-        "{{public_dns3}}",
-        "{{public_dns4}}"
-      ],
-      gateway            = "{{branch_ip}}.129"
-      ip_end             = "{{branch_ip}}.158"
-      ip_start           = "{{branch_ip}}.130"
-      lease_time         = 86400
-      server_id_override = false
-      type               = "local"
-      type6              = "none"
-    },
-    UNTRUSTED_VLAN490 = {
-      dns_servers = [
-        "{{public_dns1}}",
-        "{{public_dns2}}"
-      ],
-      gateway            = "{{untrusted_net}}.126"
-      ip_end             = "{{untrusted_net}}.125"
-      ip_start           = "{{untrusted_net}}.2"
-      lease_time         = 86400
-      server_id_override = false
-      type               = "local"
-      type6              = "none"
-    }
-  }
-  dns_servers = [
-    "8.8.8.8",
-    "8.8.4.4"
-  ]
-  ip_configs = {
-    AUTOMATION_VLAN460 = {
-      ip      = "{{branch_ip}}.254"
-      netmask = "/27"
-      type    = "static"
-    },
-    CORE_VLAN410 = {
-      ip      = "{{branch_ip}}.62"
-      netmask = "/25"
-      type    = "static"
-    },
-    CREW_VLAN451 = {
-      ip      = "{{crew_network}}.222"
-      netmask = "/27"
-      secondary_ips = [
-        "{{secondary_crew_network}}.1/24"
-      ],
-      type = "static"
-    },
-    IOT_WIRED_VLAN492 = {
-      ip      = "{{iot_net_wired}}.126"
-      netmask = "/25"
-      secondary_ips = [
-        "{{secondary_iot_wired}}.1/23"
-      ],
-      type = "static"
-    },
-    IOT_WIRELESS_VLAN494 = {
-      ip      = "{{iot_net_wireless}}.254"
-      netmask = "/25"
-      secondary_ips = [
-        "{{secondary_iot_net_wireless}}.1/23"
-      ],
-      type = "static"
-    },
-    MANAGEMENT_VLAN430 = {
-      ip      = "{{branch_ip}}.161"
-      netmask = "/27"
-      type    = "static"
-    },
-    MGMT = {
-      ip      = "192.168.2.1"
-      netmask = "/24"
-      type    = "static"
-    },
-    PCI_VLAN440 = {
-      ip      = "{{branch_ip}}.193"
-      netmask = "/27"
-      type    = "static"
-    },
-    PRIVATE_VLAN491 = {
-      ip      = "{{private_net}}.190"
-      netmask = "/26"
-      secondary_ips = [
-        "{{secondary_private_net}}.1/24"
-      ],
-      type = "static"
-    },
-    PUBLIC_VLAN450 = {
-      ip      = "{{public_net}}.1"
-      netmask = "/23"
-      type    = "static"
-    },
-    QUARANTINE_VLAN495 = {
-      ip      = "{{quarantine_net}}.254"
-      netmask = "/27"
-      type    = "static"
-    },
-    RESTRICTED_VLAN420 = {
-      ip      = "{{branch_ip}}.129"
-      netmask = "/27"
-      type    = "static"
-    },
-    UNTRUSTED_VLAN490 = {
-      ip      = "{{untrusted_net}}.126"
-      netmask = "/25"
-      secondary_ips = [
-        "{{secondary_untrusted_net_full_upper}}/26"
-      ],
-      type = "static"
-    }
-  }
-  ntp_servers = [
-    "129.6.15.28",
-    "129.6.15.29",
-    "129.6.15.30"
-  ]
-  oob_ip_config = {
-    type         = "dhcp"
-    use_mgmt_vrf = false
-    node1 = {
-      type = "dhcp"
-    }
-  }
-  path_preferences = {
-    ANY-TO-ANY = {
-      paths = [
-        {
-          networks = [
-            "CORE_VLAN410"
-          ],
-          type = "local"
-        },
-        {
-          networks = [
-            "RESTRICTED_VLAN420"
-          ],
-          type = "local"
-        },
-        {
-          networks = [
-            "MANAGEMENT_VLAN430"
-          ],
-          type = "local"
-        },
-        {
-          networks = [
-            "PCI_VLAN440"
-          ],
-          type = "local"
-        },
-        {
-          networks = [
-            "UNTRUSTED_VLAN490"
-          ],
-          type = "local"
-        },
-        {
-          networks = [
-            "PRIVATE_VLAN491"
-          ],
-          type = "local"
-        },
-        {
-          networks = [
-            "IOT_WIRED_VLAN492"
-          ],
-          type = "local"
-        },
-        {
-          networks = [
-            "IOT_WIRELESS_VLAN494"
-          ],
-          type = "local"
-        },
-        {
-          networks = [
-            "PUBLIC_VLAN450"
-          ],
-          type = "local"
-        },
-        {
-          networks = [
-            "CREW_VLAN451"
-          ],
-          type = "local"
-        },
-        {
-          name = "Prisma-Tunnel"
-          type = "tunnel"
-        },
-        {
-          name = "Prisma-Tunnel-II"
-          type = "tunnel"
-        },
-        {
-          name = "Prisma-Tunnel-III"
-          type = "tunnel"
-        },
-        {
-          name = "Prisma-Tunnel-IV"
-          type = "tunnel"
-        },
-        {
-          name = "WAN_0"
-          type = "wan"
-        },
-        {
-          name = "WAN_1"
-          type = "wan"
-        }
-      ],
-      strategy = "ordered"
-    },
-    TO-CORE = {
-      paths = [
-        {
-          networks = [
-            "CORE_VLAN410"
-          ],
-          type = "local"
-        }
-      ],
-      strategy = "ordered"
-    },
-    TO-INTERNET = {
-      paths = [
-        {
-          name = "WAN_0"
-          type = "wan"
-        },
-        {
-          name = "WAN_1"
-          type = "wan"
-        }
-      ],
-      strategy = "ordered"
-    },
-    TO-IOT_WIRED = {
-      paths = [
-        {
-          networks = [
-            "IOT_WIRED_VLAN492"
-          ],
-          type = "local"
-        }
-      ],
-      strategy = "ordered"
-    },
-    TO-IOT_WIRELESS = {
-      paths = [
-        {
-          networks = [
-            "IOT_WIRELESS_VLAN494"
-          ],
-          type = "local"
-        }
-      ],
-      strategy = "ordered"
-    },
-    TO-MANAGEMENT = {
-      paths = [
-        {
-          networks = [
-            "MANAGEMENT_VLAN430"
-          ],
-          type = "local"
-        }
-      ],
-      strategy = "ordered"
-    },
-    TO-PRIO-CELL = {
-      paths = [
-        {
-          name = "WAN_1"
-          type = "wan"
-        },
-        {
-          name = "WAN_0"
-          type = "wan"
-        }
-      ],
-      strategy = "ordered"
-    },
-    TO-PRISMA-SSE = {
-      paths = [
-        {
-          name = "Prisma-Tunnel"
-          type = "tunnel"
-        },
-        {
-          name = "Prisma-Tunnel-II"
-          type = "tunnel"
-        },
-        {
-          name = "Prisma-Tunnel-III"
-          type = "tunnel"
-        },
-        {
-          name = "Prisma-Tunnel-IV"
-          type = "tunnel"
-        },
-        {
-          name = "WAN_0"
-          type = "wan"
-        },
-        {
-          name = "WAN_1"
-          type = "wan"
-        }
-      ],
-      strategy = "ordered"
-    },
-    TO-PRIVATE = {
-      paths = [
-        {
-          networks = [
-            "PRIVATE_VLAN491"
-          ],
-          type = "local"
-        }
-      ],
-      strategy = "ordered"
-    },
-    TO-RESTRICTED = {
-      paths = [
-        {
-          networks = [
-            "RESTRICTED_VLAN420"
-          ],
-          type = "local"
-        }
-      ],
-      strategy = "ordered"
-    },
-    TO-UNTRUSTED = {
-      paths = [
-        {
-          networks = [
-            "UNTRUSTED_VLAN490"
-          ],
-          type = "local"
-        }
-      ],
-      strategy = "ordered"
-    }
-  }
-  port_config = {
-    "ge-0/0/0,ge-5/0/0" = {
-      ae_disable_lacp  = false
-      ae_lacp_force_up = false
-      aggregated       = false
-      critical         = true
-      description      = "WAN_0 First WAN Interface"
-      disable_autoneg  = false
-      disabled         = false
-      dsl_type         = "vdsl"
-      dsl_vci          = 35
-      dsl_vpi          = 0
-      duplex           = "auto"
-      ip_config = {
-        pppoe_auth = "none"
-        type       = "dhcp"
-      },
-      lte_auth           = "none"
-      name               = "WAN_0"
-      poe_disabled       = false
-      preserve_dscp      = true
-      redundant          = true
-      reth_idx           = 1
-      reth_node          = "node0"
-      speed              = "auto"
-      ssr_no_virtual_mac = false
-      svr_port_range     = "none"
-      usage              = "wan"
-      wan_arp_policer    = "default"
-      wan_extra_routes   = {}
-      wan_source_nat     = {}
-      wan_type           = "broadband"
-      vpn_paths          = {}
-    },
-    "ge-0/0/3,ge-5/0/3" = {
-      ae_disable_lacp  = false
-      ae_lacp_force_up = false
-      aggregated       = false
-      critical         = true
-      description      = "WAN_1 Second WAN Interface"
-      disable_autoneg  = false
-      disabled         = false
-      dsl_type         = "vdsl"
-      dsl_vci          = 35
-      dsl_vpi          = 0
-      duplex           = "auto"
-      ip_config = {
-        pppoe_auth = "none"
-        type       = "dhcp"
-      },
-      lte_auth           = "none"
-      name               = "WAN_1"
-      poe_disabled       = false
-      preserve_dscp      = true
-      redundant          = true
-      reth_idx           = 2
-      reth_node          = "node0"
-      speed              = "auto"
-      ssr_no_virtual_mac = false
-      svr_port_range     = "none"
-      usage              = "wan"
-      wan_arp_policer    = "default"
-      wan_extra_routes   = {}
-      wan_source_nat     = {}
-      wan_type           = "broadband"
-      vpn_paths          = {}
-    },
-    "ge-0/0/6-7,ge-5/0/6-7" = {
-      ae_disable_lacp  = false
-      ae_lacp_force_up = false
-      aggregated       = false
-      critical         = false
-      disable_autoneg  = false
-      disabled         = false
-      dsl_type         = "vdsl"
-      dsl_vci          = 35
-      dsl_vpi          = 0
-      duplex           = "auto"
-      lte_auth         = "none"
-      networks = [
-        "IOT_WIRED_VLAN492",
-        "RESTRICTED_VLAN420",
-        "PUBLIC_VLAN450",
-        "MANAGEMENT_VLAN430",
-        "CREW_VLAN451",
-        "CORE_VLAN410",
-        "PCI_VLAN440",
-        "QUARANTINE_VLAN495",
-        "UNTRUSTED_VLAN490",
-        "PRIVATE_VLAN491",
-        "IOT_WIRELESS_VLAN494",
-        "AUTOMATION_VLAN460"
-      ],
-      poe_disabled       = false
-      port_network       = "MGMT"
-      preserve_dscp      = true
-      redundant          = true
-      reth_idx           = 3
-      reth_node          = "node0"
-      speed              = "auto"
-      ssr_no_virtual_mac = false
-      svr_port_range     = "none"
-      usage              = "lan"
-      vpn_paths          = {}
-      wan_arp_policer    = "default"
-      wan_extra_routes   = {}
-      wan_type           = "broadband"
-    }
-  }
-  service_policies = [
-    {
-      servicepolicy_id = mist_org_servicepolicy.servicepolicy_196.id
-      path_preference  = "TO-INTERNET"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_154.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_120.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_122.id
-      path_preference  = "TO-PRIVATE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_125.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_5.id
-      path_preference  = "TO-IOT_WIRELESS"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_127.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_110.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_158.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_166.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_161.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_174.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_180.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_184.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_191.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_200.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_54.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_56.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_59.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_14.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_135.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_3.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_171.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_11.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_204.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_0.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_8.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_201.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_7.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_175.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_94.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_21.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_24.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_27.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_30.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_34.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_39.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_43.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_48.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_12.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_52.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_55.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_31.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_17.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_57.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_61.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_63.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_65.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_68.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_70.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_72.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_76.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_78.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_181.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_73.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_80.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_82.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_84.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_88.id
-      path_preference  = "TO-UNTRUSTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_90.id
-      path_preference  = "TO-UNTRUSTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_92.id
-      path_preference  = "TO-UNTRUSTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_16.id
-      path_preference  = "TO-UNTRUSTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_35.id
-      path_preference  = "TO-UNTRUSTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_74.id
-      path_preference  = "TO-UNTRUSTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_137.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_139.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_144.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_149.id
-      path_preference  = "TO-PRIVATE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_130.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_123.id
-      path_preference  = "TO-IOT_WIRELESS"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_207.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_203.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_138.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_140.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_2.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_147.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_151.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_155.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_177.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_159.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_162.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_168.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_172.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_176.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_182.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_185.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_188.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_169.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_193.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_198.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_202.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_205.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_1.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_4.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_9.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_142.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_189.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_18.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_25.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_32.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_36.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_41.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_47.id
-      path_preference  = "TO-INTERNET"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_6.id
-      path_preference  = "TO-INTERNET"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_44.id
-      path_preference  = "TO-INTERNET"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_190.id
-      path_preference  = "TO-INTERNET"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_53.id
-      path_preference  = "TO-INTERNET"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_69.id
-      path_preference  = "TO-INTERNET"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_37.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_75.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_132.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_145.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_113.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_79.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_45.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_89.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_91.id
-      path_preference  = "TO-PRIVATE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_93.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_95.id
-      path_preference  = "TO-IOT_WIRELESS"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_115.id
-      path_preference  = "TO-INTERNET"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_194.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_38.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_111.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_112.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_157.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_160.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_29.id
-      path_preference  = "TO-UNTRUSTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_33.id
-      path_preference  = "TO-UNTRUSTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_179.id
-      path_preference  = "TO-UNTRUSTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_85.id
-      path_preference  = "TO-UNTRUSTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_96.id
-      path_preference  = "TO-UNTRUSTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_98.id
-      path_preference  = "TO-UNTRUSTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_100.id
-      path_preference  = "TO-UNTRUSTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_40.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_86.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_103.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_105.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_164.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_170.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_101.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_108.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_114.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_117.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_119.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_121.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_58.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_124.id
-      path_preference  = "TO-IOT_WIRELESS"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_197.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_167.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_192.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_126.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_129.id
-      path_preference  = "TO-IOT_WIRELESS"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_131.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_134.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_173.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_178.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_136.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_13.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_22.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_28.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_163.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_206.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_152.id
-      path_preference  = "TO-PRIVATE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_50.id
-      path_preference  = "TO-IOT_WIRELESS"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_141.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_49.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_19.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_118.id
-      path_preference  = "TO-PRIVATE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_107.id
-      path_preference  = "TO-IOT_WIRELESS"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_15.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_20.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_23.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_26.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_195.id
-      path_preference  = "TO-IOT_WIRELESS"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_42.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_133.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_128.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_10.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_165.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_146.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_116.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_150.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_153.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_156.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_60.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_62.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_64.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_66.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_51.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_71.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_148.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_183.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_186.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_77.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_81.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_83.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_87.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_143.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_67.id
-      path_preference  = "TO-PRIVATE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_97.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_99.id
-      path_preference  = "TO-CORE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_102.id
-      path_preference  = "TO-RESTRICTED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_104.id
-      path_preference  = "TO-MANAGEMENT"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_106.id
-      path_preference  = "TO-PRIVATE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_109.id
-      path_preference  = "TO-IOT_WIRED"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_199.id
-      path_preference  = "ANY-TO-ANY"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_46.id
-      path_preference  = "TO-PRISMA-SSE"
-    },
-    { servicepolicy_id = mist_org_servicepolicy.servicepolicy_187.id
-      path_preference  = "TO-INTERNET"
-    }
-  ]
-  tunnel_configs = {
-    Prisma-Tunnel = {
-      ike_lifetime = 28800
-      ike_mode     = "main"
-      ike_proposals = [
-        {
-          auth_algo = "sha2"
-          dh_group  = "19"
-          enc_algo  = "aes256"
-        }
-      ],
-      ipsec_lifetime = 3600
-      ipsec_proposals = [
-        {
-          auth_algo = "sha2"
-          dh_group  = "19"
-          enc_algo  = "aes256"
-        }
-      ],
-      local_id = "{{sc_local_id_1}}"
-      mode     = "active-standby"
-      primary = {
-        hosts = [
-          "{{service_ip_1}}"
-        ],
-        remote_ids = [
-          "{{sc_remote_id_1}}"
-        ],
-        wan_names = [
-          "WAN_0"
-        ]
-      },
-      protocol = "ipsec"
-      provider = "custom-ipsec"
-      psk      = "IEpg6tpOMGLBauoT5nodeEacximEpF"
-      version  = "2"
-    },
-    Prisma-Tunnel-II = {
-      ike_lifetime = 28800
-      ike_mode     = "main"
-      ike_proposals = [
-        {
-          auth_algo = "sha2"
-          dh_group  = "19"
-          enc_algo  = "aes256"
-        }
-      ],
-      ipsec_lifetime = 3600
-      ipsec_proposals = [
-        {
-          auth_algo = "sha2"
-          dh_group  = "19"
-          enc_algo  = "aes256"
-        }
-      ],
-      local_id = "{{sc_local_id_2}}"
-      mode     = "active-standby"
-      primary = {
-        hosts = [
-          "{{service_ip_1}}"
-        ],
-        remote_ids = [
-          "{{sc_remote_id_2}}"
-        ],
-        wan_names = [
-          "WAN_1"
-        ]
-      },
-      protocol = "ipsec"
-      provider = "custom-ipsec"
-      psk      = "IEpg6tpOMGLBauoT5nodeEacximEpF"
-      version  = "2"
-    },
-    Prisma-Tunnel-III = {
-      ike_lifetime = 28800
-      ike_mode     = "main"
-      ike_proposals = [
-        {
-          auth_algo = "sha2"
-          dh_group  = "19"
-          enc_algo  = "aes256"
-        }
-      ],
-      ipsec_lifetime = 3600
-      ipsec_proposals = [
-        {
-          auth_algo = "sha2"
-          dh_group  = "19"
-          enc_algo  = "aes256"
-        }
-      ],
-      local_id = "{{sc_local_id_1}}"
-      mode     = "active-standby"
-      primary = {
-        hosts = [
-          "{{service_ip_2}}"
-        ],
-        remote_ids = [
-          "{{sc_remote_id_1}}"
-        ],
-        wan_names = [
-          "WAN_0"
-        ]
-      },
-      protocol = "ipsec"
-      provider = "custom-ipsec"
-      psk      = "IEpg6tpOMGLBauoT5nodeEacximEpF"
-      version  = "2"
-    },
-    Prisma-Tunnel-IV = {
-      ike_lifetime = 28800
-      ike_mode     = "main"
-      ike_proposals = [
-        {
-          auth_algo = "sha2"
-          dh_group  = "19"
-          enc_algo  = "aes256"
-        }
-      ],
-      ipsec_lifetime = 3600
-      ipsec_proposals = [
-        {
-          auth_algo = "sha2"
-          dh_group  = "19"
-          enc_algo  = "aes256"
-        }
-      ],
-      local_id = "{{sc_local_id_2}}"
-      mode     = "active-standby"
-      primary = {
-        hosts = [
-          "{{service_ip_2}}"
-        ],
-        remote_ids = [
-          "{{sc_remote_id_2}}"
-        ],
-        wan_names = [
-          "WAN_1"
-        ]
-      },
-      protocol = "ipsec"
-      provider = "custom-ipsec"
-      psk      = "IEpg6tpOMGLBauoT5nodeEacximEpF"
-      version  = "2"
-    }
-  }
-  vrf_config = {
-    enabled = true
-  }
-  vrf_instances = {
-    LAN = {
-      networks = [
-        "CORE_VLAN410",
-        "RESTRICTED_VLAN420",
-        "MANAGEMENT_VLAN430",
-        "PRIVATE_VLAN491",
-        "PCI_VLAN440",
-        "IOT_WIRELESS_VLAN494",
-        "IOT_WIRED_VLAN492",
-        "PUBLIC_VLAN450",
-        "CREW_VLAN451",
-        "UNTRUSTED_VLAN490",
-        "QUARANTINE_VLAN495"
-      ]
-    },
-    MANAGEMENT = {
-      networks = [
-        "MGMT"
-      ]
-    }
-  }
-}
+# resource "mist_device_gateway" "gateway_1" {
+#   device_id = ""
+#   site_id   = mist_site.terraform_site.id
+#   name      = ""
+#   additional_config_cmds = [
+#     "# US_Prod_04270 - CLI Commands - 11/21/2024",
+#     "# 4 Tunnels, 4 LAN Links, Re-IP LAN Networks, Quarantine",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Increase the number of rollback configs, configure tcp-mss and avoid rtlog-conn-err (CPU)",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set system max-configuration-rollbacks 48",
+#     "set security flow tcp-mss all-tcp mss 1350",
+#     "set security flow tcp-mss ipsec-vpn mss 1200",
+#     "",
+#     "#deactivate groups mist-script event-options policy rtlog-conn-err",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Configure security policy logging",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set groups top security policies from-zone <*> to-zone <*> policy <*> then log session-init",
+#     "#set security log mode stream-event",
+#     "#set groups top system syslog file traffic-log any any",
+#     "#set groups top system syslog file traffic-log archive size 10m",
+#     "#set groups top system syslog file traffic-log archive files 10",
+#     "#set groups top system syslog file traffic-log match \"RT_FLOW:|RT_UTM\"",
+#     "",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Configure security policy logging",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "delete security log mode stream-event",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# BGP to Prisma-Tunnel",
+#     "# Configure BGP inside IPSec to Prisma-Tunnel",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set interfaces st0 unit 1000 family inet address 7.4.0.112/31",
+#     "set groups top routing-instances tun_Prisma-Tunnel protocols bgp group SSE1 type external",
+#     "set groups top routing-instances tun_Prisma-Tunnel protocols bgp group SSE1 multihop",
+#     "set groups top routing-instances tun_Prisma-Tunnel protocols bgp group SSE1 export EXP-TO-PRISMA-PRIMARY",
+#     "set groups top routing-instances tun_Prisma-Tunnel protocols bgp group SSE1 peer-as 64781",
+#     "set groups top routing-instances tun_Prisma-Tunnel protocols bgp group SSE1 local-as 64777",
+#     "set groups top routing-instances tun_Prisma-Tunnel protocols bgp group SSE1 neighbor 7.4.0.113 import IMPORT-FROM-PRISMA-PRIMARY",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# BGP to Prisma-Tunnel-II",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set interfaces st0 unit 1001 family inet address 7.4.0.118/31",
+#     "set groups top routing-instances tun_Prisma-Tunnel-II protocols bgp group SSE2 type external",
+#     "set groups top routing-instances tun_Prisma-Tunnel-II protocols bgp group SSE2 multihop",
+#     "set groups top routing-instances tun_Prisma-Tunnel-II protocols bgp group SSE2 export EXP-TO-PRISMA-SECONDARY",
+#     "set groups top routing-instances tun_Prisma-Tunnel-II protocols bgp group SSE2 peer-as 64781",
+#     "set groups top routing-instances tun_Prisma-Tunnel-II protocols bgp group SSE2 local-as 64777",
+#     "set groups top routing-instances tun_Prisma-Tunnel-II protocols bgp group SSE2 neighbor 7.4.0.119 import IMPORT-FROM-PRISMA-SECONDARY",
+#     "",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# BGP to Prisma-Tunnel-III",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "set interfaces st0 unit 1002 family inet address 7.4.0.116/31",
+#     "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 type external",
+#     "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 multihop",
+#     "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 log-updown",
+#     "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 export EXP-TO-PRISMA-III",
+#     "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 peer-as 64781",
+#     "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 local-as 64777",
+#     "set groups top routing-instances tun_Prisma-Tunnel-III protocols bgp group SSE3 neighbor 7.4.0.117 import IMPORT-FROM-PRISMA-III",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# BGP to Prisma-Tunnel-IV",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set interfaces st0 unit 1003 family inet address 7.4.0.114/31",
+#     "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 type external",
+#     "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 multihop",
+#     "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 log-updown",
+#     "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 export EXP-TO-PRISMA-IV",
+#     "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 peer-as 64781",
+#     "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 local-as 64777",
+#     "set groups top routing-instances tun_Prisma-Tunnel-IV protocols bgp group SSE4 neighbor 7.4.0.115 import IMPORT-FROM-PRISMA-IV",
+#     "",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# BGP EXPORT/IMPORT Policy to PRISMA-PRIMARY",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from instance LAN",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from protocol direct",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from protocol aggregate",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from route-filter 10.220.93.0/24 exact",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from route-filter 172.24.151.64/26 exact",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from route-filter 192.168.0.0/16 orlonger",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from route-filter 29.220.93.0/24 orlonger",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan from route-filter 30.220.93.0/24 orlonger",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-lan then accept",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-local from protocol static",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term from-local then accept",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-PRIMARY term reject then reject",
+#     "",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-PRIMARY term from-bgp from protocol bgp",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-PRIMARY term from-bgp then accept",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-PRIMARY term from-bgp then local-preference 330",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-PRIMARY term reject then reject",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# BGP EXPORT/IMPORT Policy to PRISMA-SECONDARY",
+#     "#                                               BGP path prepend to prefer primary path",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from instance LAN",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from protocol direct",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from protocol aggregate",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from route-filter 10.220.93.0/24 exact",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from route-filter 172.24.151.64/26 exact",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from route-filter 192.168.0.0/16 orlonger",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from route-filter 29.220.93.0/24 orlonger",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan from route-filter 30.220.93.0/24 orlonger",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan then accept",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-lan then as-path-prepend \"64777 64777 64777\"",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-local from protocol static",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-local then accept",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term from-local then as-path-prepend \"64777 64777 64777\"",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-SECONDARY term reject then reject",
+#     "",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-SECONDARY term from-bgp from protocol bgp",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-SECONDARY term from-bgp then accept",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-SECONDARY term from-bgp then local-preference 320",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-SECONDARY term reject then reject",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# BGP EXPORT/IMPORT Policy to PRISMA-III",
+#     "#                                               BGP path prepend to prefer primary path",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from instance LAN",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from protocol direct",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from protocol aggregate",
+#     "",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from route-filter 10.220.93.0/24 exact",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from route-filter 172.24.151.64/26 exact",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from route-filter 192.168.0.0/16 orlonger",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from route-filter 29.220.93.0/24 orlonger",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan from route-filter 30.220.93.0/24 orlonger",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan then accept",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-lan then as-path-prepend \"64777 64777 64777 64777 64777 64777\"",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-local from protocol static",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-local then accept",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term from-local then as-path-prepend \"64777 64777 64777 64777 64777 64777\"",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-III term reject then reject",
+#     "",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-III term from-bgp from protocol bgp",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-III term from-bgp then accept",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-III term from-bgp then local-preference 310",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-III term reject then reject",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# BGP EXPORT/IMPORT Policy to PRISMA-IV",
+#     "#                                               BGP path prepend to prefer primary path",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from instance LAN",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from protocol direct",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from protocol aggregate",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from route-filter 10.220.93.0/24 exact",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from route-filter 172.24.151.64/26 exact",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from route-filter 192.168.0.0/16 orlonger",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from route-filter 29.220.93.0/24 orlonger",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan from route-filter 30.220.93.0/24 orlonger",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan then accept",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-lan then as-path-prepend \"64777 64777 64777 64777 64777 64777 64777 64777 64777\"",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-local from protocol static",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-local then accept",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term from-local then as-path-prepend \"64777 64777 64777 64777 64777 64777 64777 64777 64777\"",
+#     "set groups top policy-options policy-statement EXP-TO-PRISMA-IV term reject then reject",
+#     "",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-IV term from-bgp from protocol bgp",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-IV term from-bgp then accept",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-IV term from-bgp then local-preference 300",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA-IV term reject then reject",
+#     "",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Export policy that advertise only summary route to tun_Prisma-Tunnel side - REQUIRED",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set groups top routing-instances LAN routing-options aggregate route 10.220.93.0/24",
+#     "set groups top routing-instances LAN routing-options aggregate route 29.220.93.0/24",
+#     "set groups top routing-instances LAN routing-options aggregate route 30.220.93.0/24",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Leaking LAN Prefixes to the PRISMA's Routing Instance so they can be advertised to PRISMA",
+#     "# Also need to have the LAN Prefixes in the PRISMA's RI's for Incoming Traffic from tun_Prisma-Tunnel",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set groups top policy-options policy-statement LAN-RTs term from-lan from instance LAN",
+#     "set groups top policy-options policy-statement LAN-RTs term from-lan from protocol direct",
+#     "set groups top policy-options policy-statement LAN-RTs term from-lan from protocol aggregate",
+#     "set groups top policy-options policy-statement LAN-RTs term from-lan then accept",
+#     "set groups top policy-options policy-statement LAN-RTs term reject then reject",
+#     "",
+#     "set groups top routing-instances tun_Prisma-Tunnel routing-options instance-import LAN-RTs",
+#     "set groups top routing-instances tun_Prisma-Tunnel-II routing-options instance-import LAN-RTs",
+#     "set groups top routing-instances tun_Prisma-Tunnel-III routing-options instance-import LAN-RTs",
+#     "set groups top routing-instances tun_Prisma-Tunnel-IV routing-options instance-import LAN-RTs",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# IMPORT-FROM-PRISMA - Policy to leak routes advertised from PRISMA to the LAN Routing Instance",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 01 from instance tun_Prisma-Tunnel",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 01 from protocol bgp",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 01 then accept",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 02 from instance tun_Prisma-Tunnel-II",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 02 from protocol bgp",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 02 then accept",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 03 from instance tun_Prisma-Tunnel-III",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 03 from protocol bgp",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 03 then accept",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 04 from instance tun_Prisma-Tunnel-IV",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 04 from protocol bgp",
+#     "set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 04 then accept",
+#     "#set groups top policy-options policy-statement IMPORT-FROM-PRISMA term 05 then reject",
+#     "",
+#     "#set groups top routing-instances LAN routing-options instance-import IMPORT-FROM-PRISMA",
+#     "set groups top routing-instances apbr_TO-PRISMA-SSE routing-options instance-import IMPORT-FROM-PRISMA",
+#     "#insert groups top routing-instances apbr_TO-PRISMA-SSE routing-options instance-import IMPORT-FROM-PRISMA before tun_Prisma-Tunnel-IV_direct",
+#     "insert groups top routing-instances apbr_TO-PRISMA-SSE routing-options instance-import IMPORT-FROM-PRISMA after apbr_TO-PRISMA-SSE_wan",
+#     "",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Prevent chassis alarm due to dedicated management Ethernet interface being down (we're not using it)",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set chassis alarm management-ethernet link-down ignore",
+#     "",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Allow ping and traceroute on CORE",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set groups top security zones security-zone <*_*> host-inbound-traffic system-services ping",
+#     "set groups top security zones security-zone <*_*> host-inbound-traffic system-services traceroute",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Traffic from Prisma",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set security policies global policy from_prisma match source-address any",
+#     "set security policies global policy from_prisma match destination-address any",
+#     "set security policies global policy from_prisma match application any",
+#     "set security policies global policy from_prisma match dynamic-application any",
+#     "set security policies global policy from_prisma match from-zone tun_Prisma-Tunnel",
+#     "set security policies global policy from_prisma match from-zone tun_Prisma-Tunnel-II",
+#     "set security policies global policy from_prisma match from-zone tun_Prisma-Tunnel-III",
+#     "set security policies global policy from_prisma match from-zone tun_Prisma-Tunnel-IV",
+#     "set security policies global policy from_prisma match to-zone CORE_VLAN410",
+#     "set security policies global policy from_prisma match to-zone RESTRICTED_VLAN420",
+#     "set security policies global policy from_prisma match to-zone MANAGEMENT_VLAN430",
+#     "set security policies global policy from_prisma match to-zone PCI_VLAN440",
+#     "set security policies global policy from_prisma match to-zone AUTOMATION_VLAN460",
+#     "",
+#     "set security policies global policy from_prisma match to-zone UNTRUSTED_VLAN490",
+#     "set security policies global policy from_prisma match to-zone CREW_VLAN451",
+#     "set security policies global policy from_prisma match to-zone PRIVATE_VLAN491",
+#     "set security policies global policy from_prisma match to-zone IOT_WIRED_VLAN492",
+#     "set security policies global policy from_prisma match to-zone IOT_WIRELESS_VLAN494",
+#     "set security policies global policy from_prisma then permit",
+#     "set security policies global policy from_prisma then log session-init",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# reject prisma in WAN",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set groups top policy-options policy-statement apbr_TO-INTERNET_wan term everything-else then reject",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Reth Interfaces and RG's - Separate RG for WAN_0, WAN_1 and LAN",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "delete chassis cluster redundancy-group 1",
+#     "delete chassis cluster redundancy-group 2",
+#     "delete chassis cluster redundancy-group 3",
+#     "set chassis cluster redundancy-group 0 node 0 priority 100",
+#     "set chassis cluster redundancy-group 0 node 1 priority 1",
+#     "set chassis cluster redundancy-group 1 node 0 priority 100",
+#     "set chassis cluster redundancy-group 1 node 1 priority 1",
+#     "set chassis cluster redundancy-group 2 node 0 priority 100",
+#     "set chassis cluster redundancy-group 2 node 1 priority 1",
+#     "set chassis cluster redundancy-group 3 node 0 priority 100",
+#     "set chassis cluster redundancy-group 3 node 1 priority 1",
+#     "set chassis cluster redundancy-group 1 preempt",
+#     "set chassis cluster redundancy-group 1 hold-down-interval 10",
+#     "set chassis cluster redundancy-group 1 interface-monitor ge-0/0/0 weight 255",
+#     "set chassis cluster redundancy-group 1 interface-monitor ge-5/0/0 weight 255",
+#     "set chassis cluster redundancy-group 2 preempt",
+#     "set chassis cluster redundancy-group 2 hold-down-interval 10",
+#     "set chassis cluster redundancy-group 2 interface-monitor ge-0/0/3 weight 255",
+#     "set chassis cluster redundancy-group 2 interface-monitor ge-5/0/3 weight 255",
+#     "set chassis cluster redundancy-group 3 preempt",
+#     "set chassis cluster redundancy-group 3 hold-down-interval 10",
+#     "set chassis cluster redundancy-group 3 interface-monitor ge-0/0/6 weight 128",
+#     "set chassis cluster redundancy-group 3 interface-monitor ge-0/0/7 weight 128",
+#     "set chassis cluster redundancy-group 3 interface-monitor ge-5/0/6 weight 128",
+#     "set chassis cluster redundancy-group 3 interface-monitor ge-5/0/7 weight 128",
+#     "set interfaces reth1 redundant-ether-options redundancy-group 1",
+#     "set interfaces reth2 redundant-ether-options redundancy-group 2",
+#     "set interfaces reth3 redundant-ether-options redundancy-group 3",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# MGMT - Permit SSH access from the EX switches for when connectivity to Mist is lost",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set security zones security-zone MGMT host-inbound-traffic system-services ssh",
+#     "set security zones security-zone MGMT host-inbound-traffic system-services ping",
+#     "set system services ssh root-login allow",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# WAN_0 Better Preference - Default route in inet.0 to use Broadband rather than CradlePoint",
+#     "# e.g. SRX outbound-ssh, DNS, etc - And place traffic in control queue rather than default",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set groups top policy-options policy-statement wan_default term 02_WAN_0_default then preference 11",
+#     "set class-of-service host-outbound-traffic forwarding-class network-control",
+#     "set class-of-service host-outbound-traffic dscp-code-point cs6",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Security Log stream - McD custom-syslog",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "set groups top services ssl initiation profile custom-tls protocol-version all",
+#     "set groups top services ssl initiation profile custom-tls trusted-ca all",
+#     "set groups top services ssl initiation profile custom-tls client-certificate mist-device-cert",
+#     "set groups top services ssl initiation profile custom-tls actions ignore-server-auth-failure",
+#     "set groups top services ssl initiation profile custom-tls actions crl disable",
+#     "set groups top security log stream custom-syslog category all",
+#     "set groups top security log stream custom-syslog host default.usrestaurants.friendly-goldwasser-jhy7mtd.cribl.cloud",
+#     "set groups top security log stream custom-syslog host port 6514",
+#     "set groups top security log stream custom-syslog transport tcp-connections 1",
+#     "set groups top security log stream custom-syslog transport protocol tls",
+#     "set groups top security log stream custom-syslog transport tls-profile custom-tls",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# DHCP exclude range",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "set groups top routing-instances LAN access address-assignment pool CORE_VLAN410 family inet excluded-range exclude1 low 10.220.93.24",
+#     "set groups top routing-instances LAN access address-assignment pool CORE_VLAN410 family inet excluded-range exclude1 high 10.220.93.24",
+#     "",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# DNS Proxy with second loopback IP",
+#     "# DNS Proxy enabled in lo0 and using DNAT towards lo0. DNS Requested sent over Prisma Tunnels to OpenDNS 208.67.222.222",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "set groups DNS_PROXY system services dns dns-proxy interface lo0.0",
+#     "set groups DNS_PROXY system services dns forwarders 208.67.222.222",
+#     "set groups DNS_PROXY system services dns forwarders 208.67.220.220",
+#     "set groups DNS_PROXY routing-options static route 10.220.93.0/25 next-table LAN.inet.0",
+#     "set groups DNS_PROXY routing-options static route 208.67.222.222/32 next-table apbr_TO-PRISMA-SSE.inet.0",
+#     "set groups DNS_PROXY routing-options static route 208.67.220.220/32 next-table apbr_TO-PRISMA-SSE.inet.0",
+#     "set apply-groups DNS_PROXY",
+#     "set security nat destination pool pool1 address 100.10.0.1/32",
+#     "set security nat destination rule-set qsrsoft from zone CORE_VLAN410",
+#     "set security nat destination rule-set qsrsoft rule r1 match source-address 10.220.93.23/32",
+#     "set security nat destination rule-set qsrsoft rule r1 match source-address 10.220.93.24/32",
+#     "set security nat destination rule-set qsrsoft rule r1 match destination-address 10.220.93.62/32",
+#     "set security nat destination rule-set qsrsoft rule r1 match destination-port 53",
+#     "set security nat destination rule-set qsrsoft rule r1 then destination-nat pool pool1",
+#     "set groups top routing-instances LAN routing-options instance-import lo0_to_LAN",
+#     "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term lo0 from instance master",
+#     "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term lo0 from interface lo0.0",
+#     "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term lo0 then accept",
+#     "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term 2 then reject",
+#     "set security nat source rule-set host_to_Prisma from zone junos-host",
+#     "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel",
+#     "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel-II",
+#     "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel-III",
+#     "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel-IV",
+#     "set security nat source rule-set host_to_Prisma rule rule1 match source-address 100.10.0.1/32",
+#     "set security nat source rule-set host_to_Prisma rule rule1 match destination-address 208.67.222.222/32",
+#     "set security nat source rule-set host_to_Prisma rule rule1 then source-nat interface",
+#     "set security nat source rule-set host_to_Prisma rule rule2 match source-address 100.10.0.1/32",
+#     "set security nat source rule-set host_to_Prisma rule rule2 match destination-address 208.67.220.220/32",
+#     "set security nat source rule-set host_to_Prisma rule rule2 then source-nat interface",
+#     "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel   routing-options static route 100.10.0.1/32 next-table inet.0",
+#     "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel-II  routing-options static route 100.10.0.1/32 next-table inet.0",
+#     "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel-III routing-options static route 100.10.0.1/32 next-table inet.0",
+#     "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel-IV  routing-options static route 100.10.0.1/32 next-table inet.0",
+#     "set security zones security-zone CORE_VLAN410 host-inbound-traffic system-services dns",
+#     "set groups top firewall family inet filter protect_re term dns_proxy from protocol udp",
+#     "set groups top firewall family inet filter protect_re term dns_proxy from port 53",
+#     "set groups top firewall family inet filter protect_re term dns_proxy then accept",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Additional Loopback address 100.10.0.1 - lower than 100.100.0.X",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "set groups top interfaces lo0 unit 0 family inet address 100.10.0.1/32",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Modify Protect_RE filter to permit DNS:",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "set groups top firewall family inet filter protect_re term dns_proxy from protocol udp",
+#     "set groups top firewall family inet filter protect_re term dns_proxy from port 53",
+#     "set groups top firewall family inet filter protect_re term dns_proxy then accept",
+#     "insert groups top firewall family inet filter protect_re term dns_proxy before term otherwise",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# DNS Proxy with second loopback IP",
+#     "# DNS Proxy enabled in lo0 and using DNAT towards lo0. DNS Requested sent over Prisma Tunnels to OpenDNS 208.67.222.222",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "set groups DNS_PROXY system services dns dns-proxy interface lo0.0",
+#     "set groups DNS_PROXY system services dns forwarders 208.67.222.222",
+#     "set groups DNS_PROXY system services dns forwarders 208.67.220.220",
+#     "set groups DNS_PROXY routing-options static route 10.220.93.0/25 next-table LAN.inet.0",
+#     "set groups DNS_PROXY routing-options static route 208.67.222.222/32 next-table apbr_TO-PRISMA-SSE.inet.0",
+#     "set groups DNS_PROXY routing-options static route 208.67.220.220/32 next-table apbr_TO-PRISMA-SSE.inet.0",
+#     "set apply-groups DNS_PROXY",
+#     "set security nat destination pool pool1 address 100.10.0.1/32",
+#     "set security nat destination rule-set qsrsoft from zone CORE_VLAN410",
+#     "set security nat destination rule-set qsrsoft rule r1 match source-address 10.220.93.23/32",
+#     "set security nat destination rule-set qsrsoft rule r1 match source-address 10.220.93.24/32",
+#     "set security nat destination rule-set qsrsoft rule r1 match destination-address 10.220.93.62/32",
+#     "set security nat destination rule-set qsrsoft rule r1 match destination-port 53",
+#     "set security nat destination rule-set qsrsoft rule r1 then destination-nat pool pool1",
+#     "set groups top routing-instances LAN routing-options instance-import lo0_to_LAN",
+#     "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term lo0 from instance master",
+#     "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term lo0 from interface lo0.0",
+#     "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term lo0 then accept",
+#     "set groups DNS_PROXY policy-options policy-statement lo0_to_LAN term 2 then reject",
+#     "set security nat source rule-set host_to_Prisma from zone junos-host",
+#     "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel",
+#     "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel-II",
+#     "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel-III",
+#     "set security nat source rule-set host_to_Prisma to zone tun_Prisma-Tunnel-IV",
+#     "set security nat source rule-set host_to_Prisma rule rule1 match source-address 100.10.0.1/32",
+#     "set security nat source rule-set host_to_Prisma rule rule1 match destination-address 208.67.222.222/32",
+#     "set security nat source rule-set host_to_Prisma rule rule1 then source-nat interface",
+#     "set security nat source rule-set host_to_Prisma rule rule2 match source-address 100.10.0.1/32",
+#     "set security nat source rule-set host_to_Prisma rule rule2 match destination-address 208.67.220.220/32",
+#     "set security nat source rule-set host_to_Prisma rule rule2 then source-nat interface",
+#     "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel   routing-options static route 100.10.0.1/32 next-table inet.0",
+#     "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel-II  routing-options static route 100.10.0.1/32 next-table inet.0",
+#     "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel-III routing-options static route 100.10.0.1/32 next-table inet.0",
+#     "set groups DNS_PROXY routing-instances tun_Prisma-Tunnel-IV  routing-options static route 100.10.0.1/32 next-table inet.0",
+#     "set security zones security-zone CORE_VLAN410 host-inbound-traffic system-services dns",
+#     "set groups top firewall family inet filter protect_re term dns_proxy from protocol udp",
+#     "set groups top firewall family inet filter protect_re term dns_proxy from port 53",
+#     "set groups top firewall family inet filter protect_re term dns_proxy then accept",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Additional Loopback address 100.10.0.1 - lower than 100.100.0.X",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "set groups top interfaces lo0 unit 0 family inet address 100.10.0.1/32",
+#     "",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "# Modify Protect_RE filter to permit DNS:",
+#     "# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #",
+#     "",
+#     "set groups top firewall family inet filter protect_re term dns_proxy from protocol udp",
+#     "set groups top firewall family inet filter protect_re term dns_proxy from port 53",
+#     "set groups top firewall family inet filter protect_re term dns_proxy then accept",
+#     "insert groups top firewall family inet filter protect_re term dns_proxy before term otherwise",
+#     ""
+#   ]
+#   dhcpd_config = {
+#     AUTOMATION_VLAN460 = {
+#       dns_servers = [
+#         "{{public_dns3}}",
+#         "{{public_dns4}}"
+#       ],
+#       gateway            = "{{branch_ip}}.254"
+#       ip_end             = "{{branch_ip}}.241"
+#       ip_start           = "{{branch_ip}}.225"
+#       lease_time         = 86400
+#       server_id_override = false
+#       type               = "local"
+#       type6              = "none"
+#     },
+#     CORE_VLAN410 = {
+#       dns_servers = [
+#         "{{public_dns3}}",
+#         "{{public_dns4}}"
+#       ],
+#       fixed_bindings = {
+#         "0007328b5e13" = {
+#           ip   = "10.220.93.89"
+#           name = "MAC-1"
+#         },
+#         "00155d3ac800" = {
+#           ip   = "10.220.93.25"
+#           name = "MAC-2"
+#         },
+#         "00155d719800" = {
+#           ip   = "10.220.93.23"
+#           name = "MAC-3"
+#         },
+#         "002324d0f216" = {
+#           ip   = "10.220.93.81"
+#           name = "MAC-4"
+#         },
+#         "047bcb07abdd" = {
+#           ip   = "10.220.93.2"
+#           name = "MAC-5"
+#         },
+#         "047bcb0832a8" = {
+#           ip   = "10.220.93.1"
+#           name = "MAC-6"
+#         },
+#         "088fc3a3583e" = {
+#           ip   = "10.220.93.85"
+#           name = "MAC-7"
+#         },
+#         "088fc3a4c940" = {
+#           ip   = "10.220.93.51"
+#           name = "MAC-8"
+#         },
+#         "282986883174" = {
+#           ip   = "10.220.93.56"
+#           name = "MAC-9"
+#         },
+#         "300ed53e5d80" = {
+#           ip   = "10.220.93.15"
+#           name = "MAC-10"
+#         },
+#         "300ed53e5f33" = {
+#           ip   = "10.220.93.14"
+#           name = "MAC-11"
+#         },
+#         "300ed53e6016" = {
+#           ip   = "10.220.93.13"
+#           name = "MAC-12"
+#         },
+#         "300ed53e6218" = {
+#           ip   = "10.220.93.12"
+#           name = "MAC-13"
+#         },
+#         "843a5b1756c9" = {
+#           ip   = "10.220.93.7"
+#           name = "MAC-14"
+#         },
+#         "843a5b17ab18" = {
+#           ip   = "10.220.93.6"
+#           name = "MAC-15"
+#         },
+#         "843a5b1dcdf3" = {
+#           ip   = "10.220.93.9"
+#           name = "MAC-16"
+#         },
+#         "847bebd29657" = {
+#           ip   = "10.220.93.10"
+#           name = "MAC-17"
+#         },
+#         "847bebd29708" = {
+#           ip   = "10.220.93.8"
+#           name = "MAC-18"
+#         },
+#         "a4601193bea0" = {
+#           ip   = "10.220.93.103"
+#           name = "MAC-19"
+#         },
+#         "e04f4399641d" = {
+#           ip   = "10.220.93.36"
+#           name = "MAC-20"
+#         },
+#         "e0be03434ba0" = {
+#           ip   = "10.220.93.34"
+#           name = "MAC-21"
+#         },
+#         "e0be03434c0b" = {
+#           ip   = "10.220.93.32"
+#           name = "MAC-22"
+#         },
+#         "e0be03434c70" = {
+#           ip   = "10.220.93.33"
+#           name = "MAC-23"
+#         },
+#         "e0be0347f6c4" = {
+#           ip   = "10.220.93.31"
+#           name = "MAC-24"
+#         },
+#         "e0be03692b3b" = {
+#           ip   = "10.220.93.69"
+#           name = "MAC-25"
+#         },
+#         "e0be03692dfe" = {
+#           ip   = "10.220.93.67"
+#           name = "MAC-26"
+#         },
+#         "e0be0369ff5f" = {
+#           ip   = "10.220.93.35"
+#           name = "MAC-27"
+#         },
+#         "e0be0369ffde" = {
+#           ip   = "10.220.93.68"
+#           name = "MAC-28"
+#         },
+#         "e0be036a114b" = {
+#           ip   = "10.220.93.41"
+#           name = "MAC-29"
+#         },
+#         "e0be036a1158" = {
+#           ip   = "10.220.93.40"
+#           name = "MAC-30"
+#         },
+#         "e805dc6e94f6" = {
+#           ip   = "10.220.93.105"
+#           name = "MAC-31"
+#         },
+#         "e805dc8c9110" = {
+#           ip   = "10.220.93.100"
+#           name = "MAC-32"
+#         },
+#         "e805dc8cec4f" = {
+#           ip   = "10.220.93.97"
+#           name = "MAC-33"
+#         },
+#         "e805dc8cec59" = {
+#           ip   = "10.220.93.96"
+#           name = "MAC-34"
+#         },
+#         "e805dc8cecf8" = {
+#           ip   = "10.220.93.98"
+#           name = "MAC-35"
+#         },
+#         "e805dc8ced99" = {
+#           ip   = "10.220.93.92"
+#           name = "MAC-36"
+#         },
+#         "e805dc8cedab" = {
+#           ip   = "10.220.93.101"
+#           name = "MAC-37"
+#         },
+#         "e805dc8cedce" = {
+#           ip   = "10.220.93.99"
+#           name = "MAC-38"
+#         }
+#       },
+#       gateway            = "{{branch_ip}}.62"
+#       ip_end             = "{{branch_ip}}.126"
+#       ip_start           = "{{branch_ip}}.1"
+#       lease_time         = 86400
+#       server_id_override = false
+#       type               = "local"
+#       type6              = "none"
+#     },
+#     CREW_VLAN451 = {
+#       dns_servers = [
+#         "{{public_dns1}}",
+#         "{{public_dns2}}"
+#       ],
+#       gateway            = "{{crew_network}}.222"
+#       ip_end             = "{{crew_network}}.221"
+#       ip_start           = "{{crew_network}}.194"
+#       lease_time         = 86400
+#       server_id_override = false
+#       type               = "local"
+#       type6              = "none"
+#     },
+#     IOT_WIRED_VLAN492 = {
+#       dns_servers = [
+#         "{{public_dns3}}",
+#         "{{public_dns4}}"
+#       ],
+#       gateway            = "{{iot_net_wired}}.126"
+#       ip_end             = "{{iot_net_wired}}.125"
+#       ip_start           = "{{iot_net_wired}}.2"
+#       lease_time         = 86400
+#       server_id_override = false
+#       type               = "local"
+#       type6              = "none"
+#     },
+#     IOT_WIRELESS_VLAN494 = {
+#       dns_servers = [
+#         "{{public_dns3}}",
+#         "{{public_dns4}}"
+#       ],
+#       gateway            = "{{iot_net_wireless}}.254"
+#       ip_end             = "{{iot_net_wireless}}.253"
+#       ip_start           = "{{iot_net_wireless}}.130"
+#       lease_time         = 86400
+#       server_id_override = false
+#       type               = "local"
+#       type6              = "none"
+#     },
+#     MANAGEMENT_VLAN430 = {
+#       dns_servers = [
+#         "{{public_dns3}}",
+#         "{{public_dns4}}"
+#       ],
+#       fixed_bindings = {
+#         "00012e832b1b" = {
+#           ip   = "10.220.93.167"
+#           name = "MAC-1"
+#         },
+#         "00012e832b6a" = {
+#           ip   = "10.220.93.169"
+#           name = "MAC-2"
+#         },
+#         "00012e832c42" = {
+#           ip   = "10.220.93.171"
+#           name = "MAC-3"
+#         },
+#         "00012e832c76" = {
+#           ip   = "10.220.93.168"
+#           name = "MAC-4"
+#         },
+#         "00012e832c80" = {
+#           ip   = "10.220.93.172"
+#           name = "MAC-5"
+#         },
+#         "00012e833286" = {
+#           ip   = "10.220.93.170"
+#           name = "MAC-6"
+#         },
+#         "00012ea04369" = {
+#           ip   = "10.220.93.163"
+#           name = "MAC-7"
+#         },
+#         "00012ea386cf" = {
+#           ip   = "10.220.93.162"
+#           name = "MAC-8"
+#         }
+#       },
+#       gateway            = "{{branch_ip}}.161"
+#       ip_end             = "{{branch_ip}}.190"
+#       ip_start           = "{{branch_ip}}.162"
+#       lease_time         = 86400
+#       server_id_override = false
+#       type               = "local"
+#       type6              = "none"
+#     },
+#     MGMT = {
+#       dns_servers = [
+#         "{{public_dns1}}",
+#         "{{public_dns2}}"
+#       ],
+#       gateway            = "192.168.2.1"
+#       ip_end             = "192.168.2.100"
+#       ip_start           = "192.168.2.2"
+#       lease_time         = 86400
+#       server_id_override = false
+#       type               = "local"
+#       type6              = "none"
+#     },
+#     PRIVATE_VLAN491 = {
+#       dns_servers = [
+#         "{{public_dns3}}",
+#         "{{public_dns4}}"
+#       ],
+#       gateway            = "{{private_net}}.190"
+#       ip_end             = "{{private_net}}.189"
+#       ip_start           = "{{private_net}}.130"
+#       lease_time         = 86400
+#       server_id_override = false
+#       type               = "local"
+#       type6              = "none"
+#     },
+#     PUBLIC_VLAN450 = {
+#       dns_servers = [
+#         "{{public_dns1}}",
+#         "{{public_dns2}}"
+#       ],
+#       gateway            = "{{public_net}}.1"
+#       ip_end             = "{{public_net_upper}}.254"
+#       ip_start           = "{{public_net}}.2"
+#       lease_time         = 86400
+#       server_id_override = false
+#       type               = "local"
+#       type6              = "none"
+#     },
+#     QUARANTINE_VLAN495 = {
+#       gateway            = "{{quarantine_net}}.254"
+#       ip_end             = "{{quarantine_net}}.253"
+#       ip_start           = "{{quarantine_net}}.226"
+#       lease_time         = 86400
+#       server_id_override = false
+#       type               = "local"
+#       type6              = "none"
+#     },
+#     RESTRICTED_VLAN420 = {
+#       dns_servers = [
+#         "{{public_dns3}}",
+#         "{{public_dns4}}"
+#       ],
+#       gateway            = "{{branch_ip}}.129"
+#       ip_end             = "{{branch_ip}}.158"
+#       ip_start           = "{{branch_ip}}.130"
+#       lease_time         = 86400
+#       server_id_override = false
+#       type               = "local"
+#       type6              = "none"
+#     },
+#     UNTRUSTED_VLAN490 = {
+#       dns_servers = [
+#         "{{public_dns1}}",
+#         "{{public_dns2}}"
+#       ],
+#       gateway            = "{{untrusted_net}}.126"
+#       ip_end             = "{{untrusted_net}}.125"
+#       ip_start           = "{{untrusted_net}}.2"
+#       lease_time         = 86400
+#       server_id_override = false
+#       type               = "local"
+#       type6              = "none"
+#     }
+#   }
+#   dns_servers = [
+#     "8.8.8.8",
+#     "8.8.4.4"
+#   ]
+#   ip_configs = {
+#     AUTOMATION_VLAN460 = {
+#       ip      = "{{branch_ip}}.254"
+#       netmask = "/27"
+#       type    = "static"
+#     },
+#     CORE_VLAN410 = {
+#       ip      = "{{branch_ip}}.62"
+#       netmask = "/25"
+#       type    = "static"
+#     },
+#     CREW_VLAN451 = {
+#       ip      = "{{crew_network}}.222"
+#       netmask = "/27"
+#       secondary_ips = [
+#         "{{secondary_crew_network}}.1/24"
+#       ],
+#       type = "static"
+#     },
+#     IOT_WIRED_VLAN492 = {
+#       ip      = "{{iot_net_wired}}.126"
+#       netmask = "/25"
+#       secondary_ips = [
+#         "{{secondary_iot_wired}}.1/23"
+#       ],
+#       type = "static"
+#     },
+#     IOT_WIRELESS_VLAN494 = {
+#       ip      = "{{iot_net_wireless}}.254"
+#       netmask = "/25"
+#       secondary_ips = [
+#         "{{secondary_iot_net_wireless}}.1/23"
+#       ],
+#       type = "static"
+#     },
+#     MANAGEMENT_VLAN430 = {
+#       ip      = "{{branch_ip}}.161"
+#       netmask = "/27"
+#       type    = "static"
+#     },
+#     MGMT = {
+#       ip      = "192.168.2.1"
+#       netmask = "/24"
+#       type    = "static"
+#     },
+#     PCI_VLAN440 = {
+#       ip      = "{{branch_ip}}.193"
+#       netmask = "/27"
+#       type    = "static"
+#     },
+#     PRIVATE_VLAN491 = {
+#       ip      = "{{private_net}}.190"
+#       netmask = "/26"
+#       secondary_ips = [
+#         "{{secondary_private_net}}.1/24"
+#       ],
+#       type = "static"
+#     },
+#     PUBLIC_VLAN450 = {
+#       ip      = "{{public_net}}.1"
+#       netmask = "/23"
+#       type    = "static"
+#     },
+#     QUARANTINE_VLAN495 = {
+#       ip      = "{{quarantine_net}}.254"
+#       netmask = "/27"
+#       type    = "static"
+#     },
+#     RESTRICTED_VLAN420 = {
+#       ip      = "{{branch_ip}}.129"
+#       netmask = "/27"
+#       type    = "static"
+#     },
+#     UNTRUSTED_VLAN490 = {
+#       ip      = "{{untrusted_net}}.126"
+#       netmask = "/25"
+#       secondary_ips = [
+#         "{{secondary_untrusted_net_full_upper}}/26"
+#       ],
+#       type = "static"
+#     }
+#   }
+#   ntp_servers = [
+#     "129.6.15.28",
+#     "129.6.15.29",
+#     "129.6.15.30"
+#   ]
+#   oob_ip_config = {
+#     type         = "dhcp"
+#     use_mgmt_vrf = false
+#     node1 = {
+#       type = "dhcp"
+#     }
+#   }
+#   path_preferences = {
+#     ANY-TO-ANY = {
+#       paths = [
+#         {
+#           networks = [
+#             "CORE_VLAN410"
+#           ],
+#           type = "local"
+#         },
+#         {
+#           networks = [
+#             "RESTRICTED_VLAN420"
+#           ],
+#           type = "local"
+#         },
+#         {
+#           networks = [
+#             "MANAGEMENT_VLAN430"
+#           ],
+#           type = "local"
+#         },
+#         {
+#           networks = [
+#             "PCI_VLAN440"
+#           ],
+#           type = "local"
+#         },
+#         {
+#           networks = [
+#             "UNTRUSTED_VLAN490"
+#           ],
+#           type = "local"
+#         },
+#         {
+#           networks = [
+#             "PRIVATE_VLAN491"
+#           ],
+#           type = "local"
+#         },
+#         {
+#           networks = [
+#             "IOT_WIRED_VLAN492"
+#           ],
+#           type = "local"
+#         },
+#         {
+#           networks = [
+#             "IOT_WIRELESS_VLAN494"
+#           ],
+#           type = "local"
+#         },
+#         {
+#           networks = [
+#             "PUBLIC_VLAN450"
+#           ],
+#           type = "local"
+#         },
+#         {
+#           networks = [
+#             "CREW_VLAN451"
+#           ],
+#           type = "local"
+#         },
+#         {
+#           name = "Prisma-Tunnel"
+#           type = "tunnel"
+#         },
+#         {
+#           name = "Prisma-Tunnel-II"
+#           type = "tunnel"
+#         },
+#         {
+#           name = "Prisma-Tunnel-III"
+#           type = "tunnel"
+#         },
+#         {
+#           name = "Prisma-Tunnel-IV"
+#           type = "tunnel"
+#         },
+#         {
+#           name = "WAN_0"
+#           type = "wan"
+#         },
+#         {
+#           name = "WAN_1"
+#           type = "wan"
+#         }
+#       ],
+#       strategy = "ordered"
+#     },
+#     TO-CORE = {
+#       paths = [
+#         {
+#           networks = [
+#             "CORE_VLAN410"
+#           ],
+#           type = "local"
+#         }
+#       ],
+#       strategy = "ordered"
+#     },
+#     TO-INTERNET = {
+#       paths = [
+#         {
+#           name = "WAN_0"
+#           type = "wan"
+#         },
+#         {
+#           name = "WAN_1"
+#           type = "wan"
+#         }
+#       ],
+#       strategy = "ordered"
+#     },
+#     TO-IOT_WIRED = {
+#       paths = [
+#         {
+#           networks = [
+#             "IOT_WIRED_VLAN492"
+#           ],
+#           type = "local"
+#         }
+#       ],
+#       strategy = "ordered"
+#     },
+#     TO-IOT_WIRELESS = {
+#       paths = [
+#         {
+#           networks = [
+#             "IOT_WIRELESS_VLAN494"
+#           ],
+#           type = "local"
+#         }
+#       ],
+#       strategy = "ordered"
+#     },
+#     TO-MANAGEMENT = {
+#       paths = [
+#         {
+#           networks = [
+#             "MANAGEMENT_VLAN430"
+#           ],
+#           type = "local"
+#         }
+#       ],
+#       strategy = "ordered"
+#     },
+#     TO-PRIO-CELL = {
+#       paths = [
+#         {
+#           name = "WAN_1"
+#           type = "wan"
+#         },
+#         {
+#           name = "WAN_0"
+#           type = "wan"
+#         }
+#       ],
+#       strategy = "ordered"
+#     },
+#     TO-PRISMA-SSE = {
+#       paths = [
+#         {
+#           name = "Prisma-Tunnel"
+#           type = "tunnel"
+#         },
+#         {
+#           name = "Prisma-Tunnel-II"
+#           type = "tunnel"
+#         },
+#         {
+#           name = "Prisma-Tunnel-III"
+#           type = "tunnel"
+#         },
+#         {
+#           name = "Prisma-Tunnel-IV"
+#           type = "tunnel"
+#         },
+#         {
+#           name = "WAN_0"
+#           type = "wan"
+#         },
+#         {
+#           name = "WAN_1"
+#           type = "wan"
+#         }
+#       ],
+#       strategy = "ordered"
+#     },
+#     TO-PRIVATE = {
+#       paths = [
+#         {
+#           networks = [
+#             "PRIVATE_VLAN491"
+#           ],
+#           type = "local"
+#         }
+#       ],
+#       strategy = "ordered"
+#     },
+#     TO-RESTRICTED = {
+#       paths = [
+#         {
+#           networks = [
+#             "RESTRICTED_VLAN420"
+#           ],
+#           type = "local"
+#         }
+#       ],
+#       strategy = "ordered"
+#     },
+#     TO-UNTRUSTED = {
+#       paths = [
+#         {
+#           networks = [
+#             "UNTRUSTED_VLAN490"
+#           ],
+#           type = "local"
+#         }
+#       ],
+#       strategy = "ordered"
+#     }
+#   }
+#   port_config = {
+#     "ge-0/0/0,ge-5/0/0" = {
+#       ae_disable_lacp  = false
+#       ae_lacp_force_up = false
+#       aggregated       = false
+#       critical         = true
+#       description      = "WAN_0 First WAN Interface"
+#       disable_autoneg  = false
+#       disabled         = false
+#       dsl_type         = "vdsl"
+#       dsl_vci          = 35
+#       dsl_vpi          = 0
+#       duplex           = "auto"
+#       ip_config = {
+#         pppoe_auth = "none"
+#         type       = "dhcp"
+#       },
+#       lte_auth           = "none"
+#       name               = "WAN_0"
+#       poe_disabled       = false
+#       preserve_dscp      = true
+#       redundant          = true
+#       reth_idx           = 1
+#       reth_node          = "node0"
+#       speed              = "auto"
+#       ssr_no_virtual_mac = false
+#       svr_port_range     = "none"
+#       usage              = "wan"
+#       wan_arp_policer    = "default"
+#       wan_extra_routes   = {}
+#       wan_source_nat     = {}
+#       wan_type           = "broadband"
+#       vpn_paths          = {}
+#     },
+#     "ge-0/0/3,ge-5/0/3" = {
+#       ae_disable_lacp  = false
+#       ae_lacp_force_up = false
+#       aggregated       = false
+#       critical         = true
+#       description      = "WAN_1 Second WAN Interface"
+#       disable_autoneg  = false
+#       disabled         = false
+#       dsl_type         = "vdsl"
+#       dsl_vci          = 35
+#       dsl_vpi          = 0
+#       duplex           = "auto"
+#       ip_config = {
+#         pppoe_auth = "none"
+#         type       = "dhcp"
+#       },
+#       lte_auth           = "none"
+#       name               = "WAN_1"
+#       poe_disabled       = false
+#       preserve_dscp      = true
+#       redundant          = true
+#       reth_idx           = 2
+#       reth_node          = "node0"
+#       speed              = "auto"
+#       ssr_no_virtual_mac = false
+#       svr_port_range     = "none"
+#       usage              = "wan"
+#       wan_arp_policer    = "default"
+#       wan_extra_routes   = {}
+#       wan_source_nat     = {}
+#       wan_type           = "broadband"
+#       vpn_paths          = {}
+#     },
+#     "ge-0/0/6-7,ge-5/0/6-7" = {
+#       ae_disable_lacp  = false
+#       ae_lacp_force_up = false
+#       aggregated       = false
+#       critical         = false
+#       disable_autoneg  = false
+#       disabled         = false
+#       dsl_type         = "vdsl"
+#       dsl_vci          = 35
+#       dsl_vpi          = 0
+#       duplex           = "auto"
+#       lte_auth         = "none"
+#       networks = [
+#         "IOT_WIRED_VLAN492",
+#         "RESTRICTED_VLAN420",
+#         "PUBLIC_VLAN450",
+#         "MANAGEMENT_VLAN430",
+#         "CREW_VLAN451",
+#         "CORE_VLAN410",
+#         "PCI_VLAN440",
+#         "QUARANTINE_VLAN495",
+#         "UNTRUSTED_VLAN490",
+#         "PRIVATE_VLAN491",
+#         "IOT_WIRELESS_VLAN494",
+#         "AUTOMATION_VLAN460"
+#       ],
+#       poe_disabled       = false
+#       port_network       = "MGMT"
+#       preserve_dscp      = true
+#       redundant          = true
+#       reth_idx           = 3
+#       reth_node          = "node0"
+#       speed              = "auto"
+#       ssr_no_virtual_mac = false
+#       svr_port_range     = "none"
+#       usage              = "lan"
+#       vpn_paths          = {}
+#       wan_arp_policer    = "default"
+#       wan_extra_routes   = {}
+#       wan_type           = "broadband"
+#     }
+#   }
+#   service_policies = [
+#     {
+#       servicepolicy_id = mist_org_servicepolicy.servicepolicy_196.id
+#       path_preference  = "TO-INTERNET"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_154.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_120.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_122.id
+#       path_preference  = "TO-PRIVATE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_125.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_5.id
+#       path_preference  = "TO-IOT_WIRELESS"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_127.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_110.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_158.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_166.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_161.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_174.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_180.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_184.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_191.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_200.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_54.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_56.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_59.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_14.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_135.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_3.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_171.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_11.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_204.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_0.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_8.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_201.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_7.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_175.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_94.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_21.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_24.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_27.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_30.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_34.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_39.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_43.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_48.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_12.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_52.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_55.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_31.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_17.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_57.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_61.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_63.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_65.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_68.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_70.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_72.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_76.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_78.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_181.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_73.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_80.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_82.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_84.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_88.id
+#       path_preference  = "TO-UNTRUSTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_90.id
+#       path_preference  = "TO-UNTRUSTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_92.id
+#       path_preference  = "TO-UNTRUSTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_16.id
+#       path_preference  = "TO-UNTRUSTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_35.id
+#       path_preference  = "TO-UNTRUSTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_74.id
+#       path_preference  = "TO-UNTRUSTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_137.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_139.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_144.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_149.id
+#       path_preference  = "TO-PRIVATE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_130.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_123.id
+#       path_preference  = "TO-IOT_WIRELESS"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_207.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_203.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_138.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_140.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_2.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_147.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_151.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_155.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_177.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_159.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_162.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_168.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_172.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_176.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_182.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_185.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_188.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_169.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_193.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_198.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_202.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_205.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_1.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_4.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_9.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_142.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_189.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_18.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_25.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_32.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_36.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_41.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_47.id
+#       path_preference  = "TO-INTERNET"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_6.id
+#       path_preference  = "TO-INTERNET"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_44.id
+#       path_preference  = "TO-INTERNET"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_190.id
+#       path_preference  = "TO-INTERNET"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_53.id
+#       path_preference  = "TO-INTERNET"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_69.id
+#       path_preference  = "TO-INTERNET"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_37.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_75.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_132.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_145.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_113.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_79.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_45.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_89.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_91.id
+#       path_preference  = "TO-PRIVATE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_93.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_95.id
+#       path_preference  = "TO-IOT_WIRELESS"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_115.id
+#       path_preference  = "TO-INTERNET"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_194.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_38.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_111.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_112.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_157.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_160.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_29.id
+#       path_preference  = "TO-UNTRUSTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_33.id
+#       path_preference  = "TO-UNTRUSTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_179.id
+#       path_preference  = "TO-UNTRUSTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_85.id
+#       path_preference  = "TO-UNTRUSTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_96.id
+#       path_preference  = "TO-UNTRUSTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_98.id
+#       path_preference  = "TO-UNTRUSTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_100.id
+#       path_preference  = "TO-UNTRUSTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_40.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_86.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_103.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_105.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_164.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_170.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_101.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_108.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_114.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_117.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_119.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_121.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_58.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_124.id
+#       path_preference  = "TO-IOT_WIRELESS"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_197.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_167.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_192.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_126.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_129.id
+#       path_preference  = "TO-IOT_WIRELESS"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_131.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_134.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_173.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_178.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_136.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_13.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_22.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_28.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_163.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_206.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_152.id
+#       path_preference  = "TO-PRIVATE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_50.id
+#       path_preference  = "TO-IOT_WIRELESS"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_141.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_49.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_19.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_118.id
+#       path_preference  = "TO-PRIVATE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_107.id
+#       path_preference  = "TO-IOT_WIRELESS"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_15.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_20.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_23.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_26.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_195.id
+#       path_preference  = "TO-IOT_WIRELESS"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_42.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_133.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_128.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_10.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_165.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_146.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_116.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_150.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_153.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_156.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_60.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_62.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_64.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_66.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_51.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_71.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_148.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_183.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_186.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_77.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_81.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_83.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_87.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_143.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_67.id
+#       path_preference  = "TO-PRIVATE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_97.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_99.id
+#       path_preference  = "TO-CORE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_102.id
+#       path_preference  = "TO-RESTRICTED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_104.id
+#       path_preference  = "TO-MANAGEMENT"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_106.id
+#       path_preference  = "TO-PRIVATE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_109.id
+#       path_preference  = "TO-IOT_WIRED"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_199.id
+#       path_preference  = "ANY-TO-ANY"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_46.id
+#       path_preference  = "TO-PRISMA-SSE"
+#     },
+#     { servicepolicy_id = mist_org_servicepolicy.servicepolicy_187.id
+#       path_preference  = "TO-INTERNET"
+#     }
+#   ]
+#   tunnel_configs = {
+#     Prisma-Tunnel = {
+#       ike_lifetime = 28800
+#       ike_mode     = "main"
+#       ike_proposals = [
+#         {
+#           auth_algo = "sha2"
+#           dh_group  = "19"
+#           enc_algo  = "aes256"
+#         }
+#       ],
+#       ipsec_lifetime = 3600
+#       ipsec_proposals = [
+#         {
+#           auth_algo = "sha2"
+#           dh_group  = "19"
+#           enc_algo  = "aes256"
+#         }
+#       ],
+#       local_id = "{{sc_local_id_1}}"
+#       mode     = "active-standby"
+#       primary = {
+#         hosts = [
+#           "{{service_ip_1}}"
+#         ],
+#         remote_ids = [
+#           "{{sc_remote_id_1}}"
+#         ],
+#         wan_names = [
+#           "WAN_0"
+#         ]
+#       },
+#       protocol = "ipsec"
+#       provider = "custom-ipsec"
+#       psk      = "IEpg6tpOMGLBauoT5nodeEacximEpF"
+#       version  = "2"
+#     },
+#     Prisma-Tunnel-II = {
+#       ike_lifetime = 28800
+#       ike_mode     = "main"
+#       ike_proposals = [
+#         {
+#           auth_algo = "sha2"
+#           dh_group  = "19"
+#           enc_algo  = "aes256"
+#         }
+#       ],
+#       ipsec_lifetime = 3600
+#       ipsec_proposals = [
+#         {
+#           auth_algo = "sha2"
+#           dh_group  = "19"
+#           enc_algo  = "aes256"
+#         }
+#       ],
+#       local_id = "{{sc_local_id_2}}"
+#       mode     = "active-standby"
+#       primary = {
+#         hosts = [
+#           "{{service_ip_1}}"
+#         ],
+#         remote_ids = [
+#           "{{sc_remote_id_2}}"
+#         ],
+#         wan_names = [
+#           "WAN_1"
+#         ]
+#       },
+#       protocol = "ipsec"
+#       provider = "custom-ipsec"
+#       psk      = "IEpg6tpOMGLBauoT5nodeEacximEpF"
+#       version  = "2"
+#     },
+#     Prisma-Tunnel-III = {
+#       ike_lifetime = 28800
+#       ike_mode     = "main"
+#       ike_proposals = [
+#         {
+#           auth_algo = "sha2"
+#           dh_group  = "19"
+#           enc_algo  = "aes256"
+#         }
+#       ],
+#       ipsec_lifetime = 3600
+#       ipsec_proposals = [
+#         {
+#           auth_algo = "sha2"
+#           dh_group  = "19"
+#           enc_algo  = "aes256"
+#         }
+#       ],
+#       local_id = "{{sc_local_id_1}}"
+#       mode     = "active-standby"
+#       primary = {
+#         hosts = [
+#           "{{service_ip_2}}"
+#         ],
+#         remote_ids = [
+#           "{{sc_remote_id_1}}"
+#         ],
+#         wan_names = [
+#           "WAN_0"
+#         ]
+#       },
+#       protocol = "ipsec"
+#       provider = "custom-ipsec"
+#       psk      = "IEpg6tpOMGLBauoT5nodeEacximEpF"
+#       version  = "2"
+#     },
+#     Prisma-Tunnel-IV = {
+#       ike_lifetime = 28800
+#       ike_mode     = "main"
+#       ike_proposals = [
+#         {
+#           auth_algo = "sha2"
+#           dh_group  = "19"
+#           enc_algo  = "aes256"
+#         }
+#       ],
+#       ipsec_lifetime = 3600
+#       ipsec_proposals = [
+#         {
+#           auth_algo = "sha2"
+#           dh_group  = "19"
+#           enc_algo  = "aes256"
+#         }
+#       ],
+#       local_id = "{{sc_local_id_2}}"
+#       mode     = "active-standby"
+#       primary = {
+#         hosts = [
+#           "{{service_ip_2}}"
+#         ],
+#         remote_ids = [
+#           "{{sc_remote_id_2}}"
+#         ],
+#         wan_names = [
+#           "WAN_1"
+#         ]
+#       },
+#       protocol = "ipsec"
+#       provider = "custom-ipsec"
+#       psk      = "IEpg6tpOMGLBauoT5nodeEacximEpF"
+#       version  = "2"
+#     }
+#   }
+#   vrf_config = {
+#     enabled = true
+#   }
+#   vrf_instances = {
+#     LAN = {
+#       networks = [
+#         "CORE_VLAN410",
+#         "RESTRICTED_VLAN420",
+#         "MANAGEMENT_VLAN430",
+#         "PRIVATE_VLAN491",
+#         "PCI_VLAN440",
+#         "IOT_WIRELESS_VLAN494",
+#         "IOT_WIRED_VLAN492",
+#         "PUBLIC_VLAN450",
+#         "CREW_VLAN451",
+#         "UNTRUSTED_VLAN490",
+#         "QUARANTINE_VLAN495"
+#       ]
+#     },
+#     MANAGEMENT = {
+#       networks = [
+#         "MGMT"
+#       ]
+#     }
+#   }
+# }

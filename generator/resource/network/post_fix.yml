@@ -1,5 +1,7 @@
 
 internal/resource_org_network/org_network_resource_gen.go:
-  dedup:
-    - DestinationNat
-    - StaticNat
+  rename:
+    internet_access_destination_nat: destination_nat
+    internet_access_static_nat: static_nat
+    vpn_access_destination_nat: destination_nat
+    vpn_access_static_nat: static_nat

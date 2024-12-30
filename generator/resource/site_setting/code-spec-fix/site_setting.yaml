@@ -479,8 +479,8 @@ next:
               listvalidator.SizeAtLeast(1),
               listvalidator.ValueStringsAre(
                 stringvalidator.Any(
-                mistvalidator.ParseCidr(true, true),
-                mistvalidator.ParseIp(true, true),
+                mistvalidator.ParseCidr(false, false),
+                mistvalidator.ParseIp(false, false),
                 ),
               )
       - name: port_range

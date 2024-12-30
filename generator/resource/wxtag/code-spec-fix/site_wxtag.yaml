@@ -158,9 +158,9 @@ next:
         
               stringvalidator.Any(
         
-                mistvalidator.ParseCidr(true, true),
+                mistvalidator.ParseCidr(false, false),
         
-                mistvalidator.ParseIp(true, true),
+                mistvalidator.ParseIp(false, false),
         
                 mistvalidator.ParseVar(),
         

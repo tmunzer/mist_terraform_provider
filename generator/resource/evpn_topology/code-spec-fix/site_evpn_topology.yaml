@@ -46,7 +46,7 @@ next:
           imports:
           - path: github.com/Juniper/terraform-provider-mist/internal/validators
           - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
-          schema_definition: mistvalidator.ParseCidr(true, true)
+          schema_definition: mistvalidator.ParseCidr(false, false)
 - get:
   - map_nested
   - nested_object

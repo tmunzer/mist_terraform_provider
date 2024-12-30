@@ -9,6 +9,10 @@ internal/resource_org_gatewaytemplate/org_gatewaytemplate_resource_gen.go:
     servers4: servers
     type4: type
     port_ip_config: ip_config
+    internet_access_destination_nat: destination_nat
+    internet_access_static_nat: static_nat
+    vpn_access_destination_nat: destination_nat
+    vpn_access_static_nat: static_nat
   dedup:
     - DestinationNat
     - TrafficShaping
@@ -24,6 +28,10 @@ internal/resource_org_deviceprofile_gateway/org_deviceprofile_gateway_resource_g
     servers4: servers
     type4: type
     port_ip_config: ip_config
+    internet_access_destination_nat: destination_nat
+    internet_access_static_nat: static_nat
+    vpn_access_destination_nat: destination_nat
+    vpn_access_static_nat: static_nat
   dedup:
     - DestinationNat
     - TrafficShaping
@@ -39,6 +47,10 @@ internal/resource_device_gateway/device_gateway_resource_gen.go:
     servers4: servers
     type4: type
     port_ip_config: ip_config
+    internet_access_destination_nat: destination_nat
+    internet_access_static_nat: static_nat
+    vpn_access_destination_nat: destination_nat
+    vpn_access_static_nat: static_nat
   dedup:
     - DestinationNat
     - TrafficShaping

@@ -577,7 +577,7 @@
                                                                         "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
                                                                     }
                                                                 ],
-                                                                "schema_definition": "mistvalidator.ParseCidr(true, true)"
+                                                                "schema_definition": "mistvalidator.ParseCidr(false, false)"
                                                             }
                                                         }
                                                     ]

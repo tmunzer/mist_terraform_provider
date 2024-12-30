@@ -110,17 +110,26 @@
                                     }
                                 },
                                 {
-                                    "name": "destination_nat",
+                                    "name": "internet_access_destination_nat",
                                     "map_nested": {
                                         "validators": [
                                             {
                                                 "custom": {
                                                     "imports": [
                                                         {
+                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                        },
+                                                        {
                                                             "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                         }
                                                     ],
-                                                    "schema_definition": "mapvalidator.SizeAtLeast(1)"
+                                                    "schema_definition": "mapvalidator.KeysAre(\n  stringvalidator.Any(\n    mistvalidator.ParseIp(false, false),\n    mistvalidator.ParseIpPort(false, true),\n    mistvalidator.ParseCidr(false, false),\n    mistvalidator.ParseIpPort(false, true),\n    mistvalidator.ParseVar(),\n  ),\n)"
                                                 }
                                             }
                                         ],
@@ -130,7 +139,26 @@
                                                 {
                                                     "name": "internal_ip",
                                                     "string": {
-                                                        "computed_optional_required": "optional"
+                                                        "computed_optional_required": "optional",
+                                                        "description": "The Destination NAT destination IP Address. Must be an IP (i.e. \"192.168.70.30\") or a Variable (i.e. \"{{myvar}}\")",
+                                                        "validators": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringvalidator.Any(\n  mistvalidator.ParseIp(false, false),\n  mistvalidator.ParseVar(),\n)"
+                                                                }
+                                                            }
+                                                        ]
                                                     }
                                                 },
                                                 {
@@ -141,20 +169,57 @@
                                                 },
                                                 {
                                                     "name": "port",
-                                                    "int64": {
-                                                        "computed_optional_required": "optional"
+                                                    "string": {
+                                                        "computed_optional_required": "optional",
+                                                        "description": "The Destination NAT destination IP Address. Must be a Port (i.e. \"443\") or a Variable (i.e. \"{{myvar}}\")",
+                                                        "validators": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseVar(),\n)"
+                                                                }
+                                                            }
+                                                        ]
                                                     }
                                                 },
                                                 {
                                                     "name": "wan_name",
                                                     "string": {
                                                         "computed_optional_required": "optional",
-                                                        "description": "If not set, we configure the nat policies against all WAN ports for simplicity"
+                                                        "description": "SRX Only. If not set, we configure the nat policies against all WAN ports for simplicity"
+                                                    }
+                                                }
+                                            ],
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/objectvalidator"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "objectvalidator.AtLeastOneOf(\n  path.MatchRelative().AtName(\"internal_ip\"),\n  path.MatchRelative().AtName(\"port\"),\n)"
                                                     }
                                                 }
                                             ]
                                         },
-                                        "description": "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")"
+                                        "description": "Property key can be an External IP (i.e. \"63.16.0.3\"), an External IP:Port (i.e. \"63.16.0.3:443\"), an External Port (i.e. \":443\"), an External CIDR (i.e. \"63.16.0.0/30\"), an External CIDR:Port (i.e. \"63.16.0.0/30:443\") or a Variable (i.e. \"{{myvar}}\"). At least one of the `internal_ip` or `port` must be defined"
                                     }
                                 },
                                 {
@@ -174,17 +239,23 @@
                                     }
                                 },
                                 {
-                                    "name": "static_nat",
+                                    "name": "internet_access_static_nat",
                                     "map_nested": {
                                         "validators": [
                                             {
                                                 "custom": {
                                                     "imports": [
                                                         {
-                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                        },
+                                                        {
+                                                            "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                         }
                                                     ],
-                                                    "schema_definition": "mapvalidator.SizeAtLeast(1)"
+                                                    "schema_definition": "mapvalidator.KeysAre(\n  stringvalidator.Any(\n    mistvalidator.ParseIp(false, false),\n    mistvalidator.ParseCidr(false, false),\n    mistvalidator.ParseVar(),\n  ),\n)"
                                                 }
                                             }
                                         ],
@@ -194,25 +265,44 @@
                                                 {
                                                     "name": "internal_ip",
                                                     "string": {
-                                                        "computed_optional_required": "optional"
+                                                        "computed_optional_required": "required",
+                                                        "description": "The Static NAT destination IP Address. Must be an IP Address (i.e. \"192.168.70.3\") or a Variable (i.e. \"{{myvar}}\")",
+                                                        "validators": [
+                                                            {
+                                                                "custom": {
+                                                                    "imports": [
+                                                                        {
+                                                                            "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                        },
+                                                                        {
+                                                                            "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                                        }
+                                                                    ],
+                                                                    "schema_definition": "stringvalidator.Any(\n  mistvalidator.ParseIp(false, false),\n  mistvalidator.ParseCidr(false, false),\n  mistvalidator.ParseVar(),\n)"
+                                                                }
+                                                            }
+                                                        ]
                                                     }
                                                 },
                                                 {
                                                     "name": "name",
                                                     "string": {
-                                                        "computed_optional_required": "optional"
+                                                        "computed_optional_required": "required"
                                                     }
                                                 },
                                                 {
                                                     "name": "wan_name",
                                                     "string": {
                                                         "computed_optional_required": "optional",
-                                                        "description": "If not set, we configure the nat policies against all WAN ports for simplicity"
+                                                        "description": "SRX Only. If not set, we configure the nat policies against all WAN ports for simplicity. Can be a Variable (i.e. \"{{myvar}}\")"
                                                     }
                                                 }
                                             ]
                                         },
-                                        "description": "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")"
+                                        "description": "Property key may be an External IP Address (i.e. \"63.16.0.3\"), a CIDR (i.e. \"63.16.0.12/20\") or a Variable (i.e. \"{{myvar}}\")"
                                     }
                                 }
                             ],
@@ -391,7 +481,8 @@
                                         }
                                     }
                                 ]
-                            }
+                            },
+                            "description": "Property key must be the user/tenant name (i.e. \"printer-1\") or a Variable (i.e. \"{{myvar}}\")"
                         }
                     },
                     {
@@ -448,27 +539,52 @@
                                         }
                                     },
                                     {
-                                        "name": "destination_nat",
+                                        "name": "vpn_access_destination_nat",
                                         "map_nested": {
                                             "validators": [
                                                 {
                                                     "custom": {
                                                         "imports": [
                                                             {
-                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mapvalidator.SizeAtLeast(1)"
+                                                        "schema_definition": "mapvalidator.KeysAre(\n  stringvalidator.Any(\n    mistvalidator.ParseIp(false, false),\n    mistvalidator.ParseIpPort(false, true),\n    mistvalidator.ParseCidr(false, false),\n    mistvalidator.ParseIpPort(false, true),\n    mistvalidator.ParseVar(),\n  ),\n)"
                                                     }
                                                 }
                                             ],
-                                            "computed_optional_required": "computed_optional",
+                                            "computed_optional_required": "optional",
                                             "nested_object": {
                                                 "attributes": [
                                                     {
                                                         "name": "internal_ip",
                                                         "string": {
-                                                            "computed_optional_required": "optional"
+                                                            "computed_optional_required": "optional",
+                                                            "description": "The Destination NAT destination IP Address. Must be an IP (i.e. \"192.168.70.30\") or a Variable (i.e. \"{{myvar}}\")",
+                                                            "validators": [
+                                                                {
+                                                                    "custom": {
+                                                                        "imports": [
+                                                                            {
+                                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                            },
+                                                                            {
+                                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                            },
+                                                                            {
+                                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                                            }
+                                                                        ],
+                                                                        "schema_definition": "stringvalidator.Any(\n  mistvalidator.ParseIp(false, false),\n  mistvalidator.ParseVar(),\n)"
+                                                                    }
+                                                                }
+                                                            ]
                                                         }
                                                     },
                                                     {
@@ -479,20 +595,49 @@
                                                     },
                                                     {
                                                         "name": "port",
-                                                        "int64": {
-                                                            "computed_optional_required": "optional"
-                                                        }
-                                                    },
-                                                    {
-                                                        "name": "wan_name",
                                                         "string": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "If not set, we configure the nat policies against all WAN ports for simplicity"
+                                                            "validators": [
+                                                                {
+                                                                    "custom": {
+                                                                        "imports": [
+                                                                            {
+                                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                            },
+                                                                            {
+                                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                            },
+                                                                            {
+                                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                                            }
+                                                                        ],
+                                                                        "schema_definition": "stringvalidator.Any(\n  mistvalidator.ParseInt(0, 65535),\n  mistvalidator.ParseVar(),\n)"
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ],
+                                                "validators": [
+                                                    {
+                                                        "custom": {
+                                                            "imports": [
+                                                                {
+                                                                    "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework-validators/objectvalidator"
+                                                                },
+                                                                {
+                                                                    "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                                }
+                                                            ],
+                                                            "schema_definition": "objectvalidator.AtLeastOneOf(\n  path.MatchRelative().AtName(\"internal_ip\"),\n  path.MatchRelative().AtName(\"port\"),\n)"
                                                         }
                                                     }
                                                 ]
                                             },
-                                            "description": "Property key may be an IP/Port (i.e. \"63.16.0.3:443\"), or a port (i.e. \":2222\")"
+                                            "description": "Property key can be an External IP (i.e. \"63.16.0.3\"), an External IP:Port (i.e. \"63.16.0.3:443\"), an External Port (i.e. \":443\"), an External CIDR (i.e. \"63.16.0.0/30\"), an External CIDR:Port (i.e. \"63.16.0.0/30:443\") or a Variable (i.e. \"{{myvar}}\"). At least one of the `internal_ip` or `port` must be defined"
                                         }
                                     },
                                     {
@@ -578,17 +723,23 @@
                                         }
                                     },
                                     {
-                                        "name": "static_nat",
+                                        "name": "vpn_access_static_nat",
                                         "map_nested": {
                                             "validators": [
                                                 {
                                                     "custom": {
                                                         "imports": [
                                                             {
-                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mapvalidator.SizeAtLeast(1)"
+                                                        "schema_definition": "mapvalidator.KeysAre(\n  stringvalidator.Any(\n    mistvalidator.ParseIp(false, false),\n    mistvalidator.ParseCidr(false, false),\n    mistvalidator.ParseVar(),\n  ),\n)"
                                                     }
                                                 }
                                             ],
@@ -598,25 +749,37 @@
                                                     {
                                                         "name": "internal_ip",
                                                         "string": {
-                                                            "computed_optional_required": "optional"
+                                                            "computed_optional_required": "required",
+                                                            "description": "The Static NAT destination IP Address. Must be an IP Address (i.e. \"192.168.70.3\") or a Variable (i.e. \"{{myvar}}\")",
+                                                            "validators": [
+                                                                {
+                                                                    "custom": {
+                                                                        "imports": [
+                                                                            {
+                                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                                            },
+                                                                            {
+                                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                                            },
+                                                                            {
+                                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                                            }
+                                                                        ],
+                                                                        "schema_definition": "stringvalidator.Any(\n  mistvalidator.ParseIp(false, false),\n  mistvalidator.ParseCidr(false, false),\n  mistvalidator.ParseVar(),\n)"
+                                                                    }
+                                                                }
+                                                            ]
                                                         }
                                                     },
                                                     {
                                                         "name": "name",
                                                         "string": {
-                                                            "computed_optional_required": "optional"
-                                                        }
-                                                    },
-                                                    {
-                                                        "name": "wan_name",
-                                                        "string": {
-                                                            "computed_optional_required": "optional",
-                                                            "description": "If not set, we configure the nat policies against all WAN ports for simplicity"
+                                                            "computed_optional_required": "required"
                                                         }
                                                     }
                                                 ]
                                             },
-                                            "description": "Property key may be an IP Address (i.e. \"172.16.0.1\"), and IP Address and Port (i.e. \"172.16.0.1:8443\") or a CIDR (i.e. \"172.16.0.12/20\")"
+                                            "description": "Property key may be an External IP Address (i.e. \"63.16.0.3\"), a CIDR (i.e. \"63.16.0.12/20\") or a Variable (i.e. \"{{myvar}}\")"
                                         }
                                     },
                                     {

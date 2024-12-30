@@ -72,8 +72,8 @@ next:
         listvalidator.SizeAtMost(10),
         listvalidator.ValueStringsAre(
           stringvalidator.Any(
-            mistvalidator.ParseIp(true, true),
-            mistvalidator.ParseCidr(true, true),
+            mistvalidator.ParseIp(false, false),
+            mistvalidator.ParseCidr(false, false),
           ),
         )
 

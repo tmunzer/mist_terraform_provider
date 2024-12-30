@@ -1715,7 +1715,7 @@
                                                                                         "path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
                                                                                     }
                                                                                 ],
-                                                                                "schema_definition": "listvalidator.SizeAtLeast(1),\nlistvalidator.ValueStringsAre(\n  stringvalidator.Any(\n  mistvalidator.ParseCidr(true, true),\n  mistvalidator.ParseIp(true, true),\n  ),\n)"
+                                                                                "schema_definition": "listvalidator.SizeAtLeast(1),\nlistvalidator.ValueStringsAre(\n  stringvalidator.Any(\n  mistvalidator.ParseCidr(false, false),\n  mistvalidator.ParseIp(false, false),\n  ),\n)"
                                                                             }
                                                                         }
                                                                     ]

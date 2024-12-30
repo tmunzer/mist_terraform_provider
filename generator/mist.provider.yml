@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2412.1.10**
+  description: '> Version: **2412.1.12**
 
     >
 
-    > Date: **December 24, 2024**
+    > Date: **December 30, 2024**
 
 
     ---
@@ -43,7 +43,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2412.1.10
+  version: 2412.1.12
 servers:
 - description: Mist Global 01
   url: https://api.mist.com
@@ -12173,11 +12173,11 @@ paths:
                       property1:
                         internal_ip: 192.168.70.30
                         name: web server
-                        port: 443
+                        port: '443'
                       property2:
                         internal_ip: 192.168.70.30
                         name: web server
-                        port: 443
+                        port: '443'
                     enabled: true
                     restricted: false
                     static_nat:
@@ -12204,11 +12204,11 @@ paths:
                       destination_nat:
                         property1:
                           name: web server
-                          port: 443
+                          port: '443'
                           to: 192.168.70.5/30
                         property2:
                           name: web server
-                          port: 443
+                          port: '443'
                           to: 192.168.70.5/30
                       nat_pool: 172.16.0.0/26
                       routed: true
@@ -12227,11 +12227,11 @@ paths:
                       destination_nat:
                         property1:
                           name: web server
-                          port: 443
+                          port: '443'
                           to: 192.168.70.5/30
                         property2:
                           name: web server
-                          port: 443
+                          port: '443'
                           to: 192.168.70.5/30
                       nat_pool: 172.16.0.0/26
                       routed: true
@@ -12331,11 +12331,11 @@ paths:
                       property1:
                         internal_ip: 192.168.70.30
                         name: web server
-                        port: 443
+                        port: '443'
                       property2:
                         internal_ip: 192.168.70.30
                         name: web server
-                        port: 443
+                        port: '443'
                     enabled: true
                     restricted: false
                     static_nat:
@@ -12362,11 +12362,11 @@ paths:
                       destination_nat:
                         property1:
                           name: web server
-                          port: 443
+                          port: '443'
                           to: 192.168.70.5/30
                         property2:
                           name: web server
-                          port: 443
+                          port: '443'
                           to: 192.168.70.5/30
                       nat_pool: 172.16.0.0/26
                       routed: true
@@ -12385,11 +12385,11 @@ paths:
                       destination_nat:
                         property1:
                           name: web server
-                          port: 443
+                          port: '443'
                           to: 192.168.70.5/30
                         property2:
                           name: web server
-                          port: 443
+                          port: '443'
                           to: 192.168.70.5/30
                       nat_pool: 172.16.0.0/26
                       routed: true
@@ -18744,7 +18744,7 @@ paths:
         schema:
           type: string
       - in: query
-        name: vars
+        name: var
         schema:
           type: string
       - in: query
@@ -44822,11 +44822,11 @@ components:
                     property1:
                       internal_ip: 192.168.70.30
                       name: web server
-                      port: 443
+                      port: '443'
                     property2:
                       internal_ip: 192.168.70.30
                       name: web server
-                      port: 443
+                      port: '443'
                   enabled: true
                   restricted: false
                   static_nat:
@@ -44855,11 +44855,11 @@ components:
                     destination_nat:
                       property1:
                         name: web server
-                        port: 443
+                        port: '443'
                         to: 192.168.70.5/30
                       property2:
                         name: web server
-                        port: 443
+                        port: '443'
                         to: 192.168.70.5/30
                     nat_pool: 172.16.0.0/26
                     routed: true
@@ -44878,11 +44878,11 @@ components:
                     destination_nat:
                       property1:
                         name: web server
-                        port: 443
+                        port: '443'
                         to: 192.168.70.5/30
                       property2:
                         name: web server
-                        port: 443
+                        port: '443'
                         to: 192.168.70.5/30
                     nat_pool: 172.16.0.0/26
                     routed: true
@@ -44924,11 +44924,11 @@ components:
                     property1:
                       internal_ip: 192.168.70.30
                       name: web server
-                      port: 443
+                      port: '443'
                     property2:
                       internal_ip: 192.168.70.30
                       name: web server
-                      port: 443
+                      port: '443'
                   enabled: true
                   restricted: false
                   static_nat:
@@ -44957,11 +44957,11 @@ components:
                     destination_nat:
                       property1:
                         name: web server
-                        port: 443
+                        port: '443'
                         to: 192.168.70.5/30
                       property2:
                         name: web server
-                        port: 443
+                        port: '443'
                         to: 192.168.70.5/30
                     nat_pool: 172.16.0.0/26
                     routed: true
@@ -44980,11 +44980,11 @@ components:
                     destination_nat:
                       property1:
                         name: web server
-                        port: 443
+                        port: '443'
                         to: 192.168.70.5/30
                       property2:
                         name: web server
-                        port: 443
+                        port: '443'
                         to: 192.168.70.5/30
                     nat_pool: 172.16.0.0/26
                     routed: true
@@ -51182,10 +51182,10 @@ components:
         $ref: '#/components/schemas/acl_policy'
       type: array
     acl_policy:
-      description: '- for GBP-based policy, all src_tags and dst_tags have to be gbp-based
-
-        - for ACL-based policy, `network` is required in either the source or destination
-        so that we know where to attach the policy to'
+      description: "ACL Policy:\n  - for GBP-based policy, all src_tags and dst_tags\
+        \ have to be gbp-based\n  - for ACL-based policy, `network` is required in\
+        \ either the source or destination so that we know where to attach the policy\
+        \ to"
       properties:
         actions:
           $ref: '#/components/schemas/acl_policy_actions'
@@ -51206,18 +51206,18 @@ components:
       - dst_tag
       type: object
     acl_policy_actions:
-      description: '- for GBP-based policy, all src_tags and dst_tags have to be gbp-based
-
-        - for ACL-based policy, `network` is required in either the source or destination
-        so that we know where to attach the policy to'
+      description: "ACL Policy Actions:\n  - for GBP-based policy, all src_tags and\
+        \ dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is required\
+        \ in either the source or destination so that we know where to attach the\
+        \ policy to"
       items:
         $ref: '#/components/schemas/acl_policy_action'
       type: array
     acl_policy_src_tags:
-      description: '- for GBP-based policy, all src_tags and dst_tags have to be gbp-based
-
-        - for ACL-based policy, `network` is required in either the source or destination
-        so that we know where to attach the policy to'
+      description: "ACL Policy Source Tags:\n  - for GBP-based policy, all src_tags\
+        \ and dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is\
+        \ required in either the source or destination so that we know where to attach\
+        \ the policy to"
       items:
         example: macs
         type: string
@@ -51227,13 +51227,9 @@ components:
         only be used in `dst_tags`
       properties:
         gbp_tag:
-          description: 'required if
-
-            - `type`==`dynamic_gbp` (gbp_tag received from RADIUS)
-
-            - `type`==`gbp_resource`
-
-            - `type`==`static_gbp` (applying gbp tag against matching conditions)'
+          description: "required if\n  - `type`==`dynamic_gbp` (gbp_tag received from\
+            \ RADIUS)\n  - `type`==`gbp_resource`\n  - `type`==`static_gbp` (applying\
+            \ gbp tag against matching conditions)"
           type: integer
         macs:
           $ref: '#/components/schemas/acl_tag_macs'
@@ -51337,9 +51333,8 @@ components:
         expire_time:
           type: integer
         first_name:
-          description: 'if admin account is not an Org API Token
-
-            for an invite, this is the original first name used'
+          description: if admin account is not an Org API Token. For an invite, this
+            is the original first name used
           example: John
           type: string
         hours:
@@ -51350,9 +51345,8 @@ components:
           minimum: 1
           type: integer
         last_name:
-          description: 'if admin account is not an Org API Token
-
-            for an invite, this is the original last name used'
+          description: if admin account is not an Org API Token. For an invite, this
+            is the original last name used
           example: Sno
           type: string
         name:
@@ -51374,14 +51368,12 @@ components:
           format: double
           type: number
         phone:
-          description: 'if admin account is not an Org API Token
-
-            phone number (numbers only, including country code)'
+          description: if admin account is not an Org API Token. Phone number (numbers
+            only, including country code)
           type: string
         phone2:
-          description: 'if admin account is not an Org API Token
-
-            secondary phone number (numbers only, including country code)'
+          description: if admin account is not an Org API Token. Secondary phone number
+            (numbers only, including country code)
           type: string
         privileges:
           $ref: '#/components/schemas/admin_privileges'
@@ -51395,17 +51387,12 @@ components:
         tags:
           $ref: '#/components/schemas/admin_tags'
         two_factor_verified:
-          description: 'if admin account is not an Org API Token
-
-            two factor status'
+          description: if admin account is not an Org API Token. Two factor status
           readOnly: true
           type: boolean
         via_sso:
-          description: 'if admin account is not an Org API Token
-
-            an admin login via_sso is more restircted. (password and email
-
-            cannot be changed)'
+          description: if admin account is not an Org API Token, an admin login via_sso
+            is more restircted. (password and email cannot be changed)
           readOnly: true
           type: boolean
       type: object
@@ -52824,10 +52811,9 @@ components:
           $ref: '#/components/schemas/ap_radio_band6'
         indoor_use:
           default: false
-          description: 'to make an outdoor operate indoor.
-
-            for an outdoor-ap, some channels are disallowed by default, this allows
-            the user to use it as an indoor-ap'
+          description: to make an outdoor operate indoor. For an outdoor-ap, some
+            channels are disallowed by default, this allows the user to use it as
+            an indoor-ap
           type: boolean
         scanning_enabled:
           description: whether scanning radio is enabled
@@ -53543,11 +53529,9 @@ components:
           type: boolean
       type: object
     ap_usb:
-      description: 'USB AP settings
-
-        Note: if native imagotag is enabled, BLE will be disabled automatically
-
-        Note: legacy, new config moved to ESL Config.'
+      description: "USB AP settings\n  - Note: if native imagotag is enabled, BLE\
+        \ will be disabled automatically\n  - Note: legacy, new config moved to ESL\
+        \ Config."
       properties:
         cacert:
           description: only if `type`==`imagotag`
@@ -54126,11 +54110,9 @@ components:
           description: default export policies if no per-neighbor policies defined
           type: string
         extended_v4_nexthop:
-          description: 'by default, either inet/net6 unicast depending on neighbor
-            IP family (v4 or v6)
-
-            for v6 neighbors, to exchange v4 nexthop, which allows dual-stack support,
-            enable this'
+          description: by default, either inet/net6 unicast depending on neighbor
+            IP family (v4 or v6). For v6 neighbors, to exchange v4 nexthop, which
+            allows dual-stack support, enable this
           type: boolean
         graceful_restart_time:
           default: 0
@@ -57424,12 +57406,11 @@ components:
       - disconnected
       type: string
     device_switch:
-      description: 'Switch Configuration.
-
-        You can configure `port_usages` and `networks` settings at the device level,
-        but most of the time it''s better use the Site Setting to achieve better consistency
-        and be able to re-use the same settings across switches entries defined here
-        will "replace" those defined in Site Setting/Network Template'
+      description: You can configure `port_usages` and `networks` settings at the
+        device level, but most of the time it's better use the Site Setting to achieve
+        better consistency and be able to re-use the same settings across switches
+        entries defined here will "replace" those defined in Site Setting/Network
+        Template
       properties:
         acl_policies:
           $ref: '#/components/schemas/acl_policies'
@@ -57705,7 +57686,9 @@ components:
       - version
       type: object
     deviceprofile:
-      $ref: '#/components/schemas/deviceprofile_gateway'
+      oneOf:
+      - $ref: '#/components/schemas/deviceprofile_ap'
+      - $ref: '#/components/schemas/deviceprofile_gateway'
     deviceprofile_ap:
       description: Device Profile
       properties:
@@ -58812,20 +58795,18 @@ components:
           type: string
         core_as_border:
           default: false
-          description: 'optional, for ERB or CLOS, you can either use esilag to upstream
-            routers or to also be the virtual-gateway
-
-            when `routed_at` != `core`, whether to do virtual-gateway at core as well'
+          description: optional, for ERB or CLOS, you can either use esilag to upstream
+            routers or to also be the virtual-gateway. When `routed_at` != `core`,
+            whether to do virtual-gateway at core as well
           type: boolean
         overlay:
           $ref: '#/components/schemas/evpn_options_overlay'
         per_vlan_vga_v4_mac:
           default: false
-          description: 'only for by Core-Distribution architecture when `evpn_options.routed_at`==`core`.
-            By default, JUNOS uses 00-00-5e-00-01-01 as the virtual-gateway-address''s
-
+          description: only for by Core-Distribution architecture when `evpn_options.routed_at`==`core`.
+            By default, JUNOS uses 00-00-5e-00-01-01 as the virtual-gateway-address's
             v4_mac. If enabled, 00-00-5e-00-XX-YY will be used (where XX=vlan_id/256,
-            YY=vlan_id%256)'''
+            YY=vlan_id%256)'
           type: boolean
         routed_at:
           $ref: '#/components/schemas/evpn_options_routed_at'
@@ -59537,13 +59518,10 @@ components:
         ae_lacp_force_up:
           default: false
           description: 'For SRX Only, if `aggregated`==`true`.Sets the state of the
-            interface as UP when the peer has limited LACP capability.\n
-
-            Use case: When a device connected to this AE port is ZTPing for the first
-            time, it will not have LACP configured on the other end\n
-
-            Note: Turning this on will enable force-up on one of the interfaces in
-            the bundle only'
+            interface as UP when the peer has limited LACP capability. Use case: When
+            a device connected to this AE port is ZTPing for the first time, it will
+            not have LACP configured on the other end. **Note:** Turning this on will
+            enable force-up on one of the interfaces in the bundle only'
           type: boolean
         aggregated:
           default: false
@@ -59553,6 +59531,7 @@ components:
           description: if want to generate port up/down alarm, set it to true
           type: boolean
         description:
+          description: Interface Description. Can be a variable (i.e. "{{myvar}}")
           type: string
         disable_autoneg:
           default: false
@@ -59565,15 +59544,11 @@ components:
           $ref: '#/components/schemas/gateway_port_dsl_type'
         dsl_vci:
           default: 35
-          description: 'if `wan_type`==`dsl`
-
-            16 bit int'
+          description: if `wan_type`==`dsl`, 16 bit int
           type: integer
         dsl_vpi:
           default: 0
-          description: 'if `wan_type`==`dsl`
-
-            8 bit int'
+          description: if `wan_type`==`dsl`, 8 bit int
           type: integer
         duplex:
           $ref: '#/components/schemas/gateway_port_duplex'
@@ -59606,7 +59581,7 @@ components:
           default: false
           type: boolean
         port_network:
-          description: if `usage`==`lan`
+          description: Only for SRX and if `usage`==`lan`, the Untagged VLAN Network
           type: string
         preserve_dscp:
           default: true
@@ -59642,8 +59617,7 @@ components:
         usage:
           $ref: '#/components/schemas/gateway_port_usage'
         vlan_id:
-          description: if WAN interface is on a VLAN
-          type: integer
+          $ref: '#/components/schemas/gateway_port_vlan_id_with_variable'
         vpn_paths:
           $ref: '#/components/schemas/gateway_port_vpn_paths'
         wan_arp_policer:
@@ -59677,12 +59651,19 @@ components:
         dns_suffix:
           $ref: '#/components/schemas/gateway_ip_config_dns_suffix'
         gateway:
-          description: except for out-of_band interface (vme/em0/fxp0)
+          description: except for out-of_band interface (vme/em0/fxp0). Interface
+            Default Gateway IP Address (i.e. "192.168.1.1") or a Variable (i.e. "{{myvar}}")
+          example: 192.168.1.1
           type: string
         ip:
+          description: Interface IP Address (i.e. "192.168.1.8") or a Variable (i.e.
+            "{{myvar}}")
+          example: 192.168.1.8
           type: string
         netmask:
-          description: used only if `subnet` is not specified in `networks`
+          description: used only if `subnet` is not specified in `networks`. Interface
+            Netmask (i.e. "/24") or a Variable (i.e. "{{myvar}}")
+          example: /24
           type: string
         network:
           description: optional, the network to be used for mgmt
@@ -59780,6 +59761,14 @@ components:
       - lan
       - wan
       type: string
+    gateway_port_vlan_id_with_variable:
+      description: if WAN interface is on a VLAN. Can be the VLAN ID (i.e. "10") or
+        a Variable (i.e. "{{myvar}}")
+      oneOf:
+      - type: string
+      - maximum: 4094
+        minimum: 1
+        type: integer
     gateway_port_vpn_path:
       properties:
         bfd_profile:
@@ -59966,7 +59955,10 @@ components:
         port_config:
           additionalProperties:
             $ref: '#/components/schemas/gateway_port_config'
-          description: Property key is the port(s) name or range (e.g. "ge-0/0/0-10")
+          description: Property key is the Port Name (i.e. "ge-0/0/0"), the Ports
+            Range (i.e. "ge-0/0/0-10"), the List of Ports (i.e. "ge-0/0/0,ge-1/0/0",
+            only allowed for Aggregated or Redundant interfaces) or a Variable (i.e.
+            "{{myvar}}").
           type: object
         router_id:
           description: auto assigned if not set
@@ -60015,12 +60007,13 @@ components:
         enabled:
           default: false
           type: boolean
+        max_tx_kbps:
+          description: Interface Transmit Cap in kbps
+          type: integer
       type: object
     gateway_traffic_shaping_class_percentages:
       description: 'percentages for differet class of traffic: high / medium / low
-        / best-effort
-
-        sum must be equal to 100'
+        / best-effort. Sum must be equal to 100'
       items:
         type: integer
       type: array
@@ -60470,9 +60463,8 @@ components:
       type: array
     idp_user_cert_lookup_field_enum:
       default: automatic
-      description: 'allow customer to choose the EAP-TLS client certificate''s field
-
-        to use for IDP User Groups lookup. enum: `automatic`, `cn`, `email`, `upn`'
+      description: 'allow customer to choose the EAP-TLS client certificate''s field.
+        To use for IDP User Groups lookup. enum: `automatic`, `cn`, `email`, `upn`'
       enum:
       - ''
       - automatic
@@ -60819,9 +60811,8 @@ components:
     inventory:
       properties:
         adopted:
-          description: 'only if `type`==`switch` or `type`==`gateway`
-
-            whether the switch/gateway is adopted'
+          description: only if `type`==`switch` or `type`==`gateway`, whether the
+            switch/gateway is adopted
           type: boolean
         connected:
           description: whether the device is connected
@@ -61241,14 +61232,11 @@ components:
           description: Only if `mode`==`trunk` whether to trunk all network/vlans
           type: boolean
         allow_dhcpd:
-          description: 'If DHCP snooping is enabled, whether DHCP server is allowed
-            on the interfaces with.
-
-            All the interfaces from port configs using this port usage are effected.
-            Please notice that allow_dhcpd is a tri_state.
-
-            When it is not defined, it means using the system''s default setting which
-            depends on whether the port is a access or trunk port.'
+          description: If DHCP snooping is enabled, whether DHCP server is allowed
+            on the interfaces with. All the interfaces from port configs using this
+            port usage are effected. Please notice that allow_dhcpd is a tri_state.
+            When it is not defined, it means using the system's default setting which
+            depends on whether the port is a access or trunk port.
           type: boolean
         allow_multiple_supplicants:
           default: false
@@ -61293,10 +61281,8 @@ components:
         inter_switch_link:
           default: false
           description: 'inter_switch_link is used together with "isolation" under
-            networks
-
-            NOTE: inter_switch_link works only between Juniper device. This has to
-            be applied to both ports connected together'
+            networks. NOTE: inter_switch_link works only between Juniper device. This
+            has to be applied to both ports connected together'
           type: boolean
         mac_auth_only:
           description: Only if `enable_mac_auth`==`true`
@@ -62296,7 +62282,10 @@ components:
       - qrcode
       type: string
     mist_device:
-      $ref: '#/components/schemas/device_gateway'
+      oneOf:
+      - $ref: '#/components/schemas/device_ap'
+      - $ref: '#/components/schemas/device_switch'
+      - $ref: '#/components/schemas/device_gateway'
     mist_nacedge:
       properties:
         auth_ttl:
@@ -62455,10 +62444,9 @@ components:
           type: string
       type: object
     module_stat_item_errors:
-      description: 'used to report all error states the device node is running into.
-
+      description: used to report all error states the device node is running into.
         An error should always have `type` and `since` fields, and could have some
-        other fields specific to that type.'
+        other fields specific to that type.
       items:
         $ref: '#/components/schemas/module_stat_item_errors_items'
       type: array
@@ -62800,16 +62788,11 @@ components:
         $ref: '#/components/schemas/mxcluster_nac_client_ip'
       type: object
     mxcluster_nac_client_vendor:
-      description: 'convention to be followed is : "<vendor>-<variant>"
-
-        <variant> could be an os/platform/model/company
-
-        for ex: for cisco vendor, there could variants wrt os (such as ios, nxos etc),
-        platforms (asa etc), or acquired companies (such as meraki, airnonet) etc.
-
-
-        enum: `aruba`, `cisco-aironet`, `cisco-ios`, `cisco-meraki`, `generic`, `juniper`,
-        `paloalto`'
+      description: 'convention to be followed is : "<vendor>-<variant>", <variant>
+        could be an os/platform/model/company. For ex: for cisco vendor, there could
+        variants wrt os (such as ios, nxos etc), platforms (asa etc), or acquired
+        companies (such as meraki, airnonet) etc. enum: `aruba`, `cisco-aironet`,
+        `cisco-ios`, `cisco-meraki`, `generic`, `juniper`, `paloalto`'
       enum:
       - ''
       - aruba
@@ -63251,9 +63234,7 @@ components:
       - 8.8.4.4
       - 2001:4860:4860::8888
       - 2001:4860:4860::8844
-      description: 'IPv4 ignored if `type`!=`static`
-
-        IPv6 ignored if `type6`!=`static`'
+      description: IPv4 ignored if `type`!=`static`, IPv6 ignored if `type6`!=`static`
       example:
       - 8.8.8.8
       - 4.4.4.4
@@ -64268,29 +64249,6 @@ components:
       required:
       - name
       type: object
-    network_destination_nat:
-      additionalProperties:
-        $ref: '#/components/schemas/network_destination_nat_property'
-      description: Property key may be an IP/Port (i.e. "63.16.0.3:443"), or a port
-        (i.e. ":2222")
-      type: object
-    network_destination_nat_property:
-      properties:
-        internal_ip:
-          example: 192.168.70.30
-          type: string
-        name:
-          example: web server
-          type: string
-        port:
-          example: 443
-          type: integer
-        wan_name:
-          description: If not set, we configure the nat policies against all WAN ports
-            for simplicity
-          example: wan0
-          type: string
-      type: object
     network_internal_access:
       properties:
         enabled:
@@ -64303,7 +64261,7 @@ components:
           default: false
           type: boolean
         destination_nat:
-          $ref: '#/components/schemas/network_destination_nat'
+          $ref: '#/components/schemas/network_internet_access_destination_nat'
         enabled:
           type: boolean
         restricted:
@@ -64312,7 +64270,59 @@ components:
             make `restricted`=`true` and define service_policies
           type: boolean
         static_nat:
-          $ref: '#/components/schemas/network_static_nat'
+          $ref: '#/components/schemas/network_internet_access_static_nat'
+      type: object
+    network_internet_access_destination_nat:
+      additionalProperties:
+        $ref: '#/components/schemas/network_internet_access_destination_nat_property'
+      description: Property key can be an External IP (i.e. "63.16.0.3"), an External
+        IP:Port (i.e. "63.16.0.3:443"), an External Port (i.e. ":443"), an External
+        CIDR (i.e. "63.16.0.0/30"), an External CIDR:Port (i.e. "63.16.0.0/30:443")
+        or a Variable (i.e. "{{myvar}}"). At least one of the `internal_ip` or `port`
+        must be defined
+      type: object
+    network_internet_access_destination_nat_property:
+      properties:
+        internal_ip:
+          description: The Destination NAT destination IP Address. Must be an IP (i.e.
+            "192.168.70.30") or a Variable (i.e. "{{myvar}}")
+          example: 192.168.70.30
+          type: string
+        name:
+          example: web server
+          type: string
+        port:
+          description: The Destination NAT destination IP Address. Must be a Port
+            (i.e. "443") or a Variable (i.e. "{{myvar}}")
+          example: '443'
+          type: string
+        wan_name:
+          description: SRX Only. If not set, we configure the nat policies against
+            all WAN ports for simplicity
+          example: wan0
+          type: string
+      type: object
+    network_internet_access_static_nat:
+      additionalProperties:
+        $ref: '#/components/schemas/network_internet_access_static_nat_property'
+      description: Property key may be an External IP Address (i.e. "63.16.0.3"),
+        a CIDR (i.e. "63.16.0.12/20") or a Variable (i.e. "{{myvar}}")
+      type: object
+    network_internet_access_static_nat_property:
+      properties:
+        internal_ip:
+          description: The Static NAT destination IP Address. Must be an IP Address
+            (i.e. "192.168.70.3") or a Variable (i.e. "{{myvar}}")
+          example: 192.168.70.3
+          type: string
+        name:
+          example: pos_station-1
+          type: string
+        wan_name:
+          description: SRX Only. If not set, we configure the nat policies against
+            all WAN ports for simplicity. Can be a Variable (i.e. "{{myvar}}")
+          example: wan0
+          type: string
       type: object
     network_multicast:
       description: whether to enable multicast support (only PIM-sparse mode is supported)
@@ -64353,26 +64363,6 @@ components:
       properties:
         external_ip:
           example: 172.16.0.8/30
-          type: string
-      type: object
-    network_static_nat:
-      additionalProperties:
-        $ref: '#/components/schemas/network_static_nat_property'
-      description: Property key may be an IP Address (i.e. "172.16.0.1"), and IP Address
-        and Port (i.e. "172.16.0.1:8443") or a CIDR (i.e. "172.16.0.12/20")
-      type: object
-    network_static_nat_property:
-      properties:
-        internal_ip:
-          example: 192.168.70.3
-          type: string
-        name:
-          example: pos_station-1
-          type: string
-        wan_name:
-          description: If not set, we configure the nat policies against all WAN ports
-            for simplicity
-          example: wan0
           type: string
       type: object
     network_template:
@@ -64455,11 +64445,16 @@ components:
       type: object
     network_tenant_addresses:
       items:
+        description: The user/tenant IP Address (i.e. "192.168.70.30"), an Subnet
+          (i.e. "192.168.70.0/24") or a Variable (i.e. "{{myvar}}")
+        example: 192.168.70.30
         type: string
       type: array
     network_tenants:
       additionalProperties:
         $ref: '#/components/schemas/network_tenant'
+      description: Property key must be the user/tenant name (i.e. "printer-1") or
+        a Variable (i.e. "{{myvar}}")
       type: object
     network_vpn_access:
       additionalProperties:
@@ -64479,7 +64474,7 @@ components:
           description: whether to allow ping from vpn into this routed network
           type: boolean
         destination_nat:
-          $ref: '#/components/schemas/network_destination_nat'
+          $ref: '#/components/schemas/network_vpn_access_destination_nat'
         nat_pool:
           description: if `routed`==`false` (usually at Spoke), but some hosts needs
             to be reachable from Hub, a subnet is required to create and advertise
@@ -64495,9 +64490,8 @@ components:
           description: toward LAN-side OSPF peers
           type: boolean
         no_readvertise_to_overlay:
-          description: 'toward overlay
-
-            how HUB should deal with routes it received from Spokes'
+          description: toward overlay, how HUB should deal with routes it received
+            from Spokes
           type: boolean
         other_vrfs:
           $ref: '#/components/schemas/network_vpn_access_config_other_vrfs'
@@ -64507,11 +64501,10 @@ components:
         source_nat:
           $ref: '#/components/schemas/network_source_nat'
         static_nat:
-          $ref: '#/components/schemas/network_static_nat'
+          $ref: '#/components/schemas/network_vpn_access_static_nat'
         summarized_subnet:
-          description: 'toward overlay
-
-            how HUB should deal with routes it received from Spokes'
+          description: toward overlay, how HUB should deal with routes it received
+            from Spokes
           example: 172.16.0.0/16
           type: string
         summarized_subnet_to_lan_bgp:
@@ -64524,14 +64517,52 @@ components:
           type: string
       type: object
     network_vpn_access_config_other_vrfs:
-      description: 'by default, the routes are only readvertised toward the same vrf
-        on spoke
-
-        to allow it to be leaked to other vrfs'
+      description: by default, the routes are only readvertised toward the same vrf
+        on spoke. To allow it to be leaked to other vrfs
       items:
         example: iot
         type: string
       type: array
+    network_vpn_access_destination_nat:
+      additionalProperties:
+        $ref: '#/components/schemas/network_vpn_access_destination_nat_property'
+      description: Property key can be an External IP (i.e. "63.16.0.3"), an External
+        IP:Port (i.e. "63.16.0.3:443"), an External Port (i.e. ":443"), an External
+        CIDR (i.e. "63.16.0.0/30"), an External CIDR:Port (i.e. "63.16.0.0/30:443")
+        or a Variable (i.e. "{{myvar}}"). At least one of the `internal_ip` or `port`
+        must be defined
+      type: object
+    network_vpn_access_destination_nat_property:
+      properties:
+        internal_ip:
+          description: The Destination NAT destination IP Address. Must be an IP (i.e.
+            "192.168.70.30") or a Variable (i.e. "{{myvar}}")
+          example: 192.168.70.30
+          type: string
+        name:
+          example: web server
+          type: string
+        port:
+          example: '443'
+          type: string
+      type: object
+    network_vpn_access_static_nat:
+      additionalProperties:
+        $ref: '#/components/schemas/network_vpn_access_static_nat_property'
+      description: Property key may be an External IP Address (i.e. "63.16.0.3"),
+        a CIDR (i.e. "63.16.0.12/20") or a Variable (i.e. "{{myvar}}")
+      type: object
+    network_vpn_access_static_nat_property:
+      properties:
+        internal_ip:
+          description: The Static NAT destination IP Address. Must be an IP Address
+            (i.e. "192.168.70.3") or a Variable (i.e. "{{myvar}}")
+          example: 192.168.70.3
+          type: string
+        name:
+          example: pos_station-1
+          type: string
+      type: object
     networks:
       items:
         $ref: '#/components/schemas/network'
@@ -64608,18 +64639,16 @@ components:
           type: string
       type: object
     optional_stat_bgps:
-      description: 'only present when `bgp_peers` in `fields` query parameter
-
-        Each port object is same as `GET /api/v1/sites/:site_id/stats/bgp_peers/search`
-        result object, except that org_id, site_id, mac, model are removed'
+      description: only present when `bgp_peers` in `fields` query parameter. Each
+        port object is same as `GET /api/v1/sites/:site_id/stats/bgp_peers/search`
+        result object, except that org_id, site_id, mac, model are removed
       items:
         $ref: '#/components/schemas/optional_stats_bgp'
       type: array
     optional_stat_ports:
-      description: 'only present when `ports` in `fields` query parameter
-
-        Each port object is same as `GET /api/v1/sites/:site_id/stats/ports/search`
-        result object, except that org_id, site_id, mac, model are removed'
+      description: only present when `ports` in `fields` query parameter. Each port
+        object is same as `GET /api/v1/sites/:site_id/stats/ports/search` result object,
+        except that org_id, site_id, mac, model are removed
       items:
         $ref: '#/components/schemas/optional_stats_port'
       type: array
@@ -64666,10 +64695,9 @@ components:
           type: integer
       type: object
     optional_stat_vpn_peers:
-      description: 'only present when `vpn_peers` in `fields` query parameter
-
-        Each port object is same as `GET /api/v1/sites/:site_id/stats/vpn_peers/search`
-        result object, except that org_id, site_id, mac, model are removed'
+      description: only present when `vpn_peers` in `fields` query parameter. Each
+        port object is same as `GET /api/v1/sites/:site_id/stats/vpn_peers/search`
+        result object, except that org_id, site_id, mac, model are removed
       items:
         $ref: '#/components/schemas/optional_stat_vpn_peer'
       type: array
@@ -64729,10 +64757,9 @@ components:
           type: string
       type: object
     optional_stat_wan_tunnels:
-      description: 'only present when `tunnels` in `fields` query parameter
-
-        Each port object is same as `GET /api/v1/sites/:site_id/stats/tunnels/search`
-        result object, except that org_id, site_id, mac, model are removed'
+      description: only present when `tunnels` in `fields` query parameter. Each port
+        object is same as `GET /api/v1/sites/:site_id/stats/tunnels/search` result
+        object, except that org_id, site_id, mac, model are removed
       items:
         $ref: '#/components/schemas/optional_stat_wan_tunnel'
       type: array
@@ -65471,9 +65498,8 @@ components:
         org_id:
           $ref: '#/components/schemas/org_id'
         path_preference:
-          description: 'by default, we derive all paths available and use them
-
-            optionally, you can customize by using `path_preference`'
+          description: by default, we derive all paths available and use them, optionally,
+            you can customize by using `path_preference`
           type: string
         secintel:
           $ref: '#/components/schemas/org_service_policies_secintel'
@@ -65881,22 +65907,19 @@ components:
           type: boolean
         eap_ssl_security_level:
           default: 2
-          description: 'eap ssl security level
-
-            see https://www.openssl.org/docs/man1.1.1/man3/SSL_CTX_set_security_level.html#DEFAULT-CALLBACK-BEHAVIOUR'
+          description: eap ssl security level, see https://www.openssl.org/docs/man1.1.1/man3/SSL_CTX_set_security_level.html#DEFAULT-CALLBACK-BEHAVIOUR
           maximum: 4
           minimum: 1
           type: integer
         eu_only:
           default: false
-          description: 'By default NAC POD failover considers all NAC pods available
+          description: By default NAC POD failover considers all NAC pods available
             around the globe, i.e. EU, US, or APAC based, failover happens based on
-            geo IP of the originating site.
-
-            For strict GDPR compliancy NAC POD failover would only happen between
-            the PODs located within the EU environment, and no authentication would
-            take place outside of EU. This is an org setting that is applicable to
-            WLANs, switch templates, mxedge clusters that have mist_nac enabled'
+            geo IP of the originating site. For strict GDPR compliancy NAC POD failover
+            would only happen between the PODs located within the EU environment,
+            and no authentication would take place outside of EU. This is an org setting
+            that is applicable to WLANs, switch templates, mxedge clusters that have
+            mist_nac enabled
           type: boolean
         idp_machine_cert_lookup_field:
           $ref: '#/components/schemas/idp_machine_cert_lookup_field_enum'
@@ -66969,30 +66992,22 @@ components:
           minimum: 8
           type: integer
         max_length:
-          description: 'for valid `max_length` and `min_length`, passphrase size is
-            set randomly from that range.
-
-            - if `max_length` and/or `min_length` are invalid, passphrase size is
-            equal to `length` parameter
-
-            - if `length` is not set or is invalid, default passphrase size is 8.
-
-            valid `max_length`, `min_length`, `length` should be an integer between
-            8 to 63. Also, `max_length` > `min_length`'
+          description: "for valid `max_length` and `min_length`, passphrase size is\
+            \ set randomly from that range.\n  - if `max_length` and/or `min_length`\
+            \ are invalid, passphrase size is equal to `length` parameter\n  - if\
+            \ `length` is not set or is invalid, default passphrase size is 8.\n \
+            \ - valid `max_length`, `min_length`, `length` should be an integer between\
+            \ 8 to 63. Also, `max_length` > `min_length`"
           maximum: 63
           minimum: 8
           type: integer
         min_length:
-          description: 'for valid `max_length` and `min_length`, passphrase size is
-            set randomly from that range.
-
-            - if `max_length` and/or `min_length` are invalid, passphrase size is
-            equal to `length` parameter
-
-            - if `length` is not set or is invalid, default passphrase size is 8.
-
-            valid `max_length`, `min_length`, `length` should be an integer between
-            8 to 63. Also, `max_length` > `min_length`'
+          description: "for valid `max_length` and `min_length`, passphrase size is\
+            \ set randomly from that range.\n  - if `max_length` and/or `min_length`\
+            \ are invalid, passphrase size is equal to `length` parameter\n  - if\
+            \ `length` is not set or is invalid, default passphrase size is 8.\n \
+            \ - valid `max_length`, `min_length`, `length` should be an integer between\
+            \ 8 to 63. Also, `max_length` > `min_length`"
           maximum: 63
           minimum: 8
           type: integer
@@ -67261,10 +67276,8 @@ components:
           minimum: 1
           type: integer
         network:
-          description: 'use `network`or `source_ip`
-
-            which network the RADIUS server resides, if there''s static IP for this
-            network, we''d use it as source-ip'
+          description: use `network`or `source_ip`, which network the RADIUS server
+            resides, if there's static IP for this network, we'd use it as source-ip
           type: string
         source_ip:
           description: use `network`or `source_ip`
@@ -67308,21 +67321,17 @@ components:
           type: boolean
       type: object
     radsec_mxcluster_ids:
-      description: 'To use Org mxedges when this WLAN does not use mxtunnel, specify
-        their mxcluster_ids.
-
-        Org mxedge(s) identified by mxcluster_ids'
+      description: To use Org mxedges when this WLAN does not use mxtunnel, specify
+        their mxcluster_ids. Org mxedge(s) identified by mxcluster_ids
       items:
         example: 572586b7-f97b-a22b-526c-8b97a3f609c4
         format: uuid
         type: string
       type: array
     radsec_proxy_hosts:
-      description: 'default is site.mxedge.radsec.proxy_hosts which must be a superset
-        of all wlans[*].radsec.proxy_hosts
-
-        when radsec.proxy_hosts are not used, tunnel peers (org or site mxedges) are
-        used irrespective of use_site_mxedge'
+      description: default is site.mxedge.radsec.proxy_hosts which must be a superset
+        of all `wlans[*].radsec.proxy_hosts`. When `radsec.proxy_hosts` are not used,
+        tunnel peers (org or site mxedges) are used irrespective of `use_site_mxedge`
       items:
         example: mxedge1.local
         type: string
@@ -71209,9 +71218,8 @@ components:
           type: string
         vrf_name:
           default: default
-          description: 'name of the vrf instance
-
-            it can also be the name of the VPN or wan if they'
+          description: name of the vrf instance, it can also be the name of the VPN
+            or wan if they
           type: string
       type: object
     routing_policy_term_matching_vpn_neighbor_mac:
@@ -71220,9 +71228,7 @@ components:
         type: string
       type: array
     routing_policy_term_matching_vpn_path:
-      description: 'overlay-facing criteria (used for bgp_config where via=vpn)
-
-        ordered-'
+      description: overlay-facing criteria (used for bgp_config where via=vpn). ordered-
       items:
         type: string
       type: array
@@ -72268,9 +72274,8 @@ components:
         name:
           type: string
         path_preference:
-          description: 'by default, we derive all paths available and use them
-
-            optionally, you can customize by using `path_preference`'
+          description: by default, we derive all paths available and use them. Optionally,
+            you can customize by using `path_preference`
           type: string
         servicepolicy_id:
           description: used to link servicepolicy defined at org level and overwrite
@@ -72323,8 +72328,7 @@ components:
           type: string
         protocol:
           default: any
-          description: '`https`/ `tcp` / `udp` / `icmp` / `gre` / `any` / `:protocol_number`.
-
+          description: '`https`/ `tcp` / `udp` / `icmp` / `gre` / `any` / `:protocol_number`,
             `protocol_number` is between 1-254'
           example: tcp
           type: string
@@ -72390,11 +72394,9 @@ components:
         $ref: '#/components/schemas/service'
       type: array
     simple_alert:
-      description: 'Set of heuristic rules will be enabled when marvis subscription
-        is not available.
-
-        It triggers when, in a Z minute window, there are more than Y distinct client
-        encountring over X failures'
+      description: Set of heuristic rules will be enabled when marvis subscription
+        is not available. It triggers when, in a Z minute window, there are more than
+        Y distinct client encountring over X failures
       properties:
         arp_failure:
           $ref: '#/components/schemas/simple_alert_arp_failure'
@@ -75112,19 +75114,17 @@ components:
     snmp_usmp_user:
       properties:
         authentication_password:
-          description: 'Not required if `authentication_type`==`authentication_none`
-
-            include alphabetic, numeric, and special characters, but it cannot include
-            control characters.'
+          description: Not required if `authentication_type`==`authentication_none`.
+            Include alphabetic, numeric, and special characters, but it cannot include
+            control characters.
           minLength: 7
           type: string
         authentication_type:
           $ref: '#/components/schemas/snmp_usmp_user_authentication_type'
         encryption_password:
-          description: 'Not required if `encryption_type`==`privacy-none`
-
-            include alphabetic, numeric, and special characters, but it cannot include
-            control characters'
+          description: Not required if `encryption_type`==`privacy-none`. Include
+            alphabetic, numeric, and special characters, but it cannot include control
+            characters
           minLength: 8
           type: string
         encryption_type:
@@ -75578,9 +75578,8 @@ components:
       type: string
     sso_idp_type:
       default: saml
-      description: '* For Admin SSO, enum: `saml`
-
-        * For NAC SSO, enum: `ldap`, `mxedge_proxy`, `oauth`'
+      description: "SSO IDP Type:\n  * For Admin SSO, enum: `saml`\n  * For NAC SSO,\
+        \ enum: `ldap`, `mxedge_proxy`, `oauth`"
       enum:
       - ''
       - ldap
@@ -79399,11 +79398,9 @@ components:
           $ref: '#/components/schemas/suppressed_alarm_scope'
       type: object
     suppressed_alarm_applies:
-      description: 'if `scope`==`site`
-
-        Object defines the scope (within the org e.g. whole org, and/or some site_groups,
-        and/or some sites) for which the alarm service has to be suppressed for some
-        `duration`'
+      description: if `scope`==`site`. Object defines the scope (within the org e.g.
+        whole org, and/or some site_groups, and/or some sites) for which the alarm
+        service has to be suppressed for some `duration`
       properties:
         org_id:
           description: UUID of the current org (if provided, the alarms will be suppressed
@@ -79758,10 +79755,9 @@ components:
         isolation:
           default: false
           description: 'whether to stop clients to talk to each other, default is
-            false (when enabled, a unique isolation_vlan_id is required)
-
-            NOTE: this features requires uplink device to also a be Juniper device
-            and `inter_switch_link` to be set'
+            false (when enabled, a unique isolation_vlan_id is required). NOTE: this
+            features requires uplink device to also a be Juniper device and `inter_switch_link`
+            to be set'
           type: boolean
         isolation_vlan_id:
           example: '3070'
@@ -79785,10 +79781,9 @@ components:
       description: Property key is network name
       type: object
     switch_oob_ip_config:
-      description: '- If HA configuration: key parameter will be nodeX (eg: node1)
-
-        - If there are 2 routing engines, re1 mgmt IP has to be set separately (if
-        desired): key parameter = `re1`'
+      description: "Switch OOB IP Config:\n  - If HA configuration: key parameter\
+        \ will be nodeX (eg: node1)\n  - If there are 2 routing engines, re1 mgmt\
+        \ IP has to be set separately (if desired): key parameter = `re1`"
       properties:
         gateway:
           type: string
@@ -79886,11 +79881,10 @@ components:
     switch_port_mirroring:
       additionalProperties:
         $ref: '#/components/schemas/switch_port_mirroring_property'
-      description: 'Property key is the port mirroring instance name
-
-        port_mirroring can be added under device/site settings. It takes interface
-        and ports as input for ingress, interface as input for egress and can take
-        interface and port as output. A maximum 4 port mirrorings is allowed'
+      description: Property key is the port mirroring instance name. `port_mirroring`
+        can be added under device/site settings. It takes interface and ports as input
+        for ingress, interface as input for egress and can take interface and port
+        as output. A maximum 4 port mirrorings is allowed
       type: object
     switch_port_mirroring_egress_port_ids:
       description: at least one of the `input_port_ids_ingress`, `input_port_ids_egress`
@@ -79940,14 +79934,11 @@ components:
           description: Only if `mode`==`trunk` whether to trunk all network/vlans
           type: boolean
         allow_dhcpd:
-          description: 'Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether
-            DHCP server is allowed on the interfaces with.
-
-            All the interfaces from port configs using this port usage are effected.
-            Please notice that allow_dhcpd is a tri_state.
-
-            When it is not defined, it means using the system''s default setting which
-            depends on whether the port is a access or trunk port.'
+          description: Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether
+            DHCP server is allowed on the interfaces with. All the interfaces from
+            port configs using this port usage are effected. Please notice that allow_dhcpd
+            is a tri_state. When it is not defined, it means using the system's default
+            setting which depends on whether the port is a access or trunk port.
           type: boolean
         allow_multiple_supplicants:
           default: false
@@ -79998,10 +79989,8 @@ components:
         inter_switch_link:
           default: false
           description: 'Only if `mode`!=`dynamic` inter_switch_link is used together
-            with "isolation" under networks
-
-            NOTE: inter_switch_link works only between Juniper device. This has to
-            be applied to both ports connected together'
+            with "isolation" under networks. NOTE: inter_switch_link works only between
+            Juniper device. This has to be applied to both ports connected together'
           type: boolean
         mac_auth_only:
           description: Only if `mode`!=`dynamic` and `enable_mac_auth`==`true`
@@ -80226,9 +80215,7 @@ components:
       - auto
       type: string
     switch_port_usage_storm_control:
-      description: 'Switch storm control
-
-        Only if `mode`!=`dynamic`'
+      description: Switch storm control. Only if `mode`!=`dynamic`
       properties:
         no_broadcast:
           default: false
@@ -80296,10 +80283,8 @@ components:
           description: radius auth session timeout
           type: integer
         network:
-          description: 'use `network`or `source_ip`
-
-            which network the RADIUS server resides, if there''s static IP for this
-            network, we''d use it as source-ip'
+          description: use `network`or `source_ip`. Which network the RADIUS server
+            resides, if there's static IP for this network, we'd use it as source-ip
           type: string
         source_ip:
           description: use `network`or `source_ip`
@@ -81321,7 +81306,7 @@ components:
           type: integer
         auth_required:
           default: false
-          description: Enable this option to authenticate users
+          description: Enable this option to enforce user authentication
           type: boolean
         caution_enabled:
           default: false
@@ -82411,9 +82396,8 @@ components:
           description: optional for VC member
           type: string
         node:
-          description: 'only for SSR: if node is not present, both nodes are restarted
-
-            for other devices: node should not be present'
+          description: 'only for SSR: if node is not present, both nodes are restarted.
+            For other devices: node should not be present'
           type: string
       type: object
     utils_devices_restart_multi:
@@ -82421,9 +82405,8 @@ components:
         device_ids:
           $ref: '#/components/schemas/utils_devices_restart_multi_device_ids'
         node:
-          description: 'only for SSR: if node is not present, both nodes are restarted
-
-            for other devices: node should not be present'
+          description: 'only for SSR: if node is not present, both nodes are restarted.
+            For other devices: node should not be present'
           type: string
       required:
       - device_ids
@@ -83504,10 +83487,9 @@ components:
         headers:
           additionalProperties:
             type: string
-          description: 'if `type`=`http-post`, additional custom HTTP headers to add
-
-            the headers name and value must be string, total bytes of headers name
-            and value must be less than 1000'
+          description: if `type`=`http-post`, additional custom HTTP headers to add.
+            The headers name and value must be string, total bytes of headers name
+            and value must be less than 1000
           example:
             x-custom-1: your_custom_header_value1
             x-custom-2: your_custom_header_value2
@@ -83551,10 +83533,9 @@ components:
         site_id:
           $ref: '#/components/schemas/site_id'
         splunk_token:
-          description: 'required if `type`=`splunk`
-
-            If splunk_token is not defined for a type Splunk webhook, it will not
-            send, regardless if the webhook receiver is configured to accept it.'''
+          description: required if `type`=`splunk`. If splunk_token is not defined
+            for a type Splunk webhook, it will not send, regardless if the webhook
+            receiver is configured to accept it.'
           nullable: true
           type: string
         topics:
@@ -83905,11 +83886,8 @@ components:
       readOnly: true
       type: array
     wlan:
-      description: 'WLAN
-
-
-        **Note**: portal_template will be forked out of wlan objects soon. To fetch
-        portal_template, please query portal_template_url. To update portal_template,
+      description: '**Note**: portal_template will be forked out of wlan objects soon.
+        To fetch portal_template, please query portal_template_url. To update portal_template,
         use Wlan Portal Template.'
       properties:
         acct_immediate_update:
@@ -84369,9 +84347,8 @@ components:
           additionalProperties:
             type: integer
           default: {}
-          description: 'Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps
-
-            Property key is the wxtag id'
+          description: Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps.
+            Property key is the `wxtag_id`
           example:
             f99862d9-2726-931f-7559-3dfdf5d070d3: 30
           type: object
@@ -84772,10 +84749,8 @@ components:
         radius_groups:
           additionalProperties:
             type: string
-          description: 'map between radius_group and the desired DNS server (IPv4
-            only)
-
-            Property key is the RADIUS group, property value is the desired DNS Server'
+          description: map between radius_group and the desired DNS server (IPv4 only).
+            Property key is the RADIUS group, property value is the desired DNS Server
           example:
             contractor: 172.1.1.1
             guest: 8.8.8.8
@@ -84806,10 +84781,8 @@ components:
           type: boolean
         force_lookup:
           default: false
-          description: 'when 11r is enabled, we''ll try to use the cached PMK, this
-            can be disabled
-
-            `false` means auto'
+          description: when 11r is enabled, we'll try to use the cached PMK, this
+            can be disabled. `false` means auto
           type: boolean
         source:
           $ref: '#/components/schemas/dynamic_psk_source'

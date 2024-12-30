@@ -165,7 +165,7 @@ next:
           imports:
           - path: github.com/Juniper/terraform-provider-mist/internal/validators
           - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-          schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(true, true),
+          schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(false, false),
             mistvalidator.ParseVar()),
 
             mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
@@ -444,7 +444,7 @@ next:
           imports:
           - path: github.com/Juniper/terraform-provider-mist/internal/validators
           - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-          schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(true, true),
+          schema_definition: 'stringvalidator.Any(mistvalidator.ParseIp(false, false),
             mistvalidator.ParseVar()),
 
             mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"),
@@ -949,7 +949,7 @@ next:
           - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
           - path: github.com/hashicorp/terraform-plugin-framework/path
           schema_definition: |-
-            listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(true, true), mistvalidator.ParseVar())),
+            listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(false, false), mistvalidator.ParseVar())),
             mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type"), types.StringValue("relay"))
     - get:
       - list
@@ -968,7 +968,7 @@ next:
           - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
           - path: github.com/hashicorp/terraform-plugin-framework/path
           schema_definition: |-
-            listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(true, true), mistvalidator.ParseVar())),
+            listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseIp(false, false), mistvalidator.ParseVar())),
             mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName("type6"), types.StringValue("relay"))
     - name: ip_end
       rename: ip_end4

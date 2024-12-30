@@ -427,7 +427,7 @@ next:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
+        schema_definition: mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
           types.StringValue("trunk"))
   - get:
     - bool
@@ -437,7 +437,7 @@ next:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
+        schema_definition: mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
           types.StringValue("dynamic"))
   - get:
     - bool
@@ -447,7 +447,7 @@ next:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
+        schema_definition: mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
           types.StringValue("dynamic"))
   - get:
     - bool
@@ -457,11 +457,8 @@ next:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
-          types.StringValue("dynamic")),
-
-          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"),
-          types.StringValue("dot1x"))'
+        schema_definition: |-
+          mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"), types.StringValue("dot1x"))
   - get:
     - bool
     name: bypass_auth_when_server_down_for_unkonwn_client
@@ -470,11 +467,8 @@ next:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
-          types.StringValue("dynamic")),
-
-          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"),
-          types.StringValue("dot1x"))'
+        schema_definition: |-
+          mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"), types.StringValue("dot1x"))
   - get:
     - string
     name: description
@@ -484,8 +478,8 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-        schema_definition: mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
-          types.StringValue("dynamic"))
+        schema_definition: |-
+          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"), types.StringValue("dynamic"))
   - get:
     - bool
     name: disable_autoneg
@@ -494,8 +488,8 @@ next:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
-          types.StringValue("dynamic"))
+        schema_definition: |-
+          mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName("mode"), types.StringValue("dynamic"))
   - get:
     - bool
     name: disabled
@@ -504,8 +498,8 @@ next:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
-          types.StringValue("dynamic"))
+        schema_definition: |-
+          mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName("mode"), types.StringValue("dynamic"))
   - get:
     - string
     name: duplex
@@ -532,11 +526,8 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
         - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
-        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
-          types.StringValue("dynamic")),
-
-          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"),
-          types.StringValue("dot1x"))'
+        schema_definition: |- 
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"), types.StringValue("dot1x"))
   - get:
     - bool
     name: enable_mac_auth
@@ -545,11 +536,8 @@ next:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
-          types.StringValue("dynamic")),
-
-          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"),
-          types.StringValue("dot1x"))'
+        schema_definition: |-
+          mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"), types.StringValue("dot1x"))
   - get:
     - bool
     name: enable_qos
@@ -558,8 +546,8 @@ next:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
-          types.StringValue("dynamic"))
+        schema_definition: |-
+          mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName("mode"), types.StringValue("dynamic"))
   - get:
     - string
     name: guest_network
@@ -569,11 +557,8 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
-        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
-          types.StringValue("dynamic")),
-
-          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"),
-          types.StringValue("dot1x"))'
+        schema_definition: |- 
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"), types.StringValue("dot1x"))
   - get:
     - bool
     name: inter_switch_link
@@ -582,11 +567,8 @@ next:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"),
-          types.StringValue("dynamic")),
-
-          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"),
-          types.StringValue("dot1x"))'
+        schema_definition: |-
+          mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"), types.StringValue("dot1x"))
   - get:
     - bool
     name: mac_auth_only
@@ -660,8 +642,8 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
         schema_definition: |-
-          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("mode"), types.StringValue("access")),
-          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"), types.StringValue("dot1x"))
+          mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName("mode"), types.StringValue("access")),
+          mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"), types.StringValue("dot1x"))
   - get:
     - bool
     name: poe_disabled
@@ -710,7 +692,6 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
         schema_definition: |-
           int64validator.Between(10, 65535),
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"), types.StringValue("dynamic")),
           mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"), types.StringValue("dot1x"))
   - get:
     - string
@@ -722,7 +703,6 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework/path
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
         schema_definition: |-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"), types.StringValue("dynamic")),
           mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"), types.StringValue("dot1x"))
   - get:
     - string
@@ -734,7 +714,6 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework/path
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
         schema_definition: |-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("mode"), types.StringValue("dynamic")),
           mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("port_auth"), types.StringValue("dot1x"))
   - get:
     - string
@@ -1119,8 +1098,8 @@ next:
               listvalidator.SizeAtLeast(1),
               listvalidator.ValueStringsAre(
                 stringvalidator.Any(
-                mistvalidator.ParseCidr(true, true),
-                mistvalidator.ParseIp(true, true),
+                mistvalidator.ParseCidr(false, false),
+                mistvalidator.ParseIp(false, false),
                 ),
               )
       - name: port_range
