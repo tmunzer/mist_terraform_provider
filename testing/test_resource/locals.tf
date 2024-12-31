@@ -1,4 +1,9 @@
+// SRX320 #1: CV4YAS8DQWYLL6M
+// SRX320 #D: 2GVEJAD6DXHCGLB
+
 locals {
   node0 = "4c9614ae1500"
   node1 = "4c9614f32f00"
+  cc_srx320_1 = "CV4YAS8DQWYLL6M"
+  cc_srx320_d = "2GVEJAD6DXHCGLB"
 }

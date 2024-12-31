@@ -32,8 +32,6 @@ resources:
         - nameid_format
         - role_attr_extraction
         - role_attr_from
-        - scim_enabled
-        - scim_secret_token
       attributes:
         aliases:
           sso_id: id

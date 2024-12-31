@@ -25,7 +25,7 @@ resource "mist_org_setting" "terraform_test" {
   ap_updown_threshold      = 10
   device_updown_threshold  = 10
   disable_pcap             = false
-  disable_remote_shell     = true
+  disable_remote_shell     = false
   gateway_updown_threshold = 10
   mxedge_mgmt = {
     mist_password = "mist_secret_passowrd"
@@ -507,74 +507,77 @@ resource "mist_org_inventory" "inventory" {
   #   site_id = mist_site.terraform_site.id
   # },
   org_id = mist_org.terraform_test.id
-  devices = [
-    {
-      claim_code = "CPKL2EXN8JY98AC"
-      site_id    = mist_site.terraform_site.id
-    },
-    {
-      claim_code             = "G87JHBFXZJSFNMX"
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = true
-    },
-    {
-      claim_code = "CV4YAS8DQWYLL6M"
-      site_id    = mist_site.terraform_site.id
-    },
-    {
-      mac                    = (local.node0)
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = false
-    },
-    {
-      mac                    = (local.node1)
-      site_id                = mist_site.terraform_site.id
-      unclaim_when_destroyed = false
-    },
-    {
-      mac     = "4c9614026d00"
+  # devices = [
+  #   {
+  #     claim_code = "CPKL2EXN8JY98AC"
+  #     site_id    = mist_site.terraform_site.id
+  #   },
+  #   {
+  #     claim_code             = "G87JHBFXZJSFNMX"
+  #     site_id                = mist_site.terraform_site.id
+  #     unclaim_when_destroyed = true
+  #   },
+  #   {
+  #     claim_code = "CV4YAS8DQWYLL6M"
+  #     site_id    = mist_site.terraform_site.id
+  #   },
+  #   {
+  #     mac                    = (local.node0)
+  #     site_id                = mist_site.terraform_site.id
+  #     unclaim_when_destroyed = false
+  #   },
+  #   {
+  #     mac                    = (local.node1)
+  #     site_id                = mist_site.terraform_site.id
+  #     unclaim_when_destroyed = false
+  #   },
+  #   {
+  #     mac     = "4c9614026d00"
+  #     site_id = mist_site.terraform_site.id
+  #   },
+  #   {
+  #     mac     = "4c961418c000"
+  #     site_id = mist_site.terraform_site.id
+  #   },
+  #   {
+  #     mac = "020004bbf189"
+  #     //site_id = mist_site.terraform_site.id
+  #   }
+  # ]
+  inventory = {
+    "CPKL2EXN8JY98AC" = {
       site_id = mist_site.terraform_site.id
-    },
-    {
-      mac     = "4c961418c000"
-      site_id = mist_site.terraform_site.id
-    },
-    {
-      mac = "020004bbf189"
-      //site_id = mist_site.terraform_site.id
     }
-  ]
-  # inventory = {
-  #   "CPKL2EXN8JY98AC" = {
-  #     site_id = mist_site.terraform_site.id
-  #   }
-  #   "G87JHBFXZJSFNMX" = {
-  #     site_id                = mist_site.terraform_site.id
-  #     unclaim_when_destroyed = false
-  #   }
-  #   "CV4YAS8DQWYLL6M" = {
-  #     site_id = mist_site.terraform_site.id
-  #   }
-  #   (local.node0) = {
-  #     site_id                = mist_site.terraform_site.id
-  #     unclaim_when_destroyed = false
-  #   }
-  #   (local.node1) = {
-  #     site_id                = mist_site.terraform_site.id
-  #     unclaim_when_destroyed = false
-  #   }
-  #   "4c9614026d00" = {
-  #     site_id = mist_site.terraform_site.id
-  #   }
-  #   "4c9614026d00" = {
-  #     site_id                = mist_site.terraform_site.id
-  #     unclaim_when_destroyed = false
-  #   }
-  #   "4c961418c000" = {
-  #     site_id                = mist_site.terraform_site.id
-  #     unclaim_when_destroyed = false
-  #   }
-  # }
+    "G87JHBFXZJSFNMX" = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    }
+    (local.cc_srx320_1) = {
+      site_id = mist_site.terraform_site.id
+    }
+    (local.cc_srx320_d) = {
+      site_id = mist_site.terraform_site.id
+    }
+    (local.node0) = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    }
+    (local.node1) = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    }
+    "4c9614026d00" = {
+      site_id = mist_site.terraform_site.id
+    }
+    "4c9614026d00" = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    }
+    "4c961418c000" = {
+      site_id                = mist_site.terraform_site.id
+      unclaim_when_destroyed = false
+    }
+  }
 }
 
 
@@ -2257,13 +2260,13 @@ resource "mist_org_sitegroup" "test_group2" {
 #   name         = "tf"
 #   org_id       = mist_org.terraform_test.id
 # }
-resource "mist_site_setting" "test" {
+resource "mist_site_setting" "terraform_site" {
   site_id = mist_site.terraform_site.id
   # analytic = {
   #   enabled = true
   # }
   gateway_mgmt = {
-    root_password = "pwd123"
+    root_password = "Aerohive1!"
     app_usage     = true
     auto_signature_update = {
       enable      = true
@@ -3425,27 +3428,158 @@ resource "mist_device_switch" "test_switch" {
 #   macs = [mist_org_inventory.inventory.devices[4].mac]
 
 # }
-resource "mist_device_gateway" "hub_one" {
-  device_id              = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, "CV4YAS8DQWYLL6M").id
-  site_id                = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, "CV4YAS8DQWYLL6M").site_id
-  name                   = "hub_one2"
-  additional_config_cmds = ["#", "###"]
+resource "mist_device_gateway_cluster" "cluster_two" {
+  site_id = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, local.cc_srx320_1).site_id
+  nodes = [
+    { mac = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, local.cc_srx320_1).mac },
+    { mac = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, local.cc_srx320_d).mac },
+  ]
+}
+resource "mist_device_gateway" "cluster_two" {
+  device_id              = resource.mist_device_gateway_cluster.cluster_two.id
+  site_id                = provider::mist::search_inventory_by_claimcode(resource.mist_org_inventory.inventory, (local.cc_srx320_1)).site_id
+  name                   = "cluster_two"
   dns_servers            = ["8.8.8.8"]
   managed                = true
   dhcpd_config = {
-    enabled = true,
-    config = { # This code block seems to be the cause, if I remove it, I stop seeing the constant diff
-      mykey = {}
+    config = {
+      "CORE_VLAN410" = {
+        dns_servers = ["8.8.8.8"]
+        dns_suffix  = ["mycorp.local"]
+        fixed_bindings = {
+          "deadbeefdead" = {
+            ip   = "10.4.171.11"
+            name = "c0ffee"
+          }
+        }
+        gateway    = "10.4.171.1"
+        ip_end     = "10.4.171.100"
+        ip_start   = "10.4.171.10"
+        lease_time = "5463"
+        options = {
+          "42" = {
+            type  = "string"
+            value = "2.2.2.2"
+          }
+        }
+        type = "local"
+      }
+      "RESTRICTED_VLAN420" = {
+        type    = "relay"
+        servers = ["1.2.3.4"]
+      }
     }
   }
-  oob_ip_config = {
+  vrf_instances = {
+    VRF_ONE = {
+      networks = [
+        "CORE_VLAN410",
+        "RESTRICTED_VLAN420"
+      ]
+    }
+  }
+  vrf_config = {
+    enabled = true
   }
   port_config = {
-    "ge-0/0/10" = {
-      name  = "WAN_0"
-      usage = "wan"
+    "ge-0/0/3,ge-3/0/3" = {
+      usage     = "lan"
+      redundant = true
+      networks = [
+        "CORE_VLAN410",
+        "RESTRICTED_VLAN420",
+        "AUTOMATION_VLAN460",
+        "UNTRUSTED_VLAN490",
+        "MANAGEMENT_VLAN430",
+      ]
+      reth_idx  = "3"
+      reth_node = "node0"
+    }
+    "ge-0/0/7,ge-3/0/7" = {
+      name       = "WAN0"
+      usage      = "wan"
+      aggregated = false
+      redundant  = true
+      critical   = false
+      wan_type   = "broadband"
+      ip_config = {
+        type    = "dhcp"
+      }
+      disable_autoneg = false
+      speed           = "auto"
+      duplex          = "auto"
+      wan_source_nat = {
+        disabled = false
+      }
     }
   }
+  ip_configs = {
+    "CORE_VLAN410" = {
+      type    = "static"
+      ip      = "10.4.171.1"
+      netmask = "/24"
+    }
+    "RESTRICTED_VLAN420" = {
+      type    = "static"
+      ip      = "10.5.171.1"
+      netmask = "/24"
+    }
+    "AUTOMATION_VLAN460" = {
+      type    = "static"
+      ip      = "10.6.171.1"
+      netmask = "/24"
+    }
+    "UNTRUSTED_VLAN490" = {
+      type    = "static"
+      ip      = "10.7.171.1"
+      netmask = "/24"
+    }
+    "MANAGEMENT_VLAN430" = {
+      type    = "static"
+      ip      = "10.8.171.1"
+      netmask = "/24"
+    }
+  }
+  path_preferences = {
+    HUB = {
+      paths = [
+        {
+          type = "wan"
+          name = "WAN0"
+        }
+      ]
+    }
+  }
+  service_policies = [
+    {
+      name            = "Policy-14"
+      tenants         = ["MANAGEMENT_VLAN430"]
+      services        = ["any"]
+      action          = "allow"
+      path_preference = "HUB"
+      idp = {
+        enabled    = true
+        profile    = "critical"
+        alert_only = false
+      }
+    },
+    {
+      name            = "Policy-15"
+      tenants         = ["MANAGEMENT_VLAN430"]
+      services        = ["any"]
+      action          = "allow"
+      path_preference = "HUB"
+      idp = {
+        enabled       = true
+        idpprofile_id = mist_org_idpprofile.test1.id
+        profile       = "Custom"
+      }
+    },
+    {
+      servicepolicy_id = mist_org_servicepolicy.test1.id
+      path_preference  = "HUB"
+    }
+  ]
   tunnel_configs = {
     default = {
       ike_lifetime = 28811,
@@ -3464,11 +3598,11 @@ resource "mist_device_gateway" "hub_one" {
           enc_algo  = "aes256",
         },
       ],
-      local_id = "test-local-id",
+      local_id = "1.2.3.4",
       primary = {
         hosts      = ["192.0.2.1"],
         remote_ids = ["192.0.2.2"],
-        wan_names  = ["WAN_0"],
+        wan_names  = ["WAN0"],
       },
       protocol = "ipsec",
       provider = "custom-ipsec",
@@ -3477,11 +3611,6 @@ resource "mist_device_gateway" "hub_one" {
     },
   }
 }
-# resource "mist_device_switch" "switch_one" {
-#   site_id = mist_org_inventory.inventory.devices[3].site_id
-#   device_id = mist_org_inventory.inventory.devices[3].id
-#   name = "hub_one"
-# }
 
 resource "mist_org_deviceprofile_gateway" "hub_one" {
   name   = "hub_one"
@@ -3692,6 +3821,7 @@ resource "mist_org_network" "CORE_VLAN410" {
   }
   disallow_mist_services = true
   name                   = "CORE_VLAN410"
+  vlan_id = "410"
 }
 resource "mist_org_network" "RESTRICTED_VLAN420" {
   org_id    = mist_org.terraform_test.id
@@ -3706,6 +3836,7 @@ resource "mist_org_network" "RESTRICTED_VLAN420" {
   }
   disallow_mist_services = true
   name                   = "RESTRICTED_VLAN420"
+  vlan_id = "420"
 }
 resource "mist_org_network" "AUTOMATION_VLAN460" {
   org_id    = mist_org.terraform_test.id
@@ -3720,6 +3851,7 @@ resource "mist_org_network" "AUTOMATION_VLAN460" {
   }
   disallow_mist_services = true
   name                   = "AUTOMATION_VLAN460"
+  vlan_id = "460"
 }
 resource "mist_org_network" "UNTRUSTED_VLAN490" {
   org_id    = mist_org.terraform_test.id
@@ -3734,6 +3866,7 @@ resource "mist_org_network" "UNTRUSTED_VLAN490" {
   }
   disallow_mist_services = true
   name                   = "UNTRUSTED_VLAN490"
+  vlan_id = "490"
 }
 resource "mist_org_network" "MANAGEMENT_VLAN430" {
   org_id    = mist_org.terraform_test.id
@@ -3748,6 +3881,7 @@ resource "mist_org_network" "MANAGEMENT_VLAN430" {
   }
   disallow_mist_services = true
   name                   = "MANAGEMENT_VLAN430"
+  vlan_id = "430"
 }
 
 resource "mist_org_gatewaytemplate" "gatewaytemplate_one" {
@@ -4259,6 +4393,7 @@ resource "mist_site_setting" "site_two" {
   ap_updown_threshold     = 5
   device_updown_threshold = 5
   gateway_mgmt = {
+    root_password = "Aerohive1!"
     app_probing = {
       custom_apps = [{
         hostnames = [

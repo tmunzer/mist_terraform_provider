@@ -46,7 +46,7 @@
 													}
 												]
 											},
-											"description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
+											"description": "ACL Policy Actions:\n  - for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
 										}
 									},
 									{
@@ -62,7 +62,7 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
+											"description": "ACL Policy Source Tags:\n  - for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
 										}
 									}
 								]
@@ -79,7 +79,7 @@
 										"name": "gbp_tag",
 										"int64": {
 											"computed_optional_required": "computed_optional",
-											"description": "required if\n- `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n- `type`==`gbp_resource`\n- `type`==`static_gbp` (applying gbp tag against matching conditions)"
+											"description": "required if\n  - `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n  - `type`==`gbp_resource`\n  - `type`==`static_gbp` (applying gbp tag against matching conditions)"
 										}
 									},
 									{
@@ -528,40 +528,6 @@
 						}
 					},
 					{
-						"name": "evpn_config",
-						"single_nested": {
-							"computed_optional_required": "computed_optional",
-							"attributes": [
-								{
-									"name": "enabled",
-									"bool": {
-										"computed_optional_required": "computed_optional"
-									}
-								},
-								{
-									"name": "role",
-									"string": {
-										"computed_optional_required": "computed_optional",
-										"description": "enum: `access`, `collapsed-core`, `core`, `distribution`, `esilag-access`, `none`",
-										"validators": [
-											{
-												"custom": {
-													"imports": [
-														{
-															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-														}
-													],
-													"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"access\",\n\"collapsed-core\",\n\"core\",\n\"distribution\",\n\"esilag-access\",\n\"none\",\n)"
-												}
-											}
-										]
-									}
-								}
-							],
-							"description": "EVPN Junos settings"
-						}
-					},
-					{
 						"name": "extra_routes",
 						"map_nested": {
 							"computed_optional_required": "computed_optional",
@@ -887,7 +853,7 @@
 										"name": "allow_dhcpd",
 										"bool": {
 											"computed_optional_required": "computed_optional",
-											"description": "If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with.\nAll the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\nWhen it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
+											"description": "If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state. When it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
 										}
 									},
 									{
@@ -1010,7 +976,7 @@
 											"default": {
 												"static": false
 											},
-											"description": "inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
+											"description": "inter_switch_link is used together with \"isolation\" under networks. NOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
 										}
 									},
 									{
@@ -1431,7 +1397,7 @@
 											"default": {
 												"static": false
 											},
-											"description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required)\nNOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
+											"description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required). NOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
 										}
 									},
 									{
@@ -1555,7 +1521,7 @@
 									}
 								}
 							],
-							"description": "- If HA configuration: key parameter will be nodeX (eg: node1)\n- If there are 2 routing engines, re1 mgmt IP has to be set separately (if desired): key parameter = `re1`"
+							"description": "Switch OOB IP Config:\n  - If HA configuration: key parameter will be nodeX (eg: node1)\n  - If there are 2 routing engines, re1 mgmt IP has to be set separately (if desired): key parameter = `re1`"
 						}
 					},
 					{
@@ -2080,7 +2046,7 @@
 									}
 								]
 							},
-							"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
+							"description": "Property key is the port mirroring instance name. `port_mirroring` can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
 						}
 					},
 					{
@@ -2103,7 +2069,7 @@
 										"name": "allow_dhcpd",
 										"bool": {
 											"computed_optional_required": "computed_optional",
-											"description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with.\nAll the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\nWhen it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
+											"description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state. When it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
 										}
 									},
 									{
@@ -2229,7 +2195,7 @@
 											"default": {
 												"static": false
 											},
-											"description": "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
+											"description": "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks. NOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
 										}
 									},
 									{
@@ -2580,7 +2546,7 @@
 													}
 												}
 											],
-											"description": "Switch storm control\nOnly if `mode`!=`dynamic`"
+											"description": "Switch storm control. Only if `mode`!=`dynamic`"
 										}
 									},
 									{
@@ -2894,7 +2860,7 @@
 									"name": "network",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"description": "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
+										"description": "use `network`or `source_ip`. Which network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
 									}
 								},
 								{
@@ -3881,7 +3847,7 @@
 																			"name": "authentication_password",
 																			"string": {
 																				"computed_optional_required": "computed_optional",
-																				"description": "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
+																				"description": "Not required if `authentication_type`==`authentication_none`. Include alphabetic, numeric, and special characters, but it cannot include control characters.",
 																				"validators": [
 																					{
 																						"custom": {
@@ -3919,7 +3885,7 @@
 																			"name": "encryption_password",
 																			"string": {
 																				"computed_optional_required": "computed_optional",
-																				"description": "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
+																				"description": "Not required if `encryption_type`==`privacy-none`. Include alphabetic, numeric, and special characters, but it cannot include control characters",
 																				"validators": [
 																					{
 																						"custom": {
@@ -4821,7 +4787,7 @@
 													}
 												]
 											},
-											"description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
+											"description": "ACL Policy Actions:\n  - for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
 										}
 									},
 									{
@@ -4837,7 +4803,7 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
+											"description": "ACL Policy Source Tags:\n  - for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
 										}
 									}
 								]
@@ -4854,7 +4820,7 @@
 										"name": "gbp_tag",
 										"int64": {
 											"computed_optional_required": "computed_optional",
-											"description": "required if\n- `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n- `type`==`gbp_resource`\n- `type`==`static_gbp` (applying gbp tag against matching conditions)"
+											"description": "required if\n  - `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n  - `type`==`gbp_resource`\n  - `type`==`static_gbp` (applying gbp tag against matching conditions)"
 										}
 									},
 									{
@@ -5270,7 +5236,7 @@
 											"default": {
 												"static": false
 											},
-											"description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required)\nNOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
+											"description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required). NOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
 										}
 									},
 									{
@@ -5589,7 +5555,7 @@
 									}
 								]
 							},
-							"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
+							"description": "Property key is the port mirroring instance name. `port_mirroring` can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
 						}
 					},
 					{
@@ -5612,7 +5578,7 @@
 										"name": "allow_dhcpd",
 										"bool": {
 											"computed_optional_required": "computed_optional",
-											"description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with.\nAll the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\nWhen it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
+											"description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state. When it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
 										}
 									},
 									{
@@ -5738,7 +5704,7 @@
 											"default": {
 												"static": false
 											},
-											"description": "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
+											"description": "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks. NOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
 										}
 									},
 									{
@@ -6089,7 +6055,7 @@
 													}
 												}
 											],
-											"description": "Switch storm control\nOnly if `mode`!=`dynamic`"
+											"description": "Switch storm control. Only if `mode`!=`dynamic`"
 										}
 									},
 									{
@@ -6410,7 +6376,7 @@
 									"name": "network",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"description": "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
+										"description": "use `network`or `source_ip`. Which network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
 									}
 								},
 								{
@@ -7381,7 +7347,7 @@
 																			"name": "authentication_password",
 																			"string": {
 																				"computed_optional_required": "computed_optional",
-																				"description": "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
+																				"description": "Not required if `authentication_type`==`authentication_none`. Include alphabetic, numeric, and special characters, but it cannot include control characters.",
 																				"validators": [
 																					{
 																						"custom": {
@@ -7419,7 +7385,7 @@
 																			"name": "encryption_password",
 																			"string": {
 																				"computed_optional_required": "computed_optional",
-																				"description": "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
+																				"description": "Not required if `encryption_type`==`privacy-none`. Include alphabetic, numeric, and special characters, but it cannot include control characters",
 																				"validators": [
 																					{
 																						"custom": {
@@ -8102,7 +8068,7 @@
 																}
 															]
 														},
-														"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
+														"description": "Property key is the port mirroring instance name. `port_mirroring` can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
 													}
 												}
 											]
@@ -8605,7 +8571,7 @@
 													}
 												]
 											},
-											"description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
+											"description": "ACL Policy Actions:\n  - for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
 										}
 									},
 									{
@@ -8621,7 +8587,7 @@
 											"element_type": {
 												"string": {}
 											},
-											"description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
+											"description": "ACL Policy Source Tags:\n  - for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
 										}
 									}
 								]
@@ -8638,7 +8604,7 @@
 										"name": "gbp_tag",
 										"int64": {
 											"computed_optional_required": "computed_optional",
-											"description": "required if\n- `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n- `type`==`gbp_resource`\n- `type`==`static_gbp` (applying gbp tag against matching conditions)"
+											"description": "required if\n  - `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n  - `type`==`gbp_resource`\n  - `type`==`static_gbp` (applying gbp tag against matching conditions)"
 										}
 									},
 									{
@@ -9011,42 +8977,6 @@
 						}
 					},
 					{
-						"name": "juniper_srx",
-						"single_nested": {
-							"computed_optional_required": "computed_optional",
-							"attributes": [
-								{
-									"name": "gateways",
-									"list_nested": {
-										"computed_optional_required": "computed_optional",
-										"nested_object": {
-											"attributes": [
-												{
-													"name": "api_key",
-													"string": {
-														"computed_optional_required": "computed_optional"
-													}
-												},
-												{
-													"name": "api_url",
-													"string": {
-														"computed_optional_required": "computed_optional"
-													}
-												}
-											]
-										}
-									}
-								},
-								{
-									"name": "send_mist_nac_user_info",
-									"bool": {
-										"computed_optional_required": "computed_optional"
-									}
-								}
-							]
-						}
-					},
-					{
 						"name": "mist_nac",
 						"single_nested": {
 							"computed_optional_required": "computed_optional",
@@ -9094,7 +9024,7 @@
 											"default": {
 												"static": false
 											},
-											"description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required)\nNOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
+											"description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required). NOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
 										}
 									},
 									{
@@ -9407,7 +9337,7 @@
 									}
 								]
 							},
-							"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
+							"description": "Property key is the port mirroring instance name. `port_mirroring` can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
 						}
 					},
 					{
@@ -9430,7 +9360,7 @@
 										"name": "allow_dhcpd",
 										"bool": {
 											"computed_optional_required": "computed_optional",
-											"description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with.\nAll the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\nWhen it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
+											"description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state. When it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
 										}
 									},
 									{
@@ -9556,7 +9486,7 @@
 											"default": {
 												"static": false
 											},
-											"description": "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
+											"description": "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks. NOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
 										}
 									},
 									{
@@ -9907,7 +9837,7 @@
 													}
 												}
 											],
-											"description": "Switch storm control\nOnly if `mode`!=`dynamic`"
+											"description": "Switch storm control. Only if `mode`!=`dynamic`"
 										}
 									},
 									{
@@ -10228,7 +10158,7 @@
 									"name": "network",
 									"string": {
 										"computed_optional_required": "computed_optional",
-										"description": "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
+										"description": "use `network`or `source_ip`. Which network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
 									}
 								},
 								{
@@ -11199,7 +11129,7 @@
 																			"name": "authentication_password",
 																			"string": {
 																				"computed_optional_required": "computed_optional",
-																				"description": "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
+																				"description": "Not required if `authentication_type`==`authentication_none`. Include alphabetic, numeric, and special characters, but it cannot include control characters.",
 																				"validators": [
 																					{
 																						"custom": {
@@ -11237,7 +11167,7 @@
 																			"name": "encryption_password",
 																			"string": {
 																				"computed_optional_required": "computed_optional",
-																				"description": "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
+																				"description": "Not required if `encryption_type`==`privacy-none`. Include alphabetic, numeric, and special characters, but it cannot include control characters",
 																				"validators": [
 																					{
 																						"custom": {
@@ -11920,7 +11850,7 @@
 																}
 															]
 														},
-														"description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
+														"description": "Property key is the port mirroring instance name. `port_mirroring` can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
 													}
 												}
 											]

@@ -20,6 +20,7 @@ resources:
         - modified_time
         - for_site
         - id
+        - evpn_config
         - switch_mgmt.radius
         - deviceprofile_id
         - port_usages.ui_evpntopo_id
@@ -88,6 +89,7 @@ resources:
         - gateway_additional_config_cmds
         - gateway_mgmt
         - gateway_updown_threshold
+        - juniper_srx
         - led
         - modified_time
         - mxedge

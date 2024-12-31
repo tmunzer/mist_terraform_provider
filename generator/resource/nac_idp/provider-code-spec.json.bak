@@ -1,0 +1,291 @@
+{
+	"provider": {
+		"name": "mistapi"
+	},
+	"resources": [
+		{
+			"name": "org_nacidp",
+			"schema": {
+				"attributes": [
+					{
+						"name": "group_filter",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Required if `ldap_type`==`custom`, LDAP filter that will identify the type of group"
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Unique ID of the object instance in the Mist Organnization"
+						}
+					},
+					{
+						"name": "idp_type",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "saml"
+							},
+							"description": "SSO IDP Type:\n  * For Admin SSO, enum: `saml`\n  * For NAC SSO, enum: `ldap`, `mxedge_proxy`, `oauth`",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"ldap\",\n\"mxedge_proxy\",\n\"oauth\",\n\"saml\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "ldap_base_dn",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Required if `idp_type`==`ldap`, whole domain or a specific organization unit (container) in Search base to specify where users and groups are found in the LDAP tree"
+						}
+					},
+					{
+						"name": "ldap_bind_dn",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Required if `idp_type`==`ldap`, the account used to authenticate against the LDAP"
+						}
+					},
+					{
+						"name": "ldap_bind_password",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Required if `idp_type`==`ldap`, the password used to authenticate against the LDAP"
+						}
+					},
+					{
+						"name": "ldap_cacerts",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "Required if `idp_type`==`ldap`, list of CA certificates to validate the LDAP certificate"
+						}
+					},
+					{
+						"name": "ldap_client_cert",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `idp_type`==`ldap`, LDAPS Client certificate"
+						}
+					},
+					{
+						"name": "ldap_client_key",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `idp_type`==`ldap`, Key for the `ldap_client_cert`"
+						}
+					},
+					{
+						"name": "ldap_group_attr",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "memberOf"
+							},
+							"description": "if `ldap_type`==`custom`"
+						}
+					},
+					{
+						"name": "ldap_group_dn",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "base_dn"
+							},
+							"description": "if `ldap_type`==`custom`"
+						}
+					},
+					{
+						"name": "ldap_resolve_groups",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if `idp_type`==`ldap`, whether to recursively resolve LDAP groups"
+						}
+					},
+					{
+						"name": "ldap_server_hosts",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "if `idp_type`==`ldap`, list of LDAP/LDAPS server IP Addresses or Hostnames"
+						}
+					},
+					{
+						"name": "ldap_type",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "azure"
+							},
+							"description": "if `idp_type`==`ldap`. enum: `azure`, `custom`, `google`, `okta`, `ping_identity`",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"azure\",\n\"custom\",\n\"google\",\n\"okta\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "ldap_user_filter",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Required if `ldap_type`==`custom`, LDAP filter that will identify the type of user"
+						}
+					},
+					{
+						"name": "member_filter",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Required if `ldap_type`==`custom`,LDAP filter that will identify the type of member"
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "name"
+						}
+					},
+					{
+						"name": "oauth_cc_client_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Required if `idp_type`==`oauth`, Client Credentials"
+						}
+					},
+					{
+						"name": "oauth_cc_client_secret",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Required if `idp_type`==`oauth`, oauth_cc_client_secret is RSA private key, of the form \"-----BEGIN RSA PRIVATE KEY--....\""
+						}
+					},
+					{
+						"name": "oauth_discovery_url",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `idp_type`==`oauth`"
+						}
+					},
+					{
+						"name": "oauth_ping_identity_region",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "us"
+							},
+							"description": "enum: `us` (United States, default), `ca` (Canada), `eu` (Europe), `asia` (Asia), `au` (Australia)",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"asia\",\n\"au\",\n\"ca\",\n\"eu\",\n\"us\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "oauth_ropc_client_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `idp_type`==`oauth`, ropc = Resource Owner Password Credentials"
+						}
+					},
+					{
+						"name": "oauth_ropc_client_secret",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "if `oauth_type`==`azure` or `oauth_type`==`azure-gov`. oauth_ropc_client_secret can be empty"
+						}
+					},
+					{
+						"name": "oauth_tenant_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Required if `idp_type`==`oauth`, oauth_tenant_id"
+						}
+					},
+					{
+						"name": "oauth_type",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "azure"
+							},
+							"description": "if `idp_type`==`oauth`. enum: `azure`, `azure-gov`, `okta`, `ping_identity`",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"\",\n\"azure\",\n\"azure-gov\",\n\"okta\",\n\"ping_identity\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "org_id",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "scim_enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": false
+							},
+							"description": "if `idp_type`==`oauth`, indicates if SCIM provisioning is enabled for the OAuth IDP"
+						}
+					},
+					{
+						"name": "scim_secret_token",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
+							"description": "if `idp_type`==`oauth`, scim_secret_token (auto-generated when not provided by caller and `scim_enabled`==`true`, empty string when `scim_enabled`==`false`) is used as the Bearer token in the Authorization header of SCIM provisioning requests by the IDP"
+						}
+					}
+				]
+			}
+		}
+	],
+	"version": "0.1"
+}

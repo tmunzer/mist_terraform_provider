@@ -100,7 +100,7 @@
 										"name": "extended_v4_nexthop",
 										"bool": {
 											"computed_optional_required": "computed_optional",
-											"description": "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6)\nfor v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this"
+											"description": "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6). For v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this"
 										}
 									},
 									{
@@ -1241,7 +1241,7 @@
 														"name": "no_readvertise_to_overlay",
 														"bool": {
 															"computed_optional_required": "computed_optional",
-															"description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+															"description": "toward overlay, how HUB should deal with routes it received from Spokes"
 														}
 													},
 													{
@@ -1251,7 +1251,7 @@
 															"element_type": {
 																"string": {}
 															},
-															"description": "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs"
+															"description": "by default, the routes are only readvertised toward the same vrf on spoke. To allow it to be leaked to other vrfs"
 														}
 													},
 													{
@@ -1304,7 +1304,7 @@
 														"name": "summarized_subnet",
 														"string": {
 															"computed_optional_required": "computed_optional",
-															"description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+															"description": "toward overlay, how HUB should deal with routes it received from Spokes"
 														}
 													},
 													{
@@ -1748,7 +1748,7 @@
 											"default": {
 												"static": 35
 											},
-											"description": "if `wan_type`==`dsl`\n16 bit int"
+											"description": "if `wan_type`==`dsl`, 16 bit int"
 										}
 									},
 									{
@@ -1758,7 +1758,7 @@
 											"default": {
 												"static": 0
 											},
-											"description": "if `wan_type`==`dsl`\n8 bit int"
+											"description": "if `wan_type`==`dsl`, 8 bit int"
 										}
 									},
 									{
@@ -2659,7 +2659,7 @@
 																					"default": {
 																						"static": "default"
 																					},
-																					"description": "name of the vrf instance\nit can also be the name of the VPN or wan if they"
+																					"description": "name of the vrf instance, it can also be the name of the VPN or wan if they"
 																				}
 																			}
 																		]
@@ -2682,7 +2682,7 @@
 																		"element_type": {
 																			"string": {}
 																		},
-																		"description": "overlay-facing criteria (used for bgp_config where via=vpn)\nordered-"
+																		"description": "overlay-facing criteria (used for bgp_config where via=vpn). ordered-"
 																	}
 																},
 																{
@@ -2897,7 +2897,7 @@
 										"name": "path_preference",
 										"string": {
 											"computed_optional_required": "computed_optional",
-											"description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
+											"description": "by default, we derive all paths available and use them. Optionally, you can customize by using `path_preference`"
 										}
 									},
 									{
@@ -4144,7 +4144,7 @@
 										"name": "extended_v4_nexthop",
 										"bool": {
 											"computed_optional_required": "computed_optional",
-											"description": "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6)\nfor v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this"
+											"description": "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6). For v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this"
 										}
 									},
 									{
@@ -5243,7 +5243,7 @@
 														"name": "no_readvertise_to_overlay",
 														"bool": {
 															"computed_optional_required": "computed_optional",
-															"description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+															"description": "toward overlay, how HUB should deal with routes it received from Spokes"
 														}
 													},
 													{
@@ -5253,7 +5253,7 @@
 															"element_type": {
 																"string": {}
 															},
-															"description": "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs"
+															"description": "by default, the routes are only readvertised toward the same vrf on spoke. To allow it to be leaked to other vrfs"
 														}
 													},
 													{
@@ -5306,7 +5306,7 @@
 														"name": "summarized_subnet",
 														"string": {
 															"computed_optional_required": "computed_optional",
-															"description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+															"description": "toward overlay, how HUB should deal with routes it received from Spokes"
 														}
 													},
 													{
@@ -5742,7 +5742,7 @@
 											"default": {
 												"static": 35
 											},
-											"description": "if `wan_type`==`dsl`\n16 bit int"
+											"description": "if `wan_type`==`dsl`, 16 bit int"
 										}
 									},
 									{
@@ -5752,7 +5752,7 @@
 											"default": {
 												"static": 0
 											},
-											"description": "if `wan_type`==`dsl`\n8 bit int"
+											"description": "if `wan_type`==`dsl`, 8 bit int"
 										}
 									},
 									{
@@ -6592,7 +6592,7 @@
 																					"default": {
 																						"static": "default"
 																					},
-																					"description": "name of the vrf instance\nit can also be the name of the VPN or wan if they"
+																					"description": "name of the vrf instance, it can also be the name of the VPN or wan if they"
 																				}
 																			}
 																		]
@@ -6615,7 +6615,7 @@
 																		"element_type": {
 																			"string": {}
 																		},
-																		"description": "overlay-facing criteria (used for bgp_config where via=vpn)\nordered-"
+																		"description": "overlay-facing criteria (used for bgp_config where via=vpn). ordered-"
 																	}
 																},
 																{
@@ -6823,7 +6823,7 @@
 										"name": "path_preference",
 										"string": {
 											"computed_optional_required": "computed_optional",
-											"description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
+											"description": "by default, we derive all paths available and use them. Optionally, you can customize by using `path_preference`"
 										}
 									},
 									{
@@ -8034,7 +8034,7 @@
 										"name": "extended_v4_nexthop",
 										"bool": {
 											"computed_optional_required": "computed_optional",
-											"description": "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6)\nfor v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this"
+											"description": "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6). For v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this"
 										}
 									},
 									{
@@ -9133,7 +9133,7 @@
 														"name": "no_readvertise_to_overlay",
 														"bool": {
 															"computed_optional_required": "computed_optional",
-															"description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+															"description": "toward overlay, how HUB should deal with routes it received from Spokes"
 														}
 													},
 													{
@@ -9143,7 +9143,7 @@
 															"element_type": {
 																"string": {}
 															},
-															"description": "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs"
+															"description": "by default, the routes are only readvertised toward the same vrf on spoke. To allow it to be leaked to other vrfs"
 														}
 													},
 													{
@@ -9196,7 +9196,7 @@
 														"name": "summarized_subnet",
 														"string": {
 															"computed_optional_required": "computed_optional",
-															"description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+															"description": "toward overlay, how HUB should deal with routes it received from Spokes"
 														}
 													},
 													{
@@ -9632,7 +9632,7 @@
 											"default": {
 												"static": 35
 											},
-											"description": "if `wan_type`==`dsl`\n16 bit int"
+											"description": "if `wan_type`==`dsl`, 16 bit int"
 										}
 									},
 									{
@@ -9642,7 +9642,7 @@
 											"default": {
 												"static": 0
 											},
-											"description": "if `wan_type`==`dsl`\n8 bit int"
+											"description": "if `wan_type`==`dsl`, 8 bit int"
 										}
 									},
 									{
@@ -10482,7 +10482,7 @@
 																					"default": {
 																						"static": "default"
 																					},
-																					"description": "name of the vrf instance\nit can also be the name of the VPN or wan if they"
+																					"description": "name of the vrf instance, it can also be the name of the VPN or wan if they"
 																				}
 																			}
 																		]
@@ -10505,7 +10505,7 @@
 																		"element_type": {
 																			"string": {}
 																		},
-																		"description": "overlay-facing criteria (used for bgp_config where via=vpn)\nordered-"
+																		"description": "overlay-facing criteria (used for bgp_config where via=vpn). ordered-"
 																	}
 																},
 																{
@@ -10713,7 +10713,7 @@
 										"name": "path_preference",
 										"string": {
 											"computed_optional_required": "computed_optional",
-											"description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
+											"description": "by default, we derive all paths available and use them. Optionally, you can customize by using `path_preference`"
 										}
 									},
 									{

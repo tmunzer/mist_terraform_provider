@@ -1,0 +1,142 @@
+{
+    "provider": {
+        "name": "mistapi"
+    },
+    "resources": [
+        {
+            "name": "org_sso",
+            "schema": {
+                "attributes": [
+                    {
+                        "name": "custom_logout_url",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "a URL we will redirect the user after user logout from Mist (for some IdP which supports a custom logout URL that is different from SP-initiated SLO process)"
+                        }
+                    },
+                    {
+                        "name": "default_role",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "default role to assign if there\u2019s no match. By default, an assertion is treated as invalid when there\u2019s no role matched"
+                        }
+                    },
+                    {
+                        "name": "domain",
+                        "string": {
+                            "computed_optional_required": "computed",
+                            "description": "random string generated during the SSO creation and used to generate the SAML URLs:\n  * ACS URL = `/api/v1/saml/{domain}/login` (e.g. `https://api.mist.com/api/v1/saml/s4t5vwv8/login`)\n  * Single Logout URL = `/api/v1/saml/{domain}/logout` (e.g. `https://api.mist.com/api/v1/saml/s4t5vwv8/logout`)"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "string": {
+                            "computed_optional_required": "computed",
+                            "description": "Unique ID of the object instance in the Mist Organnization"
+                        }
+                    },
+                    {
+                        "name": "idp_cert",
+                        "string": {
+                            "computed_optional_required": "required",
+                            "description": "IDP Cert (used to verify the signed response)"
+                        }
+                    },
+                    {
+                        "name": "idp_sign_algo",
+                        "string": {
+                            "computed_optional_required": "required",
+                            "description": "Signing algorithm for SAML Assertion. enum `sha1`, `sha256`, `sha384`, `sha512`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"sha1\",\n\"sha256\",\n\"sha384\",\n\"sha512\",\n)"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "idp_sso_url",
+                        "string": {
+                            "computed_optional_required": "required",
+                            "description": "IDP Single-Sign-On URL"
+                        }
+                    },
+                    {
+                        "name": "ignore_unmatched_roles",
+                        "bool": {
+                            "computed_optional_required": "optional",
+                            "description": "ignore any unmatched roles provided in assertion. By default, an assertion is treated as invalid for any unmatched role"
+                        }
+                    },
+                    {
+                        "name": "issuer",
+                        "string": {
+                            "computed_optional_required": "required",
+                            "description": "IDP issuer URL"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "string": {
+                            "computed_optional_required": "required",
+                            "description": "name"
+                        }
+                    },
+                    {
+                        "name": "nameid_format",
+                        "string": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": "email"
+                            },
+                            "description": "enum: `email`, `unspecified`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"email\",\n\"unspecified\",\n)"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "org_id",
+                        "string": {
+                            "computed_optional_required": "required"
+                        }
+                    },
+                    {
+                        "name": "role_attr_extraction",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "custom role attribute parsing scheme. Supported Role Parsing Schemes <table><tr><th>Name</th><th>Scheme</th></tr><tr><td>`cn`</td><td><ul><li>The expected role attribute format in SAML Assertion is \u201cCN=cn,OU=ou1,OU=ou2,\u2026\u201d</li><li>CN (the key) is case insensitive and exactly 1 CN is expected (or the entire entry will be ignored)</li><li>E.g. if role attribute is \u201cCN=cn,OU=ou1,OU=ou2\u201d then parsed role value is \u201ccn\u201d</li></ul></td></tr></table>"
+                        }
+                    },
+                    {
+                        "name": "role_attr_from",
+                        "string": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": "Role"
+                            },
+                            "description": "name of the attribute in SAML Assertion to extract role from. Default: `Role`"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "version": "0.1"
+}

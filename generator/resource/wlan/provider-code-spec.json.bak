@@ -252,7 +252,7 @@
 										"element_type": {
 											"int64": {}
 										},
-										"description": "Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps\nProperty key is the wxtag id"
+										"description": "Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps. Property key is the `wxtag_id`"
 									}
 								}
 							],
@@ -1128,7 +1128,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "map between radius_group and the desired DNS server (IPv4 only)\nProperty key is the RADIUS group, property value is the desired DNS Server"
+										"description": "map between radius_group and the desired DNS server (IPv4 only). Property key is the RADIUS group, property value is the desired DNS Server"
 									}
 								}
 							],
@@ -1190,7 +1190,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "when 11r is enabled, we'll try to use the cached PMK, this can be disabled\n`false` means auto"
+										"description": "when 11r is enabled, we'll try to use the cached PMK, this can be disabled. `false` means auto"
 									}
 								},
 								{
@@ -2536,7 +2536,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "To use Org mxedges when this WLAN does not use mxtunnel, specify their mxcluster_ids.\nOrg mxedge(s) identified by mxcluster_ids"
+										"description": "To use Org mxedges when this WLAN does not use mxtunnel, specify their mxcluster_ids. Org mxedge(s) identified by mxcluster_ids"
 									}
 								},
 								{
@@ -2546,7 +2546,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "default is site.mxedge.radsec.proxy_hosts which must be a superset of all wlans[*].radsec.proxy_hosts\nwhen radsec.proxy_hosts are not used, tunnel peers (org or site mxedges) are used irrespective of use_site_mxedge"
+										"description": "default is site.mxedge.radsec.proxy_hosts which must be a superset of all `wlans[*].radsec.proxy_hosts`. When `radsec.proxy_hosts` are not used, tunnel peers (org or site mxedges) are used irrespective of `use_site_mxedge`"
 									}
 								},
 								{
@@ -5069,7 +5069,7 @@
 										"element_type": {
 											"int64": {}
 										},
-										"description": "Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps\nProperty key is the wxtag id"
+										"description": "Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps. Property key is the `wxtag_id`"
 									}
 								}
 							],
@@ -5945,7 +5945,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "map between radius_group and the desired DNS server (IPv4 only)\nProperty key is the RADIUS group, property value is the desired DNS Server"
+										"description": "map between radius_group and the desired DNS server (IPv4 only). Property key is the RADIUS group, property value is the desired DNS Server"
 									}
 								}
 							],
@@ -6007,7 +6007,7 @@
 										"default": {
 											"static": false
 										},
-										"description": "when 11r is enabled, we'll try to use the cached PMK, this can be disabled\n`false` means auto"
+										"description": "when 11r is enabled, we'll try to use the cached PMK, this can be disabled. `false` means auto"
 									}
 								},
 								{
@@ -7353,7 +7353,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "To use Org mxedges when this WLAN does not use mxtunnel, specify their mxcluster_ids.\nOrg mxedge(s) identified by mxcluster_ids"
+										"description": "To use Org mxedges when this WLAN does not use mxtunnel, specify their mxcluster_ids. Org mxedge(s) identified by mxcluster_ids"
 									}
 								},
 								{
@@ -7363,7 +7363,7 @@
 										"element_type": {
 											"string": {}
 										},
-										"description": "default is site.mxedge.radsec.proxy_hosts which must be a superset of all wlans[*].radsec.proxy_hosts\nwhen radsec.proxy_hosts are not used, tunnel peers (org or site mxedges) are used irrespective of use_site_mxedge"
+										"description": "default is site.mxedge.radsec.proxy_hosts which must be a superset of all `wlans[*].radsec.proxy_hosts`. When `radsec.proxy_hosts` are not used, tunnel peers (org or site mxedges) are used irrespective of `use_site_mxedge`"
 									}
 								},
 								{

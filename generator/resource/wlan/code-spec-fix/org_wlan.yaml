@@ -311,12 +311,13 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
         schema_definition: |-
-          mistvalidator.AllowedWhenValueIsIn(
-            path.MatchRelative().AtParent().AtName("type"),
+          mistvalidator.AllowedWhenValueIsInWithDefault(
+           path.MatchRelative().AtParent().AtName("type"),
             []attr.Value{
               types.StringValue("eap"),
               types.StringValue("eap192"),
             },
+            types.BoolValue(false),
           )
   - name: keys
     computed_optional_required: computed_optional
@@ -360,7 +361,8 @@ next:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),types.StringValue("open"))
+        schema_definition: |-
+          mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName("type"), types.StringValue("open"), types.StringValue("disabled"))
   - name: pairwise
     computed_optional_required: computed_optional
     get:
@@ -400,8 +402,7 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework/path
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
         schema_definition: |-
-          stringvalidator.LengthBetween(8, 64),
-          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("type"),types.StringValue("psk"))
+          stringvalidator.LengthBetween(8, 64)
   - name: wep_as_secondary_auth
     get:
     - bool
@@ -686,6 +687,15 @@ next:
   #         listvalidator.ValueStringsAre(stringvalidator.Any(mistvalidator.ParseInt(1, 4094), mistvalidator.ParseVar())),
   #         mistvalidator.RequiredWhenValueIs(path.MatchRoot("vlan_pooling"), types.BoolValue(true))
 - get:
+  - bool
+  name: vlan_pooling
+  validators:
+  - custom:
+      imports:
+      - path: github.com/Juniper/terraform-provider-mist/internal/validators
+      schema_definition: |-
+        mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot("vlan_pooling"), types.BoolValue(true))
+- get:
   - single_nested
   - attributes
   name: dynamic_vlan
@@ -718,11 +728,11 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework-validators/boolvalidator
         schema_definition: |-
-          mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot("vlan_enabled"), types.BoolValue(true)),
+          mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot("vlan_enabled"), types.BoolValue(true)),
           boolvalidator.Any(
-            mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot("auth").AtName("enable_mac_auth"), types.BoolValue(true)),
-            mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot("auth").AtName("type"), types.StringValue("eap")),
-            mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot("auth").AtName("type"), types.StringValue("eap192")),
+            mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot("auth").AtName("enable_mac_auth"), types.BoolValue(true)),
+            mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot("auth").AtName("type"), types.StringValue("eap")),
+            mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot("auth").AtName("type"), types.StringValue("eap192")),
           )
   - computed_optional_required: computed_optional
     get:
@@ -777,8 +787,8 @@ next:
       imports:
       - path: github.com/Juniper/terraform-provider-mist/internal/validators
       - path: github.com/hashicorp/terraform-plugin-framework/path
-      schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("isolation"),
-        types.BoolValue(true))
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName("isolation"), types.BoolValue(true), types.BoolValue(false))
 - name: mist_nac
   get:
   - single_nested
@@ -1172,7 +1182,7 @@ next:
         imports:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: |- 
+        schema_definition: |-
           stringvalidator.OneOf(
             "",
             "broadnet",
@@ -1543,7 +1553,7 @@ next:
       imports:
       - path: github.com/Juniper/terraform-provider-mist/internal/validators
       schema_definition: |-
-        mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot("vlan_enabled"), types.BoolValue(true))
+        mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot("vlan_enabled"), types.BoolValue(true))
 - name: wlan_limit_down
   get:
   - int64
@@ -1559,8 +1569,8 @@ next:
       imports:
       - path: github.com/Juniper/terraform-provider-mist/internal/validators
       - path: github.com/hashicorp/terraform-plugin-framework/path
-      schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("wlan_limit_down_enabled"),
-        types.BoolValue(true))
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName("wlan_limit_down_enabled"), types.BoolValue(true), types.Int64Value(20000))
 - name: wlan_limit_up
   get:
   - int64
@@ -1576,8 +1586,8 @@ next:
       imports:
       - path: github.com/Juniper/terraform-provider-mist/internal/validators
       - path: github.com/hashicorp/terraform-plugin-framework/path
-      schema_definition: mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("wlan_limit_up_enabled"),
-        types.BoolValue(true))        
+      schema_definition: |-
+        mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName("wlan_limit_up_enabled"), types.BoolValue(true), types.Int64Value(10000))
 - computed_optional_required: computed_optional
   default: 
     custom:

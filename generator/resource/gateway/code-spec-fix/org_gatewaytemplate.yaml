@@ -346,8 +346,7 @@ next:
             "vdsl",
             "adsl",
           ),
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("broadband")),
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("lte"))
+          mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("dsl"), types.StringValue("vdsl"))
   - get:
     - int64
     name: dsl_vci
@@ -358,8 +357,7 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
         - path: github.com/hashicorp/terraform-plugin-framework/path
         schema_definition: |-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("broadband")),
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("lte"))
+          mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("dsl"), types.Int64Value(35))
   - get:
     - int64
     name: dsl_vpi
@@ -370,8 +368,7 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework-validators/int64validator
         - path: github.com/hashicorp/terraform-plugin-framework/path
         schema_definition: |-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("broadband")),
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("lte"))
+          mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("dsl"), types.Int64Value(0))
   - get:
     - string
     name: lte_apn
@@ -382,8 +379,7 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
         - path: github.com/hashicorp/terraform-plugin-framework/path
         schema_definition: |-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("broadband")),
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("dsl"))
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("lte"))
   - get:
     - string
     name: lte_auth
@@ -400,8 +396,7 @@ next:
             "chap",
             "pap",
           ),
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("broadband")),
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("dsl"))
+          mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("lte"), types.StringValue("none"))
   - get:
     - string
     name: lte_password
@@ -411,13 +406,8 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("broadband")),
-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("dsl"),
-
-          )'
+        schema_definition: |-
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("lte"))
   - get:
     - string
     name: lte_username
@@ -427,13 +417,8 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: 'mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("broadband")),
-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"),
-          types.StringValue("dsl"),
-
-          )'
+        schema_definition: |-
+          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("wan_type"), types.StringValue("lte"))
   - get:
     - string
     name: name
@@ -618,8 +603,11 @@ next:
         - path: github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator
         - path: github.com/hashicorp/terraform-plugin-framework/path
         schema_definition: |-
-          mapvalidator.SizeAtLeast(1),
-          mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("usage"), types.StringValue("wan"))
+          mistvalidator.AllowedWhenValueIsWithDefault(
+            path.MatchRelative().AtParent().AtName("usage"),
+            types.StringValue("wan"),
+            types.MapValueMust(WanExtraRoutesValue{}.Type(ctx), map[string]attr.Value{}),
+          )
   - get:
     - list
     name: wan_networks
@@ -634,7 +622,7 @@ next:
           mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("usage"), types.StringValue("wan"))
   - get:
     - single_nested
-    name: wan_source_nat
+    name: wan_probe_override
     validators:
     - custom:
         imports:
@@ -644,7 +632,7 @@ next:
           mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("usage"), types.StringValue("wan"))
   - get:
     - single_nested
-    name: wan_probe_override
+    name: wan_source_nat
     validators:
     - custom:
         imports:
@@ -668,9 +656,7 @@ next:
             "dsl",
             "lte",
           ),
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"), types.StringValue("lan")),
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"), types.StringValue("ha_data")),
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName("usage"), types.StringValue("ha_control"))
+          mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName("usage"), types.StringValue("wan"), types.StringValue("broadband"))
   - name: ip_config
     rename: port_ip_config
 - get:
@@ -713,15 +699,11 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework-validators/listvalidator
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: 'listvalidator.Any(
-
-          mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtMapKey("type"),
-          types.StringValue("external")),
-
-          mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey("via"),
-          types.StringValue("wan")),
-
-          )'
+        schema_definition: |-
+          listvalidator.Any(
+            mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtMapKey("type"), types.StringValue("external")),
+            mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey("via"), types.StringValue("wan")),
+          )
   - get:
     - string
     name: wan_name
@@ -1880,7 +1862,8 @@ next:
         - path: github.com/Juniper/terraform-provider-mist/internal/validators
         - path: github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator
         - path: github.com/hashicorp/terraform-plugin-framework/path
-        schema_definition: 'stringvalidator.Any(mistvalidator.ParseInt(1, 4094), mistvalidator.ParseVar())'
+        schema_definition: |-
+          stringvalidator.Any(mistvalidator.ParseInt(1, 4094), mistvalidator.ParseVar())
   - computed_optional_required: optional
     get:
     - bool

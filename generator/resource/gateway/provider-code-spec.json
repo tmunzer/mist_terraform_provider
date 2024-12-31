@@ -127,7 +127,7 @@
                                         "name": "extended_v4_nexthop",
                                         "bool": {
                                             "computed_optional_required": "optional",
-                                            "description": "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6)\nfor v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this"
+                                            "description": "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6). For v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this"
                                         }
                                     },
                                     {
@@ -327,7 +327,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "listvalidator.Any(\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"type\"), types.StringValue(\"external\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"via\"), types.StringValue(\"wan\")),\n)"
+                                                        "schema_definition": "listvalidator.Any(\n  mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"type\"), types.StringValue(\"external\")),\n  mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"via\"), types.StringValue(\"wan\")),\n)"
                                                     }
                                                 }
                                             ]
@@ -2113,7 +2113,7 @@
                                                         "name": "no_readvertise_to_overlay",
                                                         "bool": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+                                                            "description": "toward overlay, how HUB should deal with routes it received from Spokes"
                                                         }
                                                     },
                                                     {
@@ -2123,7 +2123,7 @@
                                                             "element_type": {
                                                                 "string": {}
                                                             },
-                                                            "description": "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs",
+                                                            "description": "by default, the routes are only readvertised toward the same vrf on spoke. To allow it to be leaked to other vrfs",
                                                             "default": {
                                                                 "custom": {
                                                                     "imports": [
@@ -2228,7 +2228,7 @@
                                                         "name": "summarized_subnet",
                                                         "string": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+                                                            "description": "toward overlay, how HUB should deal with routes it received from Spokes"
                                                         }
                                                     },
                                                     {
@@ -2568,7 +2568,7 @@
                                                             "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                         }
                                                     ],
-                                                    "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094), mistvalidator.ParseVar(),\n)"
+                                                    "schema_definition": "stringvalidator.Any(mistvalidator.ParseInt(1, 4094), mistvalidator.ParseVar())"
                                                 }
                                             }
                                         ]
@@ -2975,7 +2975,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"vdsl\",\n  \"adsl\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"vdsl\",\n  \"adsl\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"), types.StringValue(\"vdsl\"))"
                                                     }
                                                 }
                                             ]
@@ -2988,7 +2988,7 @@
                                             "default": {
                                                 "static": 35
                                             },
-                                            "description": "if `wan_type`==`dsl`\n16 bit int",
+                                            "description": "if `wan_type`==`dsl`, 16 bit int",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -3003,7 +3003,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"), types.Int64Value(35))"
                                                     }
                                                 }
                                             ]
@@ -3016,7 +3016,7 @@
                                             "default": {
                                                 "static": 0
                                             },
-                                            "description": "if `wan_type`==`dsl`\n8 bit int",
+                                            "description": "if `wan_type`==`dsl`, 8 bit int",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -3031,7 +3031,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"), types.Int64Value(0))"
                                                     }
                                                 }
                                             ]
@@ -3257,7 +3257,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
                                                     }
                                                 }
                                             ]
@@ -3285,7 +3285,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"none\",\n  \"chap\",\n  \"pap\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"none\",\n  \"chap\",\n  \"pap\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"), types.StringValue(\"none\"))"
                                                     }
                                                 }
                                             ]
@@ -3317,7 +3317,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"),\n)"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
                                                     }
                                                 }
                                             ]
@@ -3342,7 +3342,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"),\n)"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
                                                     }
                                                 }
                                             ]
@@ -3814,7 +3814,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mapvalidator.SizeAtLeast(1),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"wan\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(\n  path.MatchRelative().AtParent().AtName(\"usage\"),\n  types.StringValue(\"wan\"),\n  types.MapValueMust(WanExtraRoutesValue{}.Type(ctx), map[string]attr.Value{}),\n)"
                                                     }
                                                 }
                                             ],
@@ -3990,7 +3990,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"broadband\",\n  \"dsl\",\n  \"lte\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"lan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"ha_data\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"ha_control\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"broadband\",\n  \"dsl\",\n  \"lte\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"wan\"), types.StringValue(\"broadband\"))"
                                                     }
                                                 }
                                             ]
@@ -4276,7 +4276,7 @@
                                                                                     "default": {
                                                                                         "static": "default"
                                                                                     },
-                                                                                    "description": "name of the vrf instance\nit can also be the name of the VPN or wan if they"
+                                                                                    "description": "name of the vrf instance, it can also be the name of the VPN or wan if they"
                                                                                 }
                                                                             }
                                                                         ]
@@ -4299,7 +4299,7 @@
                                                                         "element_type": {
                                                                             "string": {}
                                                                         },
-                                                                        "description": "overlay-facing criteria (used for bgp_config where via=vpn)\nordered-"
+                                                                        "description": "overlay-facing criteria (used for bgp_config where via=vpn). ordered-"
                                                                     }
                                                                 },
                                                                 {
@@ -4610,7 +4610,7 @@
                                         "name": "path_preference",
                                         "string": {
                                             "computed_optional_required": "optional",
-                                            "description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
+                                            "description": "by default, we derive all paths available and use them. Optionally, you can customize by using `path_preference`"
                                         }
                                     },
                                     {
@@ -6197,7 +6197,7 @@
                                         "name": "extended_v4_nexthop",
                                         "bool": {
                                             "computed_optional_required": "optional",
-                                            "description": "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6)\nfor v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this"
+                                            "description": "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6). For v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this"
                                         }
                                     },
                                     {
@@ -6397,7 +6397,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "listvalidator.Any(\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"type\"), types.StringValue(\"external\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"via\"), types.StringValue(\"wan\")),\n)"
+                                                        "schema_definition": "listvalidator.Any(\n  mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"type\"), types.StringValue(\"external\")),\n  mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"via\"), types.StringValue(\"wan\")),\n)"
                                                     }
                                                 }
                                             ]
@@ -8096,7 +8096,7 @@
                                                         "name": "no_readvertise_to_overlay",
                                                         "bool": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+                                                            "description": "toward overlay, how HUB should deal with routes it received from Spokes"
                                                         }
                                                     },
                                                     {
@@ -8106,7 +8106,7 @@
                                                             "element_type": {
                                                                 "string": {}
                                                             },
-                                                            "description": "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs",
+                                                            "description": "by default, the routes are only readvertised toward the same vrf on spoke. To allow it to be leaked to other vrfs",
                                                             "default": {
                                                                 "custom": {
                                                                     "imports": [
@@ -8211,7 +8211,7 @@
                                                         "name": "summarized_subnet",
                                                         "string": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+                                                            "description": "toward overlay, how HUB should deal with routes it received from Spokes"
                                                         }
                                                     },
                                                     {
@@ -8950,7 +8950,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"vdsl\",\n  \"adsl\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"vdsl\",\n  \"adsl\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"), types.StringValue(\"vdsl\"))"
                                                     }
                                                 }
                                             ]
@@ -8963,7 +8963,7 @@
                                             "default": {
                                                 "static": 35
                                             },
-                                            "description": "if `wan_type`==`dsl`\n16 bit int",
+                                            "description": "if `wan_type`==`dsl`, 16 bit int",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -8978,7 +8978,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"), types.Int64Value(35))"
                                                     }
                                                 }
                                             ]
@@ -8991,7 +8991,7 @@
                                             "default": {
                                                 "static": 0
                                             },
-                                            "description": "if `wan_type`==`dsl`\n8 bit int",
+                                            "description": "if `wan_type`==`dsl`, 8 bit int",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -9006,7 +9006,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"), types.Int64Value(0))"
                                                     }
                                                 }
                                             ]
@@ -9232,7 +9232,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
                                                     }
                                                 }
                                             ]
@@ -9260,7 +9260,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"none\",\n  \"chap\",\n  \"pap\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"none\",\n  \"chap\",\n  \"pap\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"), types.StringValue(\"none\"))"
                                                     }
                                                 }
                                             ]
@@ -9292,7 +9292,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"),\n)"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
                                                     }
                                                 }
                                             ]
@@ -9317,7 +9317,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"),\n)"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
                                                     }
                                                 }
                                             ]
@@ -9789,7 +9789,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mapvalidator.SizeAtLeast(1),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"wan\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(\n  path.MatchRelative().AtParent().AtName(\"usage\"),\n  types.StringValue(\"wan\"),\n  types.MapValueMust(WanExtraRoutesValue{}.Type(ctx), map[string]attr.Value{}),\n)"
                                                     }
                                                 }
                                             ],
@@ -9965,7 +9965,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"broadband\",\n  \"dsl\",\n  \"lte\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"lan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"ha_data\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"ha_control\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"broadband\",\n  \"dsl\",\n  \"lte\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"wan\"), types.StringValue(\"broadband\"))"
                                                     }
                                                 }
                                             ]
@@ -10190,7 +10190,7 @@
                                                                                     "default": {
                                                                                         "static": "default"
                                                                                     },
-                                                                                    "description": "name of the vrf instance\nit can also be the name of the VPN or wan if they"
+                                                                                    "description": "name of the vrf instance, it can also be the name of the VPN or wan if they"
                                                                                 }
                                                                             }
                                                                         ]
@@ -10213,7 +10213,7 @@
                                                                         "element_type": {
                                                                             "string": {}
                                                                         },
-                                                                        "description": "overlay-facing criteria (used for bgp_config where via=vpn)\nordered-"
+                                                                        "description": "overlay-facing criteria (used for bgp_config where via=vpn). ordered-"
                                                                     }
                                                                 },
                                                                 {
@@ -10502,7 +10502,7 @@
                                         "name": "path_preference",
                                         "string": {
                                             "computed_optional_required": "optional",
-                                            "description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
+                                            "description": "by default, we derive all paths available and use them. Optionally, you can customize by using `path_preference`"
                                         }
                                     },
                                     {
@@ -12038,7 +12038,7 @@
                                         "name": "extended_v4_nexthop",
                                         "bool": {
                                             "computed_optional_required": "optional",
-                                            "description": "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6)\nfor v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this"
+                                            "description": "by default, either inet/net6 unicast depending on neighbor IP family (v4 or v6). For v6 neighbors, to exchange v4 nexthop, which allows dual-stack support, enable this"
                                         }
                                     },
                                     {
@@ -12238,7 +12238,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "listvalidator.Any(\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"type\"), types.StringValue(\"external\")),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"via\"), types.StringValue(\"wan\")),\n)"
+                                                        "schema_definition": "listvalidator.Any(\n  mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"type\"), types.StringValue(\"external\")),\n  mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtMapKey(\"via\"), types.StringValue(\"wan\")),\n)"
                                                     }
                                                 }
                                             ]
@@ -13937,7 +13937,7 @@
                                                         "name": "no_readvertise_to_overlay",
                                                         "bool": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+                                                            "description": "toward overlay, how HUB should deal with routes it received from Spokes"
                                                         }
                                                     },
                                                     {
@@ -13947,7 +13947,7 @@
                                                             "element_type": {
                                                                 "string": {}
                                                             },
-                                                            "description": "by default, the routes are only readvertised toward the same vrf on spoke\nto allow it to be leaked to other vrfs",
+                                                            "description": "by default, the routes are only readvertised toward the same vrf on spoke. To allow it to be leaked to other vrfs",
                                                             "default": {
                                                                 "custom": {
                                                                     "imports": [
@@ -14052,7 +14052,7 @@
                                                         "name": "summarized_subnet",
                                                         "string": {
                                                             "computed_optional_required": "optional",
-                                                            "description": "toward overlay\nhow HUB should deal with routes it received from Spokes"
+                                                            "description": "toward overlay, how HUB should deal with routes it received from Spokes"
                                                         }
                                                     },
                                                     {
@@ -14791,7 +14791,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"vdsl\",\n  \"adsl\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"vdsl\",\n  \"adsl\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"), types.StringValue(\"vdsl\"))"
                                                     }
                                                 }
                                             ]
@@ -14804,7 +14804,7 @@
                                             "default": {
                                                 "static": 35
                                             },
-                                            "description": "if `wan_type`==`dsl`\n16 bit int",
+                                            "description": "if `wan_type`==`dsl`, 16 bit int",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -14819,7 +14819,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"), types.Int64Value(35))"
                                                     }
                                                 }
                                             ]
@@ -14832,7 +14832,7 @@
                                             "default": {
                                                 "static": 0
                                             },
-                                            "description": "if `wan_type`==`dsl`\n8 bit int",
+                                            "description": "if `wan_type`==`dsl`, 8 bit int",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -14847,7 +14847,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"), types.Int64Value(0))"
                                                     }
                                                 }
                                             ]
@@ -15073,7 +15073,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
                                                     }
                                                 }
                                             ]
@@ -15101,7 +15101,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"none\",\n  \"chap\",\n  \"pap\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"none\",\n  \"chap\",\n  \"pap\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"), types.StringValue(\"none\"))"
                                                     }
                                                 }
                                             ]
@@ -15133,7 +15133,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"),\n)"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
                                                     }
                                                 }
                                             ]
@@ -15158,7 +15158,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"broadband\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"dsl\"),\n)"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"wan_type\"), types.StringValue(\"lte\"))"
                                                     }
                                                 }
                                             ]
@@ -15630,7 +15630,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mapvalidator.SizeAtLeast(1),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"wan\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(\n  path.MatchRelative().AtParent().AtName(\"usage\"),\n  types.StringValue(\"wan\"),\n  types.MapValueMust(WanExtraRoutesValue{}.Type(ctx), map[string]attr.Value{}),\n)"
                                                     }
                                                 }
                                             ],
@@ -15806,7 +15806,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"broadband\",\n  \"dsl\",\n  \"lte\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"lan\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"ha_data\")),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"ha_control\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"broadband\",\n  \"dsl\",\n  \"lte\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"usage\"), types.StringValue(\"wan\"), types.StringValue(\"broadband\"))"
                                                     }
                                                 }
                                             ]
@@ -16031,7 +16031,7 @@
                                                                                     "default": {
                                                                                         "static": "default"
                                                                                     },
-                                                                                    "description": "name of the vrf instance\nit can also be the name of the VPN or wan if they"
+                                                                                    "description": "name of the vrf instance, it can also be the name of the VPN or wan if they"
                                                                                 }
                                                                             }
                                                                         ]
@@ -16054,7 +16054,7 @@
                                                                         "element_type": {
                                                                             "string": {}
                                                                         },
-                                                                        "description": "overlay-facing criteria (used for bgp_config where via=vpn)\nordered-"
+                                                                        "description": "overlay-facing criteria (used for bgp_config where via=vpn). ordered-"
                                                                     }
                                                                 },
                                                                 {
@@ -16343,7 +16343,7 @@
                                         "name": "path_preference",
                                         "string": {
                                             "computed_optional_required": "optional",
-                                            "description": "by default, we derive all paths available and use them\noptionally, you can customize by using `path_preference`"
+                                            "description": "by default, we derive all paths available and use them. Optionally, you can customize by using `path_preference`"
                                         }
                                     },
                                     {

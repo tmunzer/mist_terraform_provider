@@ -46,7 +46,7 @@
                                                     }
                                                 ]
                                             },
-                                            "description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
+                                            "description": "ACL Policy Actions:\n  - for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
                                         }
                                     },
                                     {
@@ -62,7 +62,7 @@
                                             "element_type": {
                                                 "string": {}
                                             },
-                                            "description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
+                                            "description": "ACL Policy Source Tags:\n  - for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to"
                                         }
                                     }
                                 ]
@@ -106,7 +106,7 @@
                                         "name": "gbp_tag",
                                         "int64": {
                                             "computed_optional_required": "optional",
-                                            "description": "required if\n- `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n- `type`==`gbp_resource`\n- `type`==`static_gbp` (applying gbp tag against matching conditions)",
+                                            "description": "required if\n  - `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n  - `type`==`gbp_resource`\n  - `type`==`static_gbp` (applying gbp tag against matching conditions)",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -999,40 +999,6 @@
                         }
                     },
                     {
-                        "name": "evpn_config",
-                        "single_nested": {
-                            "computed_optional_required": "computed",
-                            "attributes": [
-                                {
-                                    "name": "enabled",
-                                    "bool": {
-                                        "computed_optional_required": "computed"
-                                    }
-                                },
-                                {
-                                    "name": "role",
-                                    "string": {
-                                        "computed_optional_required": "computed",
-                                        "description": "enum: `access`, `collapsed-core`, `core`, `distribution`, `esilag-access`, `none`",
-                                        "validators": [
-                                            {
-                                                "custom": {
-                                                    "imports": [
-                                                        {
-                                                            "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-                                                        }
-                                                    ],
-                                                    "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"access\",\n\"collapsed-core\",\n\"core\",\n\"distribution\",\n\"esilag-access\",\n\"none\",\n)"
-                                                }
-                                            }
-                                        ]
-                                    }
-                                }
-                            ],
-                            "description": "EVPN Junos settings"
-                        }
-                    },
-                    {
                         "name": "extra_routes",
                         "map_nested": {
                             "validators": [
@@ -1554,7 +1520,7 @@
                                         "name": "allow_dhcpd",
                                         "bool": {
                                             "computed_optional_required": "optional",
-                                            "description": "If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with.\nAll the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\nWhen it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
+                                            "description": "If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state. When it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port."
                                         }
                                     },
                                     {
@@ -1677,7 +1643,7 @@
                                             "default": {
                                                 "static": false
                                             },
-                                            "description": "inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
+                                            "description": "inter_switch_link is used together with \"isolation\" under networks. NOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together"
                                         }
                                     },
                                     {
@@ -2126,14 +2092,44 @@
                                         "name": "gateway",
                                         "string": {
                                             "computed_optional_required": "optional",
-                                            "description": "only required for EVPN-VXLAN networks, IPv4 Virtual Gateway"
+                                            "description": "only required for EVPN-VXLAN networks, IPv4 Virtual Gateway",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(true, false), mistvalidator.ParseVar())"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
                                         "name": "gateway6",
                                         "string": {
                                             "computed_optional_required": "optional",
-                                            "description": "only required for EVPN-VXLAN networks, IPv6 Virtual Gateway"
+                                            "description": "only required for EVPN-VXLAN networks, IPv6 Virtual Gateway",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseIp(false, true), mistvalidator.ParseVar())"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -2143,7 +2139,7 @@
                                             "default": {
                                                 "static": false
                                             },
-                                            "description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required)\nNOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
+                                            "description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required). NOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
                                         }
                                     },
                                     {
@@ -2178,7 +2174,22 @@
                                         "name": "subnet6",
                                         "string": {
                                             "computed_optional_required": "optional",
-                                            "description": "optional for pure switching, required when L3 / routing features are used"
+                                            "description": "optional for pure switching, required when L3 / routing features are used",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "stringvalidator.Any(mistvalidator.ParseCidr(false, true), mistvalidator.ParseVar())"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -2363,7 +2374,7 @@
                                     }
                                 }
                             ],
-                            "description": "- If HA configuration: key parameter will be nodeX (eg: node1)\n- If there are 2 routing engines, re1 mgmt IP has to be set separately (if desired): key parameter = `re1`"
+                            "description": "Switch OOB IP Config:\n  - If HA configuration: key parameter will be nodeX (eg: node1)\n  - If there are 2 routing engines, re1 mgmt IP has to be set separately (if desired): key parameter = `re1`"
                         }
                     },
                     {
@@ -3119,7 +3130,7 @@
                                     }
                                 ]
                             },
-                            "description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
+                            "description": "Property key is the port mirroring instance name. `port_mirroring` can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
                         }
                     },
                     {
@@ -3159,7 +3170,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"trunk\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"trunk\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -3169,7 +3180,7 @@
                                         "name": "allow_dhcpd",
                                         "bool": {
                                             "computed_optional_required": "optional",
-                                            "description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with.\nAll the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\nWhen it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port.",
+                                            "description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state. When it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port.",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -3206,7 +3217,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -3231,7 +3242,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -3256,7 +3267,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -3306,7 +3317,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -3331,7 +3342,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -3359,7 +3370,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"half\",\n  \"full\",\n  \"auto\",\n  ),\n  mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"half\",\n  \"full\",\n  \"auto\",\n  ),\n  mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.StringValue(\"auto\"))"
                                                     }
                                                 }
                                             ]
@@ -3428,7 +3439,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -3453,7 +3464,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -3491,7 +3502,7 @@
                                             "default": {
                                                 "static": false
                                             },
-                                            "description": "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together",
+                                            "description": "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks. NOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -3503,7 +3514,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -3560,7 +3571,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"pap\",\n  \"eap-peap\",\n  \"eap-md5\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"enable_mac_auth\"), types.BoolValue(true))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"pap\",\n  \"eap-peap\",\n  \"eap-md5\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"enable_mac_auth\"), types.BoolValue(true), types.StringValue(\"eap-md5\"))"
                                                     }
                                                 }
                                             ]
@@ -3588,7 +3599,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
                                                             }
                                                         ],
-                                                        "schema_definition": "int64validator.AtLeast(0),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "int64validator.AtLeast(0),\nmistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.Int64Value(0))"
                                                     }
                                                 }
                                             ]
@@ -3726,7 +3737,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -3804,7 +3815,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
                                                             }
                                                         ],
-                                                        "schema_definition": "int64validator.Between(10, 65535),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "int64validator.Between(10, 65535),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.Int64Value(3600))"
                                                     }
                                                 }
                                             ]
@@ -3832,7 +3843,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"none\",\n  \"link_down\",\n),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"none\",\n  \"link_down\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.StringValue(\"link_down\"))"
                                                     }
                                                 }
                                             ]
@@ -4062,7 +4073,7 @@
                                                     }
                                                 }
                                             ],
-                                            "description": "Switch storm control\nOnly if `mode`!=`dynamic`",
+                                            "description": "Switch storm control. Only if `mode`!=`dynamic`",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -4099,7 +4110,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -4111,7 +4122,22 @@
                                             "computed_optional_required": "computed_optional",
                                             "default": {
                                                 "static": false
-                                            }
+                                            },
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -4120,7 +4146,22 @@
                                             "computed_optional_required": "computed_optional",
                                             "default": {
                                                 "static": false
-                                            }
+                                            },
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -4130,7 +4171,22 @@
                                             "default": {
                                                 "static": false
                                             },
-                                            "description": "if this is connected to a vstp network"
+                                            "description": "if this is connected to a vstp network",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -4422,7 +4478,7 @@
                                     "name": "network",
                                     "string": {
                                         "computed_optional_required": "optional",
-                                        "description": "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
+                                        "description": "use `network`or `source_ip`. Which network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
                                     }
                                 },
                                 {
@@ -5439,7 +5495,7 @@
                                                                             "name": "authentication_password",
                                                                             "string": {
                                                                                 "computed_optional_required": "optional",
-                                                                                "description": "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
+                                                                                "description": "Not required if `authentication_type`==`authentication_none`. Include alphabetic, numeric, and special characters, but it cannot include control characters.",
                                                                                 "validators": [
                                                                                     {
                                                                                         "custom": {
@@ -5481,7 +5537,7 @@
                                                                             "name": "encryption_password",
                                                                             "string": {
                                                                                 "computed_optional_required": "optional",
-                                                                                "description": "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
+                                                                                "description": "Not required if `encryption_type`==`privacy-none`. Include alphabetic, numeric, and special characters, but it cannot include control characters",
                                                                                 "validators": [
                                                                                     {
                                                                                         "custom": {
@@ -6626,7 +6682,7 @@
                                                     }
                                                 ]
                                             },
-                                            "description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
+                                            "description": "ACL Policy Actions:\n  - for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -6657,7 +6713,7 @@
                                             "element_type": {
                                                 "string": {}
                                             },
-                                            "description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
+                                            "description": "ACL Policy Source Tags:\n  - for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -6716,7 +6772,7 @@
                                         "name": "gbp_tag",
                                         "int64": {
                                             "computed_optional_required": "optional",
-                                            "description": "required if\n- `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n- `type`==`gbp_resource`\n- `type`==`static_gbp` (applying gbp tag against matching conditions)",
+                                            "description": "required if\n  - `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n  - `type`==`gbp_resource`\n  - `type`==`static_gbp` (applying gbp tag against matching conditions)",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -7495,7 +7551,7 @@
                                             "default": {
                                                 "static": false
                                             },
-                                            "description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required)\nNOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
+                                            "description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required). NOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
                                         }
                                     },
                                     {
@@ -8009,7 +8065,7 @@
                                     }
                                 ]
                             },
-                            "description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
+                            "description": "Property key is the port mirroring instance name. `port_mirroring` can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
                         }
                     },
                     {
@@ -8049,7 +8105,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"trunk\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"trunk\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -8059,7 +8115,7 @@
                                         "name": "allow_dhcpd",
                                         "bool": {
                                             "computed_optional_required": "optional",
-                                            "description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with.\nAll the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\nWhen it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port.",
+                                            "description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state. When it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port.",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -8096,7 +8152,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -8121,7 +8177,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -8146,7 +8202,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -8196,7 +8252,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -8221,7 +8277,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -8249,7 +8305,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"half\",\n  \"full\",\n  \"auto\",\n  ),\n  mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"half\",\n  \"full\",\n  \"auto\",\n  ),\n  mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.StringValue(\"auto\"))"
                                                     }
                                                 }
                                             ]
@@ -8318,7 +8374,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -8343,7 +8399,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -8381,7 +8437,7 @@
                                             "default": {
                                                 "static": false
                                             },
-                                            "description": "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together",
+                                            "description": "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks. NOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -8393,7 +8449,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -8450,7 +8506,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"pap\",\n  \"eap-peap\",\n  \"eap-md5\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"enable_mac_auth\"), types.BoolValue(true))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"pap\",\n  \"eap-peap\",\n  \"eap-md5\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"enable_mac_auth\"), types.BoolValue(true), types.StringValue(\"eap-md5\"))"
                                                     }
                                                 }
                                             ]
@@ -8478,7 +8534,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
                                                             }
                                                         ],
-                                                        "schema_definition": "int64validator.AtLeast(0),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "int64validator.AtLeast(0),\nmistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.Int64Value(0))"
                                                     }
                                                 }
                                             ]
@@ -8616,7 +8672,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -8694,7 +8750,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
                                                             }
                                                         ],
-                                                        "schema_definition": "int64validator.Between(10, 65535),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "int64validator.Between(10, 65535),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.Int64Value(3600))"
                                                     }
                                                 }
                                             ]
@@ -8722,7 +8778,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"none\",\n  \"link_down\",\n),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"none\",\n  \"link_down\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.StringValue(\"link_down\"))"
                                                     }
                                                 }
                                             ]
@@ -8952,7 +9008,7 @@
                                                     }
                                                 }
                                             ],
-                                            "description": "Switch storm control\nOnly if `mode`!=`dynamic`",
+                                            "description": "Switch storm control. Only if `mode`!=`dynamic`",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -8989,7 +9045,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -9001,7 +9057,22 @@
                                             "computed_optional_required": "computed_optional",
                                             "default": {
                                                 "static": false
-                                            }
+                                            },
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -9010,7 +9081,22 @@
                                             "computed_optional_required": "computed_optional",
                                             "default": {
                                                 "static": false
-                                            }
+                                            },
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -9027,7 +9113,22 @@
                                             "default": {
                                                 "static": false
                                             },
-                                            "description": "if this is connected to a vstp network"
+                                            "description": "if this is connected to a vstp network",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -9319,7 +9420,7 @@
                                     "name": "network",
                                     "string": {
                                         "computed_optional_required": "optional",
-                                        "description": "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
+                                        "description": "use `network`or `source_ip`. Which network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
                                     }
                                 },
                                 {
@@ -10305,7 +10406,7 @@
                                                                             "name": "authentication_password",
                                                                             "string": {
                                                                                 "computed_optional_required": "optional",
-                                                                                "description": "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
+                                                                                "description": "Not required if `authentication_type`==`authentication_none`. Include alphabetic, numeric, and special characters, but it cannot include control characters.",
                                                                                 "validators": [
                                                                                     {
                                                                                         "custom": {
@@ -10347,7 +10448,7 @@
                                                                             "name": "encryption_password",
                                                                             "string": {
                                                                                 "computed_optional_required": "optional",
-                                                                                "description": "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
+                                                                                "description": "Not required if `encryption_type`==`privacy-none`. Include alphabetic, numeric, and special characters, but it cannot include control characters",
                                                                                 "validators": [
                                                                                     {
                                                                                         "custom": {
@@ -11204,7 +11305,7 @@
                                                                 }
                                                             ]
                                                         },
-                                                        "description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
+                                                        "description": "Property key is the port mirroring instance name. `port_mirroring` can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
                                                     }
                                                 }
                                             ],
@@ -11898,7 +11999,7 @@
                                                     }
                                                 ]
                                             },
-                                            "description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
+                                            "description": "ACL Policy Actions:\n  - for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -11929,7 +12030,7 @@
                                             "element_type": {
                                                 "string": {}
                                             },
-                                            "description": "- for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n- for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
+                                            "description": "ACL Policy Source Tags:\n  - for GBP-based policy, all src_tags and dst_tags have to be gbp-based\n  - for ACL-based policy, `network` is required in either the source or destination so that we know where to attach the policy to",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -11988,7 +12089,7 @@
                                         "name": "gbp_tag",
                                         "int64": {
                                             "computed_optional_required": "optional",
-                                            "description": "required if\n- `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n- `type`==`gbp_resource`\n- `type`==`static_gbp` (applying gbp tag against matching conditions)",
+                                            "description": "required if\n  - `type`==`dynamic_gbp` (gbp_tag received from RADIUS)\n  - `type`==`gbp_resource`\n  - `type`==`static_gbp` (applying gbp tag against matching conditions)",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -12664,42 +12765,6 @@
                         }
                     },
                     {
-                        "name": "juniper_srx",
-                        "single_nested": {
-                            "computed_optional_required": "optional",
-                            "attributes": [
-                                {
-                                    "name": "gateways",
-                                    "list_nested": {
-                                        "computed_optional_required": "optional",
-                                        "nested_object": {
-                                            "attributes": [
-                                                {
-                                                    "name": "api_key",
-                                                    "string": {
-                                                        "computed_optional_required": "optional"
-                                                    }
-                                                },
-                                                {
-                                                    "name": "api_url",
-                                                    "string": {
-                                                        "computed_optional_required": "optional"
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                },
-                                {
-                                    "name": "send_mist_nac_user_info",
-                                    "bool": {
-                                        "computed_optional_required": "optional"
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    {
                         "name": "mist_nac",
                         "single_nested": {
                             "computed_optional_required": "optional",
@@ -12792,7 +12857,7 @@
                                             "default": {
                                                 "static": false
                                             },
-                                            "description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required)\nNOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
+                                            "description": "whether to stop clients to talk to each other, default is false (when enabled, a unique isolation_vlan_id is required). NOTE: this features requires uplink device to also a be Juniper device and `inter_switch_link` to be set"
                                         }
                                     },
                                     {
@@ -13285,7 +13350,7 @@
                                     }
                                 ]
                             },
-                            "description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
+                            "description": "Property key is the port mirroring instance name. `port_mirroring` can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
                         }
                     },
                     {
@@ -13325,7 +13390,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"trunk\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"trunk\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -13335,7 +13400,7 @@
                                         "name": "allow_dhcpd",
                                         "bool": {
                                             "computed_optional_required": "optional",
-                                            "description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with.\nAll the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state.\nWhen it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port.",
+                                            "description": "Only if `mode`!=`dynamic`. If DHCP snooping is enabled, whether DHCP server is allowed on the interfaces with. All the interfaces from port configs using this port usage are effected. Please notice that allow_dhcpd is a tri_state. When it is not defined, it means using the system's default setting which depends on whether the port is a access or trunk port.",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -13372,7 +13437,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -13397,7 +13462,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -13422,7 +13487,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -13472,7 +13537,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -13497,7 +13562,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -13525,7 +13590,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"half\",\n  \"full\",\n  \"auto\",\n  ),\n  mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"half\",\n  \"full\",\n  \"auto\",\n  ),\n  mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.StringValue(\"auto\"))"
                                                     }
                                                 }
                                             ]
@@ -13594,7 +13659,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -13619,7 +13684,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CannotBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -13657,7 +13722,7 @@
                                             "default": {
                                                 "static": false
                                             },
-                                            "description": "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks\nNOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together",
+                                            "description": "Only if `mode`!=`dynamic` inter_switch_link is used together with \"isolation\" under networks. NOTE: inter_switch_link works only between Juniper device. This has to be applied to both ports connected together",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -13669,7 +13734,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -13726,7 +13791,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"pap\",\n  \"eap-peap\",\n  \"eap-md5\",\n),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\")),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"enable_mac_auth\"), types.BoolValue(true))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"pap\",\n  \"eap-peap\",\n  \"eap-md5\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"enable_mac_auth\"), types.BoolValue(true), types.StringValue(\"eap-md5\"))"
                                                     }
                                                 }
                                             ]
@@ -13754,7 +13819,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
                                                             }
                                                         ],
-                                                        "schema_definition": "int64validator.AtLeast(0),\nmistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "int64validator.AtLeast(0),\nmistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.Int64Value(0))"
                                                     }
                                                 }
                                             ]
@@ -13892,7 +13957,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -13970,7 +14035,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
                                                             }
                                                         ],
-                                                        "schema_definition": "int64validator.Between(10, 65535),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"))"
+                                                        "schema_definition": "int64validator.Between(10, 65535),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"port_auth\"), types.StringValue(\"dot1x\"), types.Int64Value(3600))"
                                                     }
                                                 }
                                             ]
@@ -13998,7 +14063,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                             }
                                                         ],
-                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"none\",\n  \"link_down\",\n),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "stringvalidator.OneOf(\n  \"\",\n  \"none\",\n  \"link_down\",\n),\nmistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.StringValue(\"link_down\"))"
                                                     }
                                                 }
                                             ]
@@ -14228,7 +14293,7 @@
                                                     }
                                                 }
                                             ],
-                                            "description": "Switch storm control\nOnly if `mode`!=`dynamic`",
+                                            "description": "Switch storm control. Only if `mode`!=`dynamic`",
                                             "validators": [
                                                 {
                                                     "custom": {
@@ -14265,7 +14330,7 @@
                                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                             }
                                                         ],
-                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIs(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"))"
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
                                                     }
                                                 }
                                             ]
@@ -14277,7 +14342,22 @@
                                             "computed_optional_required": "computed_optional",
                                             "default": {
                                                 "static": false
-                                            }
+                                            },
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -14286,7 +14366,22 @@
                                             "computed_optional_required": "computed_optional",
                                             "default": {
                                                 "static": false
-                                            }
+                                            },
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -14303,7 +14398,22 @@
                                             "default": {
                                                 "static": false
                                             },
-                                            "description": "if this is connected to a vstp network"
+                                            "description": "if this is connected to a vstp network",
+                                            "validators": [
+                                                {
+                                                    "custom": {
+                                                        "imports": [
+                                                            {
+                                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                                            },
+                                                            {
+                                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                                            }
+                                                        ],
+                                                        "schema_definition": "mistvalidator.ForbiddenWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"mode\"), types.StringValue(\"dynamic\"), types.BoolValue(false))"
+                                                    }
+                                                }
+                                            ]
                                         }
                                     },
                                     {
@@ -14595,7 +14705,7 @@
                                     "name": "network",
                                     "string": {
                                         "computed_optional_required": "optional",
-                                        "description": "use `network`or `source_ip`\nwhich network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
+                                        "description": "use `network`or `source_ip`. Which network the RADIUS server resides, if there's static IP for this network, we'd use it as source-ip"
                                     }
                                 },
                                 {
@@ -15581,7 +15691,7 @@
                                                                             "name": "authentication_password",
                                                                             "string": {
                                                                                 "computed_optional_required": "optional",
-                                                                                "description": "Not required if `authentication_type`==`authentication_none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters.",
+                                                                                "description": "Not required if `authentication_type`==`authentication_none`. Include alphabetic, numeric, and special characters, but it cannot include control characters.",
                                                                                 "validators": [
                                                                                     {
                                                                                         "custom": {
@@ -15623,7 +15733,7 @@
                                                                             "name": "encryption_password",
                                                                             "string": {
                                                                                 "computed_optional_required": "optional",
-                                                                                "description": "Not required if `encryption_type`==`privacy-none`\ninclude alphabetic, numeric, and special characters, but it cannot include control characters",
+                                                                                "description": "Not required if `encryption_type`==`privacy-none`. Include alphabetic, numeric, and special characters, but it cannot include control characters",
                                                                                 "validators": [
                                                                                     {
                                                                                         "custom": {
@@ -16480,7 +16590,7 @@
                                                                 }
                                                             ]
                                                         },
-                                                        "description": "Property key is the port mirroring instance name\nport_mirroring can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
+                                                        "description": "Property key is the port mirroring instance name. `port_mirroring` can be added under device/site settings. It takes interface and ports as input for ingress, interface as input for egress and can take interface and port as output. A maximum 4 port mirrorings is allowed"
                                                     }
                                                 }
                                             ],

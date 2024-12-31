@@ -1,0 +1,591 @@
+{
+    "provider": {
+        "name": "mistapi"
+    },
+    "resources": [
+        {
+            "name": "org_nacidp",
+            "schema": {
+                "attributes": [
+                    {
+                        "name": "group_filter",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "Required if `ldap_type`==`custom`, LDAP filter that will identify the type of group",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"ldap_type\"), types.StringValue(\"custom\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "string": {
+                            "computed_optional_required": "computed",
+                            "description": "Unique ID of the object instance in the Mist Organnization"
+                        }
+                    },
+                    {
+                        "name": "idp_type",
+                        "string": {
+                            "computed_optional_required": "required",
+                            "description": "enum: `ldap`, `mxedge_proxy`, `oauth`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.OneOf(\n  \"ldap\",\n  \"mxedge_proxy\",\n  \"oauth\",\n)"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ldap_base_dn",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "Required if `idp_type`==`ldap`, whole domain or a specific organization unit (container) in Search base to specify where users and groups are found in the LDAP tree",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"ldap\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ldap_bind_dn",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "Required if `idp_type`==`ldap`, the account used to authenticate against the LDAP",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"ldap\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ldap_bind_password",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "Required if `idp_type`==`ldap`, the password used to authenticate against the LDAP",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"ldap\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ldap_cacerts",
+                        "list": {
+                            "computed_optional_required": "optional",
+                            "element_type": {
+                                "string": {}
+                            },
+                            "description": "Required if `idp_type`==`ldap`, list of CA certificates to validate the LDAP certificate"
+                        }
+                    },
+                    {
+                        "name": "ldap_client_cert",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "if `idp_type`==`ldap`, LDAPS Client certificate",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"ldap\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ldap_client_key",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "if `idp_type`==`ldap`, Key for the `ldap_client_cert`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"ldap\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ldap_group_attr",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "if `ldap_type`==`custom`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"ldap_type\"), types.StringValue(\"custom\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ldap_group_dn",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "if `ldap_type`==`custom`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"ldap_type\"), types.StringValue(\"custom\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ldap_resolve_groups",
+                        "bool": {
+                            "computed_optional_required": "computed_optional",
+                            "description": "if `idp_type`==`ldap`, whether to recursively resolve LDAP groups",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"ldap\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ldap_server_hosts",
+                        "list": {
+                            "computed_optional_required": "optional",
+                            "element_type": {
+                                "string": {}
+                            },
+                            "description": "if `idp_type`==`ldap`, list of LDAP/LDAPS server IP Addresses or Hostnames",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"ldap\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ldap_type",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "if `idp_type`==`ldap`. enum: `azure`, `custom`, `google`, `okta`, `ping_identity`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.OneOf(\n  \"azure\",\n  \"custom\",\n  \"google\",\n  \"okta\",\n  \"ping_identity\",\n),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"ldap\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ldap_user_filter",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "Required if `ldap_type`==`custom`, LDAP filter that will identify the type of user",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"ldap_type\"), types.StringValue(\"custom\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "member_filter",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "Required if `ldap_type`==`custom`,LDAP filter that will identify the type of member",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"ldap_type\"), types.StringValue(\"custom\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "string": {
+                            "computed_optional_required": "required",
+                            "description": "name"
+                        }
+                    },
+                    {
+                        "name": "oauth_cc_client_id",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "Required if `idp_type`==`oauth`, Client Credentials",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"oauth\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "oauth_cc_client_secret",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "Required if `idp_type`==`oauth`, oauth_cc_client_secret is RSA private key, of the form \"-----BEGIN RSA PRIVATE KEY--....\"",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"oauth\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "oauth_discovery_url",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "if `idp_type`==`oauth`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"oauth\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "oauth_ping_identity_region",
+                        "string": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": "us"
+                            },
+                            "description": "enum: `us` (United States, default), `ca` (Canada), `eu` (Europe), `asia` (Asia), `au` (Australia)",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.OneOf(\n\"\",\n\"asia\",\n\"au\",\n\"ca\",\n\"eu\",\n\"us\",\n)"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "oauth_ropc_client_id",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "if `idp_type`==`oauth`, ropc = Resource Owner Password Credentials",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"oauth\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "oauth_ropc_client_secret",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "if `oauth_type`==`azure` or `oauth_type`==`azure-gov`. oauth_ropc_client_secret can be empty",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.Any(\n  mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"oauth_type\"), types.StringValue(\"azure\")),\n  mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"oauth_type\"), types.StringValue(\"azure-gov\")),\n)"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "oauth_tenant_id",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "description": "Required if `idp_type`==`oauth`, oauth_tenant_id",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"oauth\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "oauth_type",
+                        "string": {
+                            "computed_optional_required": "computed_optional",
+                            "description": "if `idp_type`==`oauth`. enum: `azure`, `azure-gov`, `okta`, `ping_identity`",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "stringvalidator.OneOf(\n  \"azure\",\n  \"azure-gov\",\n  \"okta\",\n  \"ping_identity\",\n),\nmistvalidator.RequiredWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"oauth\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "org_id",
+                        "string": {
+                            "computed_optional_required": "required"
+                        }
+                    },
+                    {
+                        "name": "scim_enabled",
+                        "bool": {
+                            "computed_optional_required": "computed_optional",
+                            "default": {
+                                "static": false
+                            },
+                            "description": "if `idp_type`==`oauth`, indicates if SCIM provisioning is enabled for the OAuth IDP",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"oauth\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "scim_secret_token",
+                        "string": {
+                            "computed_optional_required": "optional",
+                            "default": {
+                                "static": ""
+                            },
+                            "description": "if `idp_type`==`oauth`, scim_secret_token (auto-generated when not provided by caller and `scim_enabled`==`true`, empty string when `scim_enabled`==`false`) is used as the Bearer token in the Authorization header of SCIM provisioning requests by the IDP",
+                            "validators": [
+                                {
+                                    "custom": {
+                                        "imports": [
+                                            {
+                                                "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
+                                            },
+                                            {
+                                                "path": "github.com/hashicorp/terraform-plugin-framework/path"
+                                            }
+                                        ],
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"idp_type\"), types.StringValue(\"oauth\"))"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "version": "0.1"
+}

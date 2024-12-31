@@ -297,8 +297,8 @@ next:
       - path: github.com/Juniper/terraform-provider-mist/internal/validators
       - path: github.com/hashicorp/terraform-plugin-framework/path
       schema_definition: |-
-        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("oauth"))
-- computed_optional_required: optional
+        mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("oauth"), types.BoolValue(false))
+- computed_optional_required: computed_optional
   get:
   - string
   name: scim_secret_token
@@ -308,4 +308,4 @@ next:
       - path: github.com/Juniper/terraform-provider-mist/internal/validators
       - path: github.com/hashicorp/terraform-plugin-framework/path
       schema_definition: |-
-        mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("oauth"))
+        mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName("idp_type"), types.StringValue("oauth"), types.StringValue(""))

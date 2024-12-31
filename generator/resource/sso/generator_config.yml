@@ -21,10 +21,12 @@ resources:
         - msp_id
         - site_id
         - mxedge_proxy
+        - group_filter
         - idp_type
         - ldap_base_dn
         - ldap_bind_dn
         - ldap_bind_password
+        - ldap_cacerts
         - ldap_certs
         - ldap_client_cert
         - ldap_client_key
@@ -36,13 +38,17 @@ resources:
         - ldap_server_hosts
         - ldap_type
         - ldap_user_filter
+        - member_filter
         - oauth_cc_client_id
         - oauth_cc_client_secret
         - oauth_discovery_url
+        - oauth_ping_identity_region
         - oauth_ropc_client_id
         - oauth_ropc_client_secret
         - oauth_tenant_id
         - oauth_type
+        - scim_enabled
+        - scim_secret_token
       attributes:
         aliases:
           sso_id: id

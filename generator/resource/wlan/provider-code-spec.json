@@ -416,7 +416,7 @@
                                         "element_type": {
                                             "int64": {}
                                         },
-                                        "description": "Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps\nProperty key is the wxtag id"
+                                        "description": "Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps. Property key is the `wxtag_id`"
                                     }
                                 }
                             ],
@@ -743,7 +743,7 @@
                                                             "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                         }
                                                     ],
-                                                    "schema_definition": "mistvalidator.AllowedWhenValueIsIn(\n  path.MatchRelative().AtParent().AtName(\"type\"),\n  []attr.Value{\n    types.StringValue(\"eap\"),\n    types.StringValue(\"eap192\"),\n  },\n)"
+                                                    "schema_definition": "mistvalidator.AllowedWhenValueIsInWithDefault(\n path.MatchRelative().AtParent().AtName(\"type\"),\n  []attr.Value{\n    types.StringValue(\"eap\"),\n    types.StringValue(\"eap192\"),\n  },\n  types.BoolValue(false),\n)"
                                                 }
                                             }
                                         ]
@@ -863,7 +863,7 @@
                                                             "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                         }
                                                     ],
-                                                    "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"),types.StringValue(\"open\"))"
+                                                    "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"open\"), types.StringValue(\"disabled\"))"
                                                 }
                                             }
                                         ]
@@ -926,7 +926,7 @@
                                                             "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                         }
                                                     ],
-                                                    "schema_definition": "stringvalidator.LengthBetween(8, 64),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"),types.StringValue(\"psk\"))"
+                                                    "schema_definition": "stringvalidator.LengthBetween(8, 64)"
                                                 }
                                             }
                                         ],
@@ -1745,7 +1745,7 @@
                                         "element_type": {
                                             "string": {}
                                         },
-                                        "description": "map between radius_group and the desired DNS server (IPv4 only)\nProperty key is the RADIUS group, property value is the desired DNS Server"
+                                        "description": "map between radius_group and the desired DNS server (IPv4 only). Property key is the RADIUS group, property value is the desired DNS Server"
                                     }
                                 }
                             ],
@@ -1839,7 +1839,7 @@
                                         "default": {
                                             "static": false
                                         },
-                                        "description": "when 11r is enabled, we'll try to use the cached PMK, this can be disabled\n`false` means auto"
+                                        "description": "when 11r is enabled, we'll try to use the cached PMK, this can be disabled. `false` means auto"
                                     }
                                 },
                                 {
@@ -1923,7 +1923,7 @@
                                                             "path": "github.com/hashicorp/terraform-plugin-framework-validators/boolvalidator"
                                                         }
                                                     ],
-                                                    "schema_definition": "mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot(\"vlan_enabled\"), types.BoolValue(true)),\nboolvalidator.Any(\n  mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot(\"auth\").AtName(\"enable_mac_auth\"), types.BoolValue(true)),\n  mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot(\"auth\").AtName(\"type\"), types.StringValue(\"eap\")),\n  mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot(\"auth\").AtName(\"type\"), types.StringValue(\"eap192\")),\n)"
+                                                    "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot(\"vlan_enabled\"), types.BoolValue(true)),\nboolvalidator.Any(\n  mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot(\"auth\").AtName(\"enable_mac_auth\"), types.BoolValue(true)),\n  mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot(\"auth\").AtName(\"type\"), types.StringValue(\"eap\")),\n  mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot(\"auth\").AtName(\"type\"), types.StringValue(\"eap192\")),\n)"
                                                 }
                                             }
                                         ]
@@ -2261,7 +2261,7 @@
                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                             }
                                         ],
-                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"isolation\"), types.BoolValue(true))"
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"isolation\"), types.BoolValue(true), types.BoolValue(false))"
                                     }
                                 }
                             ]
@@ -3924,7 +3924,7 @@
                                         "element_type": {
                                             "string": {}
                                         },
-                                        "description": "To use Org mxedges when this WLAN does not use mxtunnel, specify their mxcluster_ids.\nOrg mxedge(s) identified by mxcluster_ids",
+                                        "description": "To use Org mxedges when this WLAN does not use mxtunnel, specify their mxcluster_ids. Org mxedge(s) identified by mxcluster_ids",
                                         "validators": [
                                             {
                                                 "custom": {
@@ -3946,7 +3946,7 @@
                                         "element_type": {
                                             "string": {}
                                         },
-                                        "description": "default is site.mxedge.radsec.proxy_hosts which must be a superset of all wlans[*].radsec.proxy_hosts\nwhen radsec.proxy_hosts are not used, tunnel peers (org or site mxedges) are used irrespective of use_site_mxedge",
+                                        "description": "default is site.mxedge.radsec.proxy_hosts which must be a superset of all `wlans[*].radsec.proxy_hosts`. When `radsec.proxy_hosts` are not used, tunnel peers (org or site mxedges) are used irrespective of `use_site_mxedge`",
                                         "validators": [
                                             {
                                                 "custom": {
@@ -4469,7 +4469,7 @@
                                                 "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
                                             }
                                         ],
-                                        "schema_definition": "mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot(\"vlan_enabled\"), types.BoolValue(true))"
+                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot(\"vlan_enabled\"), types.BoolValue(true))"
                                     }
                                 }
                             ]
@@ -4507,7 +4507,7 @@
                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                             }
                                         ],
-                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"wlan_limit_down_enabled\"), types.BoolValue(true))"
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wlan_limit_down_enabled\"), types.BoolValue(true), types.Int64Value(20000))"
                                     }
                                 }
                             ]
@@ -4555,7 +4555,7 @@
                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                             }
                                         ],
-                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"wlan_limit_up_enabled\"), types.BoolValue(true))"
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wlan_limit_up_enabled\"), types.BoolValue(true), types.Int64Value(10000))"
                                     }
                                 }
                             ]
@@ -6958,7 +6958,7 @@
                                         "element_type": {
                                             "int64": {}
                                         },
-                                        "description": "Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps\nProperty key is the wxtag id"
+                                        "description": "Map from wxtag_id of Hostname Wxlan Tags to bandwidth in kbps. Property key is the `wxtag_id`"
                                     }
                                 }
                             ],
@@ -7285,7 +7285,7 @@
                                                             "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                         }
                                                     ],
-                                                    "schema_definition": "mistvalidator.AllowedWhenValueIsIn(\n  path.MatchRelative().AtParent().AtName(\"type\"),\n  []attr.Value{\n    types.StringValue(\"eap\"),\n    types.StringValue(\"eap192\"),\n  },\n)"
+                                                    "schema_definition": "mistvalidator.AllowedWhenValueIsInWithDefault(\n path.MatchRelative().AtParent().AtName(\"type\"),\n  []attr.Value{\n    types.StringValue(\"eap\"),\n    types.StringValue(\"eap192\"),\n  },\n  types.BoolValue(false),\n)"
                                                 }
                                             }
                                         ]
@@ -7405,7 +7405,7 @@
                                                             "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                                         }
                                                     ],
-                                                    "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"),types.StringValue(\"open\"))"
+                                                    "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"type\"), types.StringValue(\"open\"), types.StringValue(\"disabled\"))"
                                                 }
                                             }
                                         ]
@@ -7468,7 +7468,7 @@
                                                             "path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
                                                         }
                                                     ],
-                                                    "schema_definition": "stringvalidator.LengthBetween(8, 64),\nmistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"type\"),types.StringValue(\"psk\"))"
+                                                    "schema_definition": "stringvalidator.LengthBetween(8, 64)"
                                                 }
                                             }
                                         ],
@@ -8287,7 +8287,7 @@
                                         "element_type": {
                                             "string": {}
                                         },
-                                        "description": "map between radius_group and the desired DNS server (IPv4 only)\nProperty key is the RADIUS group, property value is the desired DNS Server"
+                                        "description": "map between radius_group and the desired DNS server (IPv4 only). Property key is the RADIUS group, property value is the desired DNS Server"
                                     }
                                 }
                             ],
@@ -8381,7 +8381,7 @@
                                         "default": {
                                             "static": false
                                         },
-                                        "description": "when 11r is enabled, we'll try to use the cached PMK, this can be disabled\n`false` means auto"
+                                        "description": "when 11r is enabled, we'll try to use the cached PMK, this can be disabled. `false` means auto"
                                     }
                                 },
                                 {
@@ -8465,7 +8465,7 @@
                                                             "path": "github.com/hashicorp/terraform-plugin-framework-validators/boolvalidator"
                                                         }
                                                     ],
-                                                    "schema_definition": "mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot(\"vlan_enabled\"), types.BoolValue(true)),\nboolvalidator.Any(\n  mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot(\"auth\").AtName(\"enable_mac_auth\"), types.BoolValue(true)),\n  mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot(\"auth\").AtName(\"type\"), types.StringValue(\"eap\")),\n  mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot(\"auth\").AtName(\"type\"), types.StringValue(\"eap192\")),\n)"
+                                                    "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot(\"vlan_enabled\"), types.BoolValue(true)),\nboolvalidator.Any(\n  mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot(\"auth\").AtName(\"enable_mac_auth\"), types.BoolValue(true)),\n  mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot(\"auth\").AtName(\"type\"), types.StringValue(\"eap\")),\n  mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot(\"auth\").AtName(\"type\"), types.StringValue(\"eap192\")),\n)"
                                                 }
                                             }
                                         ]
@@ -8803,7 +8803,7 @@
                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                             }
                                         ],
-                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"isolation\"), types.BoolValue(true))"
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"isolation\"), types.BoolValue(true), types.BoolValue(false))"
                                     }
                                 }
                             ]
@@ -10481,7 +10481,7 @@
                                         "element_type": {
                                             "string": {}
                                         },
-                                        "description": "To use Org mxedges when this WLAN does not use mxtunnel, specify their mxcluster_ids.\nOrg mxedge(s) identified by mxcluster_ids",
+                                        "description": "To use Org mxedges when this WLAN does not use mxtunnel, specify their mxcluster_ids. Org mxedge(s) identified by mxcluster_ids",
                                         "validators": [
                                             {
                                                 "custom": {
@@ -10503,7 +10503,7 @@
                                         "element_type": {
                                             "string": {}
                                         },
-                                        "description": "default is site.mxedge.radsec.proxy_hosts which must be a superset of all wlans[*].radsec.proxy_hosts\nwhen radsec.proxy_hosts are not used, tunnel peers (org or site mxedges) are used irrespective of use_site_mxedge",
+                                        "description": "default is site.mxedge.radsec.proxy_hosts which must be a superset of all `wlans[*].radsec.proxy_hosts`. When `radsec.proxy_hosts` are not used, tunnel peers (org or site mxedges) are used irrespective of `use_site_mxedge`",
                                         "validators": [
                                             {
                                                 "custom": {
@@ -11026,7 +11026,7 @@
                                                 "path": "github.com/Juniper/terraform-provider-mist/internal/validators"
                                             }
                                         ],
-                                        "schema_definition": "mistvalidator.CanOnlyTrueWhenValueIs(path.MatchRoot(\"vlan_enabled\"), types.BoolValue(true))"
+                                        "schema_definition": "mistvalidator.CanOnlyBeTrueWhenValueIs(path.MatchRoot(\"vlan_enabled\"), types.BoolValue(true))"
                                     }
                                 }
                             ]
@@ -11064,7 +11064,7 @@
                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                             }
                                         ],
-                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"wlan_limit_down_enabled\"), types.BoolValue(true))"
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wlan_limit_down_enabled\"), types.BoolValue(true), types.Int64Value(20000))"
                                     }
                                 }
                             ]
@@ -11112,7 +11112,7 @@
                                                 "path": "github.com/hashicorp/terraform-plugin-framework/path"
                                             }
                                         ],
-                                        "schema_definition": "mistvalidator.AllowedWhenValueIs(path.MatchRelative().AtParent().AtName(\"wlan_limit_up_enabled\"), types.BoolValue(true))"
+                                        "schema_definition": "mistvalidator.AllowedWhenValueIsWithDefault(path.MatchRelative().AtParent().AtName(\"wlan_limit_up_enabled\"), types.BoolValue(true), types.Int64Value(10000))"
                                     }
                                 }
                             ]
